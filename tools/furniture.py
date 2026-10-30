@@ -176,3 +176,36 @@ def status_lamp(S, x, y, z=2.0, name="StatusLamp", color=(0.2, 0.9, 0.3)):
     p.sphere(0, 0, -0.06, 0.05, mat("status_" + "_".join("%d" % (c * 10) for c in color), color, emit=color), seg=10)
     p.finish(obstacle=False)
     return p
+
+
+def projector(S, x, y, z, yaw=0.0, name="Projector"):
+    """吊掛式投影機（吊桿＋機身＋鏡頭，鏡頭朝 +Y 本地方向）。z 為天花板高度。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.cyl(0, 0, -0.1, 0.02, 0.2, "metal_dark", seg=8)
+    p.box(0, 0, -0.24, 0.34, 0.26, 0.1, "plastic_white")
+    p.cyl(0, 0.15, -0.24, 0.05, 0.06, "plastic_black", seg=12, axis="Y")
+    p.finish(obstacle=False)
+    return p
+
+
+def projector_screen(S, x, y, w=2.8, h=1.75, z=0.95, name="ProjectorScreen"):
+    """北牆吊掛式投影布幕，(x,y) 為牆內側面中心，正面朝 -Y。"""
+    p = Piece(S, name, x, y, z, coll="PROPS")
+    p.box(0, -0.04, h + 0.12, w + 0.1, 0.08, 0.08, "metal_dark")
+    p.box(0, -0.045, h / 2 + 0.05, w, 0.01, h, "whiteboard")
+    p.finish(obstacle=False)
+    return p
+
+
+def conference_table(S, x, y, yaw=0.0, w=4.0, d=1.4, h=0.74, name="ConferenceTable"):
+    """會議長桌：厚桌面＋兩個寬腳座＋桌面中央線路盒與麥克風。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, h - 0.03, w, d, 0.06, "wood_dark")
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - 0.5), 0, (h - 0.06) / 2, 0.08, d - 0.4, h - 0.06, "metal_dark")
+        p.box(sx * (w / 2 - 0.5), 0, 0.02, 0.1, d - 0.2, 0.04, "metal_dark")
+    for sx in (-1.0, 0.0, 1.0):
+        p.box(sx * w * 0.28, 0, h + 0.008, 0.16, 0.12, 0.016, "metal")
+        p.cyl(sx * w * 0.28, 0.2, h + 0.03, 0.04, 0.06, "plastic_black", seg=12)
+    p.finish(footprint=(w, d))
+    return p
