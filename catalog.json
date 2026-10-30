@@ -1,0 +1,28 @@
+{
+  "updated": "2026-10-30",
+  "scenes": [
+    {
+      "id": "001",
+      "dir": "001_open_office",
+      "name_zh": "開放式工位辦公區",
+      "name_en": "Open-plan Office",
+      "category": "office",
+      "size_m": [
+        16,
+        12
+      ],
+      "height_m": 3.0,
+      "doors": 5,
+      "anchors": 45,
+      "seats": 20,
+      "tags": [
+        "office",
+        "workstation",
+        "open-plan",
+        "16-seats"
+      ],
+      "created": "2026-10-30",
+      "preview": "scenes/001_open_office/preview.png"
+    }
+  ]
+}
