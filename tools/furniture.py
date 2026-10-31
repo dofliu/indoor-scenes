@@ -209,3 +209,45 @@ def conference_table(S, x, y, yaw=0.0, w=4.0, d=1.4, h=0.74, name="ConferenceTab
         p.cyl(sx * w * 0.28, 0.2, h + 0.03, 0.04, 0.06, "plastic_black", seg=12)
     p.finish(footprint=(w, d))
     return p
+
+
+def glass_panel(S, x, y, w, yaw=0.0, h=2.1, name="GlassPanel"):
+    """玻璃隔間板（含上下金屬框）。w 沿本地 X，厚 0.04；列為導航障礙。"""
+    p = Piece(S, name, x, y, yaw=yaw, coll="PROPS")
+    p.box(0, 0, h / 2, w, 0.01, h - 0.08, mat("glass_panel", (0.6, 0.8, 0.9), rough=0.05, alpha=0.25))
+    p.box(0, 0, 0.02, w, 0.04, 0.04, "metal_dark")
+    p.box(0, 0, h - 0.02, w, 0.04, 0.04, "metal_dark")
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - 0.02), 0, h / 2, 0.04, 0.04, h, "metal_dark")
+    p.finish(footprint=(w, 0.05))
+    return p
+
+
+def stool(S, x, y, h=0.65, color="fabric_orange", name="Stool"):
+    p = Piece(S, name, x, y)
+    p.cyl(0, 0, h - 0.04, 0.17, 0.08, color, seg=16)
+    p.cyl(0, 0, h / 2 - 0.04, 0.025, h - 0.08, "metal_dark", seg=8)
+    p.cyl(0, 0, 0.015, 0.16, 0.03, "metal_dark", seg=16)
+    p.finish(obstacle=False)
+    return p
+
+
+def conference_chair(S, x, y, yaw=0.0, color="chair_seat", name="MeetChair"):
+    """會議椅（四腳固定、無扶手）。人坐向 +Y（yaw=0）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.box(sx * 0.2, sy * 0.19, 0.22, 0.035, 0.035, 0.44, "metal_dark")
+    p.box(0, 0.0, 0.46, 0.46, 0.46, 0.07, color)
+    p.box(0, -0.21, 0.74, 0.44, 0.06, 0.45, color)
+    p.finish(obstacle=False)
+    return p
+
+
+def speakerphone(S, x, y, z=0.74, name="Speakerphone"):
+    """桌面會議喇叭。"""
+    p = Piece(S, name, x, y, z, coll="PROPS")
+    p.cyl(0, 0, 0.02, 0.12, 0.04, "plastic_black", seg=20)
+    p.cyl(0, 0, 0.042, 0.08, 0.004, "metal", seg=20)
+    p.finish(obstacle=False)
+    return p
