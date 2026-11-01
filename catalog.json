@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-30",
+  "updated": "2026-11-01",
   "scenes": [
     {
       "id": "001",
@@ -23,6 +23,29 @@
       ],
       "created": "2026-10-30",
       "preview": "scenes/001_open_office/preview.png"
+    },
+    {
+      "id": "002",
+      "dir": "002_meeting_room",
+      "name_zh": "中型會議室",
+      "name_en": "Medium Meeting Room",
+      "category": "meeting",
+      "size_m": [
+        10,
+        8
+      ],
+      "height_m": 3.0,
+      "doors": 2,
+      "anchors": 22,
+      "seats": 12,
+      "tags": [
+        "meeting",
+        "12-seats",
+        "whiteboard",
+        "projector"
+      ],
+      "created": "2026-11-01",
+      "preview": "scenes/002_meeting_room/preview.png"
     }
   ]
 }
