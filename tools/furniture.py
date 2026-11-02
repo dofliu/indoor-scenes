@@ -251,3 +251,73 @@ def speakerphone(S, x, y, z=0.74, name="Speakerphone"):
     p.cyl(0, 0, 0.042, 0.08, 0.004, "metal", seg=20)
     p.finish(obstacle=False)
     return p
+
+
+# ---------------------------------------------------------------- 茶水間／廚房設備（場景 004 起）
+def kitchen_counter(S, x, y, yaw=0.0, w=1.2, d=0.6, h=0.9, name="Counter", top="desk_white", body="wood_dark"):
+    """廚房流理台（正面朝 -Y，yaw=0；背靠牆）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0.01, 0.05 + (h - 0.08) / 2, w, d - 0.02, h - 0.08, body)
+    p.box(0, 0, h - 0.015, w + 0.01, d, 0.03, top)
+    p.box(0, -d / 2 - 0.005, 0.05 + (h - 0.08) * 0.5, w - 0.04, 0.01, h - 0.1, "metal_dark")
+    p.box(0, -d / 2 - 0.012, h * 0.7, w * 0.4, 0.012, 0.015, "metal")
+    p.finish(footprint=(w, d))
+    return p
+
+
+def sink(S, x, y, yaw=0.0, z=0.9, name="Sink"):
+    """檯面水槽＋水龍頭（置於流理台上方，z=檯面高度）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, 0, 0.002, 0.5, 0.38, 0.006, "metal")
+    p.box(0, 0, 0.0005, 0.44, 0.32, 0.002, "metal_dark")
+    p.cyl(0, 0.2, 0.15, 0.015, 0.3, "metal", seg=8)
+    p.box(0, 0.12, 0.3, 0.02, 0.18, 0.02, "metal")
+    p.finish(obstacle=False)
+    return p
+
+
+def coffee_machine(S, x, y, yaw=0.0, z=0.9, name="CoffeeMachine"):
+    """咖啡機（正面朝 -Y）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, 0.05, 0.19, 0.34, 0.36, 0.38, "metal_dark")
+    p.box(0, -0.1, 0.34, 0.2, 0.06, 0.05, "plastic_black")
+    p.box(0, -0.12, 0.08, 0.16, 0.12, 0.02, "metal")
+    p.cyl(0, -0.12, 0.12, 0.035, 0.08, mat("mug", (0.9, 0.9, 0.88)), seg=10)
+    p.box(0.1, -0.13, 0.28, 0.06, 0.02, 0.04, mat("status_green", (0.2, 0.9, 0.3), emit=(0.2, 0.9, 0.3)))
+    p.finish(obstacle=False)
+    return p
+
+
+def microwave(S, x, y, yaw=0.0, z=0.9, name="Microwave"):
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, 0, 0.14, 0.46, 0.34, 0.28, "plastic_white")
+    p.box(-0.05, -0.171, 0.14, 0.3, 0.004, 0.2, "plastic_black")
+    p.box(0.19, -0.171, 0.14, 0.06, 0.004, 0.2, "metal_dark")
+    p.finish(obstacle=False)
+    return p
+
+
+def fridge(S, x, y, yaw=0.0, w=0.75, d=0.7, h=1.85, name="Fridge"):
+    """直立冰箱（正面朝 -Y）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, h / 2, w, d, h, "metal")
+    p.box(0, -d / 2 - 0.004, h * 0.62, w - 0.02, 0.006, 0.01, "metal_dark")
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - 0.08), -d / 2 - 0.02, h * 0.62 - 0.4, 0.025, 0.03, 0.5, "plastic_black")
+    p.finish(footprint=(w, d))
+    return p
+
+
+def vending_machine(S, x, y, yaw=0.0, w=0.95, d=0.8, h=1.85, name="VendingMachine"):
+    """通用販賣機（無品牌；正面朝 -Y）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, h / 2, w, d, h, "panel_blue")
+    p.box(-0.08, -d / 2 - 0.004, h * 0.6, w - 0.3, 0.008, h * 0.6, mat("vend_glass", (0.15, 0.2, 0.25), rough=0.1))
+    for i in range(4):
+        for j in range(3):
+            p.box(-0.08 - 0.22 + j * 0.22, -d / 2 - 0.012, h * 0.42 + i * 0.22, 0.14, 0.008, 0.12,
+                  ("fabric_orange", "chair_red", "chair_green", "plastic_white")[(i + j) % 4])
+    p.box(0.33, -d / 2 - 0.006, h * 0.7, 0.14, 0.008, 0.3, "metal_dark")
+    p.box(0, -d / 2 - 0.006, 0.18, 0.5, 0.008, 0.2, "plastic_black")
+    p.finish(footprint=(w, d))
+    return p
