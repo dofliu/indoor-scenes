@@ -47,3 +47,46 @@ category：office / meeting / social / factory / lab / service / connector。
 
 ## 座標轉換（glb）
 glTF 為 Y-up：`gx = x, gy = z, gz = −y`。`scene.json` 的所有座標為 Blender（Z-up）座標。
+
+## 執行期協議（草案 v0.1）
+場景檔是靜態的；人物與狀態由「世界引擎」`viewer/engine.js` 管理，外部程式（AI 代理人框架、MES、排程）透過 JSON 訊息驅動。
+可直接在頁面呼叫 `world.apply(msg)`，或用 WebSocket 連線（viewer 網址加 `?ws=ws://host:port`，範例後端 `tools/mock_agent_server.py`）。
+
+### 外部 → viewer
+| type | 欄位 | 說明 |
+|---|---|---|
+| `agent.spawn` | `id, name, role, color?, at?`（錨點或門 id） | 產生人物 |
+| `agent.state` | `id, state?, task?, energy?(0–1), vars?{}, anchor?/seat?` | 更新狀態變數；給了 `anchor` 會自動走過去 |
+| `agent.do` | `id, actions[], replace?(預設 true), dwell_s?` | 依序執行動作（見下表） |
+| `agent.say` | `id, text, sec?` | 頭上對話泡泡 |
+| `agent.remove` / `world.reset` | `id` / — | 移除人物／全部清空 |
+
+`state`：`idle` 閒置、`walk` 移動中、`work` 工作中、`meet` 開會中、`present` 報告中、`rest` 休息、`use` 使用設備。
+`vars` 為任意鍵值（如 `tokens`、`model`、`progress`），面板會照列。
+
+### 動作（actions）
+| 動作 | 範例 | 說明 |
+|---|---|---|
+| `goto` | `{"goto":"SEAT_desk_03"}` | 沿導航網格走到錨點或門；SEAT 會坐下並佔位，自動決定狀態（meeting→開會中…） |
+| `use` | `{"use":"POI_coffee_01","action":"brew","duration_s":6}` | 使用設備（不在旁邊會先走過去）；茶水類設備會恢復 `energy` |
+| `say` | `{"say":"收到"}` | 說話泡泡 |
+| `set` | `{"set":{"state":"work","task":"審查 PR #12","vars":{"tokens":1200}}}` | 改狀態變數 |
+| `wait` | `{"wait":5}` | 停留秒數 |
+| `auto` | `{"auto":true}` | 交回自動（Demo）行為 |
+
+### viewer → 外部
+| type | 何時 |
+|---|---|
+| `world.hello` | 連線或換場景時，附場景 id、錨點清單（`id,type,use`）、門 id、現有人物 |
+| `user.command` | 使用者在人物面板下自然語言指令：`{id, text, context}`，由後端 AI 決定 `agent.do` |
+| `agent.arrived` / `agent.used` / `agent.spawned` / `viewer.select` | 事件通知，供後端推進任務 |
+
+未連線後端時，`user.command` 由引擎內建的關鍵字解析器「模擬 AI」處理（咖啡、開會、白板、回座位、離開…）。
+接真正的 LLM：把 `text`、人物狀態與 `world.hello` 的錨點清單交給模型，要求只輸出上表的 actions JSON。
+
+### 觀看模式
+點人物＝鏡頭平滑跟隨並開啟人物面板；雙擊或「肩後視角」＝第三人稱跟拍；Esc／「返回全景」＝回到原視角。
+
+### 規劃中（尚未實作）
+- `interactables`：在 `scene.json` 描述可操作設備（動作名稱、時間、效果、動畫部件），如冰箱開門、販賣機出貨、電腦螢幕即時顯示任務。
+- `CAM_<名稱>` 錨點：每個房間的推薦視角。
