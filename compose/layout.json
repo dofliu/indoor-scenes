@@ -1,8 +1,23 @@
 {
   "name": "demo_floor",
-  "name_zh": "組合範例（目前僅 001）",
+  "name_zh": "組合範例（001 + 002）",
   "grid_m": 2,
   "tiles": [
-    { "scene": "001_open_office", "offset": [0, 0], "rot": 0 }
+    {
+      "scene": "001_open_office",
+      "offset": [
+        0,
+        0
+      ],
+      "rot": 0
+    },
+    {
+      "scene": "002_meeting_room",
+      "offset": [
+        16,
+        4
+      ],
+      "rot": 0
+    }
   ]
 }

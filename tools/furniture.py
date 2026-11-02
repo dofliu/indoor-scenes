@@ -176,3 +176,45 @@ def status_lamp(S, x, y, z=2.0, name="StatusLamp", color=(0.2, 0.9, 0.3)):
     p.sphere(0, 0, -0.06, 0.05, mat("status_" + "_".join("%d" % (c * 10) for c in color), color, emit=color), seg=10)
     p.finish(obstacle=False)
     return p
+
+
+def conference_table(S, x, y, yaw=0.0, w=4.0, d=1.4, h=0.74, top="wood_light", name="ConferenceTable"):
+    """會議長桌：厚桌面 + 兩組實心桌腳 + 中央線盒。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, h - 0.0275, w, d, 0.055, top)
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - 0.5), 0, (h - 0.055) / 2, 0.08, d - 0.5, h - 0.055, "desk_leg")
+        p.box(sx * (w / 2 - 0.5), 0, 0.02, 0.1, d - 0.3, 0.04, "desk_leg")
+    p.box(0, 0, h + 0.005, 0.35, 0.22, 0.012, "plastic_black")
+    p.finish(footprint=(w, d))
+    return p
+
+
+def projector_screen(S, x, y, yaw=0.0, w=3.0, h=1.7, z=0.9, name="ProjectorScreen"):
+    """壁掛投影布幕（正面朝 -Y，yaw=0 時貼北牆；(x,y) 為背面中心）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, -0.02, h + 0.1, w + 0.1, 0.06, 0.08, "metal_dark")
+    p.box(0, -0.03, h / 2 + 0.05, w, 0.01, h, mat("screen_white", (0.93, 0.94, 0.95), rough=0.9, emit=(0.5, 0.52, 0.55)))
+    p.finish(obstacle=False)
+    return p
+
+
+def projector(S, x, y, z, yaw=0.0, name="Projector"):
+    """吊掛式投影機（z 為機身中心高度），鏡頭朝 +Y（yaw=0）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.cyl(0, 0, (S.H - z) / 2, 0.025, S.H - z, "metal_dark", seg=8)
+    p.box(0, 0, 0, 0.34, 0.28, 0.11, "plastic_white")
+    p.cyl(0, 0.15, 0, 0.05, 0.05, "plastic_black", seg=14, axis="Y")
+    p.finish(obstacle=False)
+    return p
+
+
+def credenza(S, x, y, yaw=0.0, w=1.8, d=0.45, h=0.8, name="Credenza"):
+    """低矮邊櫃（正面朝 -Y，yaw=0）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, h / 2, w, d, h, "wood_dark")
+    p.box(0, 0, h + 0.015, w + 0.02, d + 0.02, 0.03, "wood_light")
+    for i in (-1, 1):
+        p.box(i * w * 0.25, -d / 2 - 0.005, h * 0.55, 0.02, 0.01, 0.2, "metal")
+    p.finish(footprint=(w, d))
+    return p
