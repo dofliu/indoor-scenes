@@ -4,30 +4,30 @@
   "name_en": "Medium Meeting Room",
   "category": "meeting",
   "size_m": [
-    10,
-    8
+    8,
+    6
   ],
   "height_m": 3.0,
   "doors": [
     {
       "id": "DOOR_S_01",
       "wall": "S",
-      "offset_m": 7.0,
+      "offset_m": 3.0,
       "width_m": 1.0,
       "position": [
-        7.0,
+        3.0,
         0.1,
         0.0
       ]
     },
     {
-      "id": "DOOR_W_01",
-      "wall": "W",
-      "offset_m": 5.0,
+      "id": "DOOR_S_02",
+      "wall": "S",
+      "offset_m": 7.0,
       "width_m": 1.0,
       "position": [
+        7.0,
         0.1,
-        5.0,
         0.0
       ]
     }
@@ -38,8 +38,8 @@
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        3.2,
-        2.85,
+        2.6,
+        1.95,
         0.0
       ],
       "yaw_deg": 0
@@ -49,8 +49,8 @@
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        3.2,
-        5.15,
+        2.6,
+        4.45,
         0.0
       ],
       "yaw_deg": 180.0
@@ -60,8 +60,8 @@
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        4.1,
-        2.85,
+        3.4,
+        1.95,
         0.0
       ],
       "yaw_deg": 0
@@ -71,8 +71,8 @@
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        4.1,
-        5.15,
+        3.4,
+        4.45,
         0.0
       ],
       "yaw_deg": 180.0
@@ -82,8 +82,8 @@
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        5.0,
-        2.85,
+        4.2,
+        1.95,
         0.0
       ],
       "yaw_deg": 0
@@ -93,8 +93,8 @@
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        5.0,
-        5.15,
+        4.2,
+        4.45,
         0.0
       ],
       "yaw_deg": 180.0
@@ -104,8 +104,8 @@
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        5.9,
-        2.85,
+        5.0,
+        1.95,
         0.0
       ],
       "yaw_deg": 0
@@ -115,8 +115,8 @@
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        5.9,
-        5.15,
+        5.0,
+        4.45,
         0.0
       ],
       "yaw_deg": 180.0
@@ -126,8 +126,8 @@
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        6.8,
-        2.85,
+        5.8,
+        1.95,
         0.0
       ],
       "yaw_deg": 0
@@ -137,8 +137,8 @@
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        6.8,
-        5.15,
+        5.8,
+        4.45,
         0.0
       ],
       "yaw_deg": 180.0
@@ -148,8 +148,8 @@
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        1.9,
-        4.0,
+        1.6,
+        3.2,
         0.0
       ],
       "yaw_deg": -90
@@ -159,134 +159,90 @@
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        8.1,
-        4.0,
-        0.0
-      ],
-      "yaw_deg": 90
-    },
-    {
-      "id": "POI_projector_01",
-      "type": "POI",
-      "use": "projector",
-      "position": [
-        5.0,
-        1.8,
-        0.0
-      ],
-      "yaw_deg": 0
-    },
-    {
-      "id": "STAND_whiteboard_01",
-      "type": "STAND",
-      "use": "whiteboard",
-      "position": [
-        8.9,
+        6.8,
         3.2,
         0.0
       ],
-      "yaw_deg": -90
-    },
-    {
-      "id": "STAND_whiteboard_02",
-      "type": "STAND",
-      "use": "whiteboard",
-      "position": [
-        8.9,
-        4.8,
-        0.0
-      ],
-      "yaw_deg": -90
-    },
-    {
-      "id": "STAND_present_01",
-      "type": "STAND",
-      "use": "present",
-      "position": [
-        3.0,
-        6.8,
-        0.0
-      ],
-      "yaw_deg": 0
-    },
-    {
-      "id": "POI_screen_01",
-      "type": "POI",
-      "use": "screen",
-      "position": [
-        5.0,
-        7.0,
-        0.0
-      ],
-      "yaw_deg": 0
-    },
-    {
-      "id": "POI_water_01",
-      "type": "POI",
-      "use": "water",
-      "position": [
-        9.4,
-        1.4,
-        0.0
-      ],
-      "yaw_deg": 180.0
-    },
-    {
-      "id": "POI_cabinet_01",
-      "type": "POI",
-      "use": "cabinet",
-      "position": [
-        6.4,
-        1.2,
-        0.0
-      ],
-      "yaw_deg": 180.0
+      "yaw_deg": 90
     },
     {
       "id": "STATUS_01",
       "type": "STATUS",
       "use": "",
       "position": [
+        4.2,
+        3.2,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STAND_presenter_01",
+      "type": "STAND",
+      "use": "presenter",
+      "position": [
         5.0,
-        4.0,
-        2.2
+        5.2,
+        0.0
       ],
-      "yaw_deg": 0.0
+      "yaw_deg": 180.0
     },
     {
-      "id": "STATUS_02",
-      "type": "STATUS",
-      "use": "",
+      "id": "STAND_whiteboard_01",
+      "type": "STAND",
+      "use": "whiteboard",
       "position": [
-        8.9,
-        4.0,
-        2.2
+        1.3,
+        5.2,
+        0.0
       ],
-      "yaw_deg": 0.0
+      "yaw_deg": 180.0
     },
     {
-      "id": "STATUS_03",
-      "type": "STATUS",
-      "use": "",
+      "id": "STAND_whiteboard_02",
+      "type": "STAND",
+      "use": "whiteboard",
       "position": [
-        3.0,
-        6.8,
-        2.2
+        2.3,
+        5.2,
+        0.0
       ],
-      "yaw_deg": 0.0
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "POI_credenza_01",
+      "type": "POI",
+      "use": "credenza",
+      "position": [
+        6.9,
+        3.1,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "POI_water_01",
+      "type": "POI",
+      "use": "water",
+      "position": [
+        6.9,
+        5.1,
+        0.0
+      ],
+      "yaw_deg": -90
     }
   ],
   "tags": [
     "meeting",
-    "12-seats",
     "whiteboard",
-    "projector"
+    "projector",
+    "12-seats"
   ],
   "nav": {
     "file": "navmesh.glb",
     "cell_m": 0.25,
     "margin_m": 0.3,
-    "cells": 789
+    "cells": 373
   },
   "files": {
     "blend": "scene.blend",
@@ -297,5 +253,5 @@
     "build": "build.py"
   },
   "coord": "Blender Z-up, +Y north, SW corner origin; glb is glTF Y-up (gx=x, gy=z, gz=-y)",
-  "created": "2026-11-01"
+  "created": "2026-10-30"
 }

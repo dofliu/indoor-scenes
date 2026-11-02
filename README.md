@@ -3,14 +3,16 @@
 以 Blender（bpy）程序化建模的**室內場景模組庫**：每個模組遵守統一規格（2 m 網格、3 m 樓高、奇數公尺門洞、命名錨點、導航網格），
 可任意拼接成一層樓，也可匯入 Three.js / Unity / Godot 讓人物在其中移動。詳見 [SPEC.md](SPEC.md)。
 
-**目前場景數：2**　｜　待做清單：[backlog.md](backlog.md)　｜　清單資料：[catalog.json](catalog.json)
+**目前場景數：4**　｜　待做清單：[backlog.md](backlog.md)　｜　清單資料：[catalog.json](catalog.json)
 
 ## 場景一覽
 
 | # | 場景 | 尺寸 | 門 | 錨點 | 預覽 |
 |---|---|---|---|---|---|
 | 001 | [開放式工位辦公區](scenes/001_open_office/) | 16×12 m | 5 | 45（16 工位＋4 協作座） | <img src="scenes/001_open_office/preview.png" width="360"> |
-| 002 | [中型會議室](scenes/002_meeting_room/) | 10×8 m | 2 | 22（12 座位） | <img src="scenes/002_meeting_room/preview.png" width="360"> |
+| 002 | [中型會議室](scenes/002_meeting_room/) | 8×6 m | 2 | 18（12 座位＋白板／簡報／飲水點） | <img src="scenes/002_meeting_room/preview.png" width="360"> |
+| 003 | [小型討論室／電話亭](scenes/003_huddle_room/) | 4×4 m | 2 | 9（4 討論座＋電話亭 1 座＋白板／螢幕） | <img src="scenes/003_huddle_room/preview.png" width="360"> |
+| 004 | [茶水間／咖啡吧](scenes/004_pantry/) | 8×6 m | 3 | 18（6 吧凳＋4 小圓桌座＋流理台／咖啡機／冰箱／販賣機互動點） | <img src="scenes/004_pantry/preview.png" width="360"> |
 
 ## 目錄
 ```

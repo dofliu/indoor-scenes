@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-01",
+  "updated": "2026-11-02",
   "scenes": [
     {
       "id": "001",
@@ -31,21 +31,67 @@
       "name_en": "Medium Meeting Room",
       "category": "meeting",
       "size_m": [
-        10,
-        8
+        8,
+        6
       ],
       "height_m": 3.0,
       "doors": 2,
-      "anchors": 22,
+      "anchors": 18,
       "seats": 12,
       "tags": [
         "meeting",
-        "12-seats",
         "whiteboard",
-        "projector"
+        "projector",
+        "12-seats"
       ],
-      "created": "2026-11-01",
+      "created": "2026-10-30",
       "preview": "scenes/002_meeting_room/preview.png"
+    },
+    {
+      "id": "003",
+      "dir": "003_huddle_room",
+      "name_zh": "小型討論室／電話亭",
+      "name_en": "Huddle Room & Phone Booth",
+      "category": "meeting",
+      "size_m": [
+        4,
+        4
+      ],
+      "height_m": 3.0,
+      "doors": 2,
+      "anchors": 9,
+      "seats": 5,
+      "tags": [
+        "meeting",
+        "huddle",
+        "phone-booth",
+        "4-seats"
+      ],
+      "created": "2026-10-31",
+      "preview": "scenes/003_huddle_room/preview.png"
+    },
+    {
+      "id": "004",
+      "dir": "004_pantry",
+      "name_zh": "茶水間／咖啡吧",
+      "name_en": "Pantry & Coffee Bar",
+      "category": "social",
+      "size_m": [
+        8,
+        6
+      ],
+      "height_m": 3.0,
+      "doors": 3,
+      "anchors": 18,
+      "seats": 10,
+      "tags": [
+        "social",
+        "pantry",
+        "coffee",
+        "break"
+      ],
+      "created": "2026-11-02",
+      "preview": "scenes/004_pantry/preview.png"
     }
   ]
 }
