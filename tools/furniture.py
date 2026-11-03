@@ -178,52 +178,146 @@ def status_lamp(S, x, y, z=2.0, name="StatusLamp", color=(0.2, 0.9, 0.3)):
     return p
 
 
-def conference_table(S, x, y, yaw=0.0, w=5.0, d=1.6, h=0.75, name="ConferenceTable"):
-    """會議長桌：桌面 + 兩組寬腳架 + 中央線槽。"""
+def projector(S, x, y, z, yaw=0.0, name="Projector"):
+    """吊掛式投影機（吊桿＋機身＋鏡頭，鏡頭朝 +Y 本地方向）。z 為天花板高度。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.cyl(0, 0, -0.1, 0.02, 0.2, "metal_dark", seg=8)
+    p.box(0, 0, -0.24, 0.34, 0.26, 0.1, "plastic_white")
+    p.cyl(0, 0.15, -0.24, 0.05, 0.06, "plastic_black", seg=12, axis="Y")
+    p.finish(obstacle=False)
+    return p
+
+
+def projector_screen(S, x, y, w=2.8, h=1.75, z=0.95, name="ProjectorScreen"):
+    """北牆吊掛式投影布幕，(x,y) 為牆內側面中心，正面朝 -Y。"""
+    p = Piece(S, name, x, y, z, coll="PROPS")
+    p.box(0, -0.04, h + 0.12, w + 0.1, 0.08, 0.08, "metal_dark")
+    p.box(0, -0.045, h / 2 + 0.05, w, 0.01, h, "whiteboard")
+    p.finish(obstacle=False)
+    return p
+
+
+def conference_table(S, x, y, yaw=0.0, w=4.0, d=1.4, h=0.74, name="ConferenceTable"):
+    """會議長桌：厚桌面＋兩個寬腳座＋桌面中央線路盒與麥克風。"""
     p = Piece(S, name, x, y, yaw=yaw)
-    p.box(0, 0, h - 0.03, w, d, 0.06, "wood_light")
-    p.box(0, 0, h - 0.065, w - 0.1, d - 0.1, 0.01, "wood_dark")
+    p.box(0, 0, h - 0.03, w, d, 0.06, "wood_dark")
     for sx in (-1, 1):
-        p.box(sx * (w / 2 - 0.5), 0, (h - 0.06) / 2, 0.08, d * 0.7, h - 0.06, "metal_dark")
-        p.box(sx * (w / 2 - 0.5), 0, 0.02, 0.12, d * 0.8, 0.04, "metal_dark")
-    p.box(0, 0, h + 0.002, 0.5, 0.12, 0.006, "metal")  # 線槽蓋
+        p.box(sx * (w / 2 - 0.5), 0, (h - 0.06) / 2, 0.08, d - 0.4, h - 0.06, "metal_dark")
+        p.box(sx * (w / 2 - 0.5), 0, 0.02, 0.1, d - 0.2, 0.04, "metal_dark")
+    for sx in (-1.0, 0.0, 1.0):
+        p.box(sx * w * 0.28, 0, h + 0.008, 0.16, 0.12, 0.016, "metal")
+        p.cyl(sx * w * 0.28, 0.2, h + 0.03, 0.04, 0.06, "plastic_black", seg=12)
     p.finish(footprint=(w, d))
     return p
 
 
-def projector(S, x, y, z, yaw=0.0, name="Projector"):
-    """天花吊掛投影機（鏡頭朝 -Y）。z 為天花板高度。"""
-    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
-    p.cyl(0, 0, -0.15, 0.02, 0.3, "metal_dark", seg=8)
-    p.box(0, 0, -0.35, 0.36, 0.28, 0.1, "plastic_white")
-    p.cyl(0, -0.16, -0.35, 0.05, 0.06, "plastic_black", seg=14, axis="Y")
+def glass_panel(S, x, y, w, yaw=0.0, h=2.1, name="GlassPanel"):
+    """玻璃隔間板（含上下金屬框）。w 沿本地 X，厚 0.04；列為導航障礙。"""
+    p = Piece(S, name, x, y, yaw=yaw, coll="PROPS")
+    p.box(0, 0, h / 2, w, 0.01, h - 0.08, mat("glass_panel", (0.6, 0.8, 0.9), rough=0.05, alpha=0.25))
+    p.box(0, 0, 0.02, w, 0.04, 0.04, "metal_dark")
+    p.box(0, 0, h - 0.02, w, 0.04, 0.04, "metal_dark")
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - 0.02), 0, h / 2, 0.04, 0.04, h, "metal_dark")
+    p.finish(footprint=(w, 0.05))
+    return p
+
+
+def stool(S, x, y, h=0.65, color="fabric_orange", name="Stool"):
+    p = Piece(S, name, x, y)
+    p.cyl(0, 0, h - 0.04, 0.17, 0.08, color, seg=16)
+    p.cyl(0, 0, h / 2 - 0.04, 0.025, h - 0.08, "metal_dark", seg=8)
+    p.cyl(0, 0, 0.015, 0.16, 0.03, "metal_dark", seg=16)
     p.finish(obstacle=False)
     return p
 
 
-def projector_screen(S, x, y, w=2.8, h=1.6, z=1.0, yaw=0.0, name="ProjectorScreen"):
-    """壁掛投影布幕（白幕＋黑邊＋上方捲筒），(x,y) 為背面中心，正面朝 -Y。"""
-    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
-    p.box(0, -0.02, h / 2, w + 0.12, 0.03, h + 0.1, "plastic_black")
-    p.box(0, -0.04, h / 2, w, 0.01, h, mat("screen_white", (0.96, 0.96, 0.94), rough=0.8))
-    p.cyl(0, -0.06, h + 0.08, 0.05, w + 0.2, "metal", seg=12, axis="X")
+def conference_chair(S, x, y, yaw=0.0, color="chair_seat", name="MeetChair"):
+    """會議椅（四腳固定、無扶手）。人坐向 +Y（yaw=0）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.box(sx * 0.2, sy * 0.19, 0.22, 0.035, 0.035, 0.44, "metal_dark")
+    p.box(0, 0.0, 0.46, 0.46, 0.46, 0.07, color)
+    p.box(0, -0.21, 0.74, 0.44, 0.06, 0.45, color)
     p.finish(obstacle=False)
     return p
 
 
-def conference_phone(S, x, y, z=0.75, yaw=0.0, name="ConfPhone"):
-    """桌上三腳會議電話。"""
-    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
-    p.cyl(0, 0, 0.02, 0.14, 0.04, "plastic_black", seg=3)
-    p.cyl(0, 0, 0.045, 0.04, 0.01, "panel_blue", seg=12)
+def speakerphone(S, x, y, z=0.74, name="Speakerphone"):
+    """桌面會議喇叭。"""
+    p = Piece(S, name, x, y, z, coll="PROPS")
+    p.cyl(0, 0, 0.02, 0.12, 0.04, "plastic_black", seg=20)
+    p.cyl(0, 0, 0.042, 0.08, 0.004, "metal", seg=20)
     p.finish(obstacle=False)
     return p
 
 
-def coffee_machine(S, x, y, z=0.8, yaw=0.0, name="CoffeeMachine"):
+# ---------------------------------------------------------------- 茶水間／廚房設備（場景 004 起）
+def kitchen_counter(S, x, y, yaw=0.0, w=1.2, d=0.6, h=0.9, name="Counter", top="desk_white", body="wood_dark"):
+    """廚房流理台（正面朝 -Y，yaw=0；背靠牆）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0.01, 0.05 + (h - 0.08) / 2, w, d - 0.02, h - 0.08, body)
+    p.box(0, 0, h - 0.015, w + 0.01, d, 0.03, top)
+    p.box(0, -d / 2 - 0.005, 0.05 + (h - 0.08) * 0.5, w - 0.04, 0.01, h - 0.1, "metal_dark")
+    p.box(0, -d / 2 - 0.012, h * 0.7, w * 0.4, 0.012, 0.015, "metal")
+    p.finish(footprint=(w, d))
+    return p
+
+
+def sink(S, x, y, yaw=0.0, z=0.9, name="Sink"):
+    """檯面水槽＋水龍頭（置於流理台上方，z=檯面高度）。"""
     p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
-    p.box(0, 0, 0.18, 0.32, 0.4, 0.36, "metal_dark")
-    p.box(0, -0.205, 0.22, 0.2, 0.02, 0.1, "metal")
-    p.cyl(0, -0.12, 0.05, 0.04, 0.08, "plastic_white", seg=10)
+    p.box(0, 0, 0.002, 0.5, 0.38, 0.006, "metal")
+    p.box(0, 0, 0.0005, 0.44, 0.32, 0.002, "metal_dark")
+    p.cyl(0, 0.2, 0.15, 0.015, 0.3, "metal", seg=8)
+    p.box(0, 0.12, 0.3, 0.02, 0.18, 0.02, "metal")
     p.finish(obstacle=False)
+    return p
+
+
+def coffee_machine(S, x, y, yaw=0.0, z=0.9, name="CoffeeMachine"):
+    """咖啡機（正面朝 -Y）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, 0.05, 0.19, 0.34, 0.36, 0.38, "metal_dark")
+    p.box(0, -0.1, 0.34, 0.2, 0.06, 0.05, "plastic_black")
+    p.box(0, -0.12, 0.08, 0.16, 0.12, 0.02, "metal")
+    p.cyl(0, -0.12, 0.12, 0.035, 0.08, mat("mug", (0.9, 0.9, 0.88)), seg=10)
+    p.box(0.1, -0.13, 0.28, 0.06, 0.02, 0.04, mat("status_green", (0.2, 0.9, 0.3), emit=(0.2, 0.9, 0.3)))
+    p.finish(obstacle=False)
+    return p
+
+
+def microwave(S, x, y, yaw=0.0, z=0.9, name="Microwave"):
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, 0, 0.14, 0.46, 0.34, 0.28, "plastic_white")
+    p.box(-0.05, -0.171, 0.14, 0.3, 0.004, 0.2, "plastic_black")
+    p.box(0.19, -0.171, 0.14, 0.06, 0.004, 0.2, "metal_dark")
+    p.finish(obstacle=False)
+    return p
+
+
+def fridge(S, x, y, yaw=0.0, w=0.75, d=0.7, h=1.85, name="Fridge"):
+    """直立冰箱（正面朝 -Y）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, h / 2, w, d, h, "metal")
+    p.box(0, -d / 2 - 0.004, h * 0.62, w - 0.02, 0.006, 0.01, "metal_dark")
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - 0.08), -d / 2 - 0.02, h * 0.62 - 0.4, 0.025, 0.03, 0.5, "plastic_black")
+    p.finish(footprint=(w, d))
+    return p
+
+
+def vending_machine(S, x, y, yaw=0.0, w=0.95, d=0.8, h=1.85, name="VendingMachine"):
+    """通用販賣機（無品牌；正面朝 -Y）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, h / 2, w, d, h, "panel_blue")
+    p.box(-0.08, -d / 2 - 0.004, h * 0.6, w - 0.3, 0.008, h * 0.6, mat("vend_glass", (0.15, 0.2, 0.25), rough=0.1))
+    for i in range(4):
+        for j in range(3):
+            p.box(-0.08 - 0.22 + j * 0.22, -d / 2 - 0.012, h * 0.42 + i * 0.22, 0.14, 0.008, 0.12,
+                  ("fabric_orange", "chair_red", "chair_green", "plastic_white")[(i + j) % 4])
+    p.box(0.33, -d / 2 - 0.006, h * 0.7, 0.14, 0.008, 0.3, "metal_dark")
+    p.box(0, -d / 2 - 0.006, 0.18, 0.5, 0.008, 0.2, "plastic_black")
+    p.finish(footprint=(w, d))
     return p

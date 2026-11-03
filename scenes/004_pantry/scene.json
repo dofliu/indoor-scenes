@@ -1,0 +1,268 @@
+{
+  "id": "004",
+  "name_zh": "茶水間／咖啡吧",
+  "name_en": "Pantry & Coffee Bar",
+  "category": "social",
+  "size_m": [
+    8,
+    6
+  ],
+  "height_m": 3.0,
+  "doors": [
+    {
+      "id": "DOOR_S_01",
+      "wall": "S",
+      "offset_m": 5.0,
+      "width_m": 1.0,
+      "position": [
+        5.0,
+        0.1,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_W_01",
+      "wall": "W",
+      "offset_m": 3.0,
+      "width_m": 1.0,
+      "position": [
+        0.1,
+        3.0,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_E_01",
+      "wall": "E",
+      "offset_m": 3.0,
+      "width_m": 1.0,
+      "position": [
+        7.9,
+        3.0,
+        0.0
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "id": "POI_fridge_01",
+      "type": "POI",
+      "use": "fridge",
+      "position": [
+        1.0,
+        4.9,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "POI_sink_01",
+      "type": "POI",
+      "use": "sink",
+      "position": [
+        2.2,
+        4.8,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "POI_coffee_01",
+      "type": "POI",
+      "use": "coffee",
+      "position": [
+        3.6,
+        4.8,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "POI_coffee_02",
+      "type": "POI",
+      "use": "coffee",
+      "position": [
+        4.2,
+        4.8,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "POI_microwave_01",
+      "type": "POI",
+      "use": "microwave",
+      "position": [
+        5.6,
+        4.8,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "POI_vending_01",
+      "type": "POI",
+      "use": "vending",
+      "position": [
+        7.0,
+        4.8,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_bar_01",
+      "type": "SEAT",
+      "use": "bar",
+      "position": [
+        4.2,
+        1.95,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_bar_02",
+      "type": "SEAT",
+      "use": "bar",
+      "position": [
+        5.0,
+        1.95,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_bar_03",
+      "type": "SEAT",
+      "use": "bar",
+      "position": [
+        5.8,
+        1.95,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_bar_04",
+      "type": "SEAT",
+      "use": "bar",
+      "position": [
+        4.2,
+        3.25,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "SEAT_bar_05",
+      "type": "SEAT",
+      "use": "bar",
+      "position": [
+        5.0,
+        3.25,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "SEAT_bar_06",
+      "type": "SEAT",
+      "use": "bar",
+      "position": [
+        5.8,
+        3.25,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        5.0,
+        2.6,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_cafe_01",
+      "type": "SEAT",
+      "use": "cafe",
+      "position": [
+        1.15,
+        1.6,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "SEAT_cafe_02",
+      "type": "SEAT",
+      "use": "cafe",
+      "position": [
+        2.65,
+        1.6,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "SEAT_cafe_03",
+      "type": "SEAT",
+      "use": "cafe",
+      "position": [
+        1.15,
+        4.0,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "SEAT_cafe_04",
+      "type": "SEAT",
+      "use": "cafe",
+      "position": [
+        2.65,
+        4.0,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        1.9,
+        2.8,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    }
+  ],
+  "tags": [
+    "social",
+    "pantry",
+    "coffee",
+    "break"
+  ],
+  "nav": {
+    "file": "navmesh.glb",
+    "cell_m": 0.25,
+    "margin_m": 0.3,
+    "cells": 339
+  },
+  "files": {
+    "blend": "scene.blend",
+    "glb": "scene.glb",
+    "navmesh": "navmesh.glb",
+    "preview": "preview.png",
+    "plan": "plan.png",
+    "build": "build.py"
+  },
+  "coord": "Blender Z-up, +Y north, SW corner origin; glb is glTF Y-up (gx=x, gy=z, gz=-y)",
+  "created": "2026-11-02"
+}

@@ -1,0 +1,158 @@
+{
+  "id": "003",
+  "name_zh": "小型討論室／電話亭",
+  "name_en": "Huddle Room & Phone Booth",
+  "category": "meeting",
+  "size_m": [
+    4,
+    4
+  ],
+  "height_m": 3.0,
+  "doors": [
+    {
+      "id": "DOOR_W_01",
+      "wall": "W",
+      "offset_m": 1.0,
+      "width_m": 1.0,
+      "position": [
+        0.1,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_N_01",
+      "wall": "N",
+      "offset_m": 1.0,
+      "width_m": 1.0,
+      "position": [
+        1.0,
+        3.9,
+        0.0
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "id": "SEAT_meeting_01",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        1.65,
+        1.5,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_meeting_02",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        2.35,
+        1.5,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_meeting_03",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        1.65,
+        2.9,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "SEAT_meeting_04",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        2.35,
+        2.9,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        2.0,
+        2.2,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "POI_screen_01",
+      "type": "POI",
+      "use": "screen",
+      "position": [
+        3.2,
+        2.4,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "STAND_whiteboard_01",
+      "type": "STAND",
+      "use": "whiteboard",
+      "position": [
+        2.9,
+        3.0,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_phone_01",
+      "type": "SEAT",
+      "use": "phone",
+      "position": [
+        3.0,
+        0.9,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        3.0,
+        0.9,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    }
+  ],
+  "tags": [
+    "meeting",
+    "huddle",
+    "phone-booth",
+    "4-seats"
+  ],
+  "nav": {
+    "file": "navmesh.glb",
+    "cell_m": 0.25,
+    "margin_m": 0.3,
+    "cells": 89
+  },
+  "files": {
+    "blend": "scene.blend",
+    "glb": "scene.glb",
+    "navmesh": "navmesh.glb",
+    "preview": "preview.png",
+    "plan": "plan.png",
+    "build": "build.py"
+  },
+  "coord": "Blender Z-up, +Y north, SW corner origin; glb is glTF Y-up (gx=x, gy=z, gz=-y)",
+  "created": "2026-10-31"
+}

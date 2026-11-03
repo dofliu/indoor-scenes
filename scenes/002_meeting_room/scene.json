@@ -4,8 +4,8 @@
   "name_en": "Medium Meeting Room",
   "category": "meeting",
   "size_m": [
-    10,
-    8
+    8,
+    6
   ],
   "height_m": 3.0,
   "doors": [
@@ -21,13 +21,13 @@
       ]
     },
     {
-      "id": "DOOR_E_01",
-      "wall": "E",
-      "offset_m": 1.0,
+      "id": "DOOR_S_02",
+      "wall": "S",
+      "offset_m": 7.0,
       "width_m": 1.0,
       "position": [
-        9.9,
-        1.0,
+        7.0,
+        0.1,
         0.0
       ]
     }
@@ -38,154 +38,77 @@
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        3.1,
-        2.8,
+        2.6,
+        1.95,
         0.0
       ],
       "yaw_deg": 0
-    },
-    {
-      "id": "STATUS_01",
-      "type": "STATUS",
-      "use": "",
-      "position": [
-        3.1,
-        2.8,
-        2.2
-      ],
-      "yaw_deg": 0.0
     },
     {
       "id": "SEAT_meeting_02",
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        4.05,
-        2.8,
+        2.6,
+        4.45,
         0.0
       ],
-      "yaw_deg": 0
-    },
-    {
-      "id": "STATUS_02",
-      "type": "STATUS",
-      "use": "",
-      "position": [
-        4.05,
-        2.8,
-        2.2
-      ],
-      "yaw_deg": 0.0
+      "yaw_deg": 180.0
     },
     {
       "id": "SEAT_meeting_03",
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        5.0,
-        2.8,
+        3.4,
+        1.95,
         0.0
       ],
       "yaw_deg": 0
-    },
-    {
-      "id": "STATUS_03",
-      "type": "STATUS",
-      "use": "",
-      "position": [
-        5.0,
-        2.8,
-        2.2
-      ],
-      "yaw_deg": 0.0
     },
     {
       "id": "SEAT_meeting_04",
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        5.95,
-        2.8,
+        3.4,
+        4.45,
         0.0
       ],
-      "yaw_deg": 0
-    },
-    {
-      "id": "STATUS_04",
-      "type": "STATUS",
-      "use": "",
-      "position": [
-        5.95,
-        2.8,
-        2.2
-      ],
-      "yaw_deg": 0.0
+      "yaw_deg": 180.0
     },
     {
       "id": "SEAT_meeting_05",
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        6.9,
-        2.8,
+        4.2,
+        1.95,
         0.0
       ],
       "yaw_deg": 0
-    },
-    {
-      "id": "STATUS_05",
-      "type": "STATUS",
-      "use": "",
-      "position": [
-        6.9,
-        2.8,
-        2.2
-      ],
-      "yaw_deg": 0.0
     },
     {
       "id": "SEAT_meeting_06",
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        3.1,
-        5.2,
+        4.2,
+        4.45,
         0.0
       ],
       "yaw_deg": 180.0
-    },
-    {
-      "id": "STATUS_06",
-      "type": "STATUS",
-      "use": "",
-      "position": [
-        3.1,
-        5.2,
-        2.2
-      ],
-      "yaw_deg": 0.0
     },
     {
       "id": "SEAT_meeting_07",
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        4.05,
-        5.2,
+        5.0,
+        1.95,
         0.0
       ],
-      "yaw_deg": 180.0
-    },
-    {
-      "id": "STATUS_07",
-      "type": "STATUS",
-      "use": "",
-      "position": [
-        4.05,
-        5.2,
-        2.2
-      ],
-      "yaw_deg": 0.0
+      "yaw_deg": 0
     },
     {
       "id": "SEAT_meeting_08",
@@ -193,106 +116,62 @@
       "use": "meeting",
       "position": [
         5.0,
-        5.2,
+        4.45,
         0.0
       ],
       "yaw_deg": 180.0
-    },
-    {
-      "id": "STATUS_08",
-      "type": "STATUS",
-      "use": "",
-      "position": [
-        5.0,
-        5.2,
-        2.2
-      ],
-      "yaw_deg": 0.0
     },
     {
       "id": "SEAT_meeting_09",
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        5.95,
-        5.2,
+        5.8,
+        1.95,
         0.0
       ],
-      "yaw_deg": 180.0
-    },
-    {
-      "id": "STATUS_09",
-      "type": "STATUS",
-      "use": "",
-      "position": [
-        5.95,
-        5.2,
-        2.2
-      ],
-      "yaw_deg": 0.0
+      "yaw_deg": 0
     },
     {
       "id": "SEAT_meeting_10",
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        6.9,
-        5.2,
+        5.8,
+        4.45,
         0.0
       ],
       "yaw_deg": 180.0
-    },
-    {
-      "id": "STATUS_10",
-      "type": "STATUS",
-      "use": "",
-      "position": [
-        6.9,
-        5.2,
-        2.2
-      ],
-      "yaw_deg": 0.0
     },
     {
       "id": "SEAT_meeting_11",
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        1.9,
-        4.0,
+        1.6,
+        3.2,
         0.0
       ],
       "yaw_deg": -90
-    },
-    {
-      "id": "STATUS_11",
-      "type": "STATUS",
-      "use": "",
-      "position": [
-        1.9,
-        4.0,
-        2.2
-      ],
-      "yaw_deg": 0.0
     },
     {
       "id": "SEAT_meeting_12",
       "type": "SEAT",
       "use": "meeting",
       "position": [
-        8.1,
-        4.0,
+        6.8,
+        3.2,
         0.0
       ],
       "yaw_deg": 90
     },
     {
-      "id": "STATUS_12",
+      "id": "STATUS_01",
       "type": "STATUS",
       "use": "",
       "position": [
-        8.1,
-        4.0,
+        4.2,
+        3.2,
         2.2
       ],
       "yaw_deg": 0.0
@@ -302,19 +181,8 @@
       "type": "STAND",
       "use": "presenter",
       "position": [
-        7.2,
-        6.9,
-        0.0
-      ],
-      "yaw_deg": 180.0
-    },
-    {
-      "id": "POI_screen_01",
-      "type": "POI",
-      "use": "screen",
-      "position": [
         5.0,
-        6.9,
+        5.2,
         0.0
       ],
       "yaw_deg": 180.0
@@ -324,44 +192,44 @@
       "type": "STAND",
       "use": "whiteboard",
       "position": [
-        8.8,
-        4.6,
+        1.3,
+        5.2,
         0.0
       ],
-      "yaw_deg": 90
+      "yaw_deg": 180.0
     },
     {
       "id": "STAND_whiteboard_02",
       "type": "STAND",
       "use": "whiteboard",
       "position": [
-        8.8,
-        5.8,
-        0.0
-      ],
-      "yaw_deg": 90
-    },
-    {
-      "id": "POI_coffee_01",
-      "type": "POI",
-      "use": "coffee",
-      "position": [
-        6.5,
-        1.3,
+        2.3,
+        5.2,
         0.0
       ],
       "yaw_deg": 180.0
     },
     {
-      "id": "POI_cabinet_02",
+      "id": "POI_credenza_01",
       "type": "POI",
-      "use": "cabinet",
+      "use": "credenza",
       "position": [
-        8.3,
-        1.3,
+        6.9,
+        3.1,
         0.0
       ],
-      "yaw_deg": 180.0
+      "yaw_deg": -90
+    },
+    {
+      "id": "POI_water_01",
+      "type": "POI",
+      "use": "water",
+      "position": [
+        6.9,
+        5.1,
+        0.0
+      ],
+      "yaw_deg": -90
     }
   ],
   "tags": [
@@ -374,7 +242,7 @@
     "file": "navmesh.glb",
     "cell_m": 0.25,
     "margin_m": 0.3,
-    "cells": 786
+    "cells": 373
   },
   "files": {
     "blend": "scene.blend",
@@ -385,5 +253,5 @@
     "build": "build.py"
   },
   "coord": "Blender Z-up, +Y north, SW corner origin; glb is glTF Y-up (gx=x, gy=z, gz=-y)",
-  "created": "2026-11-03"
+  "created": "2026-10-30"
 }
