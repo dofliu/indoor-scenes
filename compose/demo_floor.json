@@ -12,6 +12,18 @@
         16,
         12
       ]
+    },
+    {
+      "scene": "002_meeting_room",
+      "offset": [
+        16,
+        0
+      ],
+      "rot": 0,
+      "size_m": [
+        10,
+        8
+      ]
     }
   ],
   "doors": [
@@ -72,6 +84,30 @@
       "position": [
         15.0,
         11.9,
+        0.0
+      ]
+    },
+    {
+      "id": "T01_DOOR_S_01",
+      "tile": 1,
+      "scene": "002_meeting_room",
+      "wall": "S",
+      "width_m": 1.0,
+      "position": [
+        19.0,
+        0.1,
+        0.0
+      ]
+    },
+    {
+      "id": "T01_DOOR_E_01",
+      "tile": 1,
+      "scene": "002_meeting_room",
+      "wall": "E",
+      "width_m": 1.0,
+      "position": [
+        25.9,
+        1.0,
         0.0
       ]
     }
@@ -616,6 +652,366 @@
       ],
       "yaw_deg": -180.0,
       "tile": 0
+    },
+    {
+      "id": "T01_SEAT_meeting_01",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        19.1,
+        2.8,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 1
+    },
+    {
+      "id": "T01_STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        19.1,
+        2.8,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 1
+    },
+    {
+      "id": "T01_SEAT_meeting_02",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        20.05,
+        2.8,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 1
+    },
+    {
+      "id": "T01_STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        20.05,
+        2.8,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 1
+    },
+    {
+      "id": "T01_SEAT_meeting_03",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        21.0,
+        2.8,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 1
+    },
+    {
+      "id": "T01_STATUS_03",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        21.0,
+        2.8,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 1
+    },
+    {
+      "id": "T01_SEAT_meeting_04",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        21.95,
+        2.8,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 1
+    },
+    {
+      "id": "T01_STATUS_04",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        21.95,
+        2.8,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 1
+    },
+    {
+      "id": "T01_SEAT_meeting_05",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        22.9,
+        2.8,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 1
+    },
+    {
+      "id": "T01_STATUS_05",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        22.9,
+        2.8,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 1
+    },
+    {
+      "id": "T01_SEAT_meeting_06",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        19.1,
+        5.2,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 1
+    },
+    {
+      "id": "T01_STATUS_06",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        19.1,
+        5.2,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 1
+    },
+    {
+      "id": "T01_SEAT_meeting_07",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        20.05,
+        5.2,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 1
+    },
+    {
+      "id": "T01_STATUS_07",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        20.05,
+        5.2,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 1
+    },
+    {
+      "id": "T01_SEAT_meeting_08",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        21.0,
+        5.2,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 1
+    },
+    {
+      "id": "T01_STATUS_08",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        21.0,
+        5.2,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 1
+    },
+    {
+      "id": "T01_SEAT_meeting_09",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        21.95,
+        5.2,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 1
+    },
+    {
+      "id": "T01_STATUS_09",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        21.95,
+        5.2,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 1
+    },
+    {
+      "id": "T01_SEAT_meeting_10",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        22.9,
+        5.2,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 1
+    },
+    {
+      "id": "T01_STATUS_10",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        22.9,
+        5.2,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 1
+    },
+    {
+      "id": "T01_SEAT_meeting_11",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        17.9,
+        4.0,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 1
+    },
+    {
+      "id": "T01_STATUS_11",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        17.9,
+        4.0,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 1
+    },
+    {
+      "id": "T01_SEAT_meeting_12",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        24.1,
+        4.0,
+        0.0
+      ],
+      "yaw_deg": 90,
+      "tile": 1
+    },
+    {
+      "id": "T01_STATUS_12",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        24.1,
+        4.0,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 1
+    },
+    {
+      "id": "T01_STAND_presenter_01",
+      "type": "STAND",
+      "use": "presenter",
+      "position": [
+        23.2,
+        6.9,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 1
+    },
+    {
+      "id": "T01_POI_screen_01",
+      "type": "POI",
+      "use": "screen",
+      "position": [
+        21.0,
+        6.9,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 1
+    },
+    {
+      "id": "T01_STAND_whiteboard_01",
+      "type": "STAND",
+      "use": "whiteboard",
+      "position": [
+        24.8,
+        4.6,
+        0.0
+      ],
+      "yaw_deg": 90,
+      "tile": 1
+    },
+    {
+      "id": "T01_STAND_whiteboard_02",
+      "type": "STAND",
+      "use": "whiteboard",
+      "position": [
+        24.8,
+        5.8,
+        0.0
+      ],
+      "yaw_deg": 90,
+      "tile": 1
+    },
+    {
+      "id": "T01_POI_coffee_01",
+      "type": "POI",
+      "use": "coffee",
+      "position": [
+        22.5,
+        1.3,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 1
+    },
+    {
+      "id": "T01_POI_cabinet_02",
+      "type": "POI",
+      "use": "cabinet",
+      "position": [
+        24.3,
+        1.3,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 1
     }
   ],
   "connected_door_pairs": 0,

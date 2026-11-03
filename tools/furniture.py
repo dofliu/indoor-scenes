@@ -176,3 +176,54 @@ def status_lamp(S, x, y, z=2.0, name="StatusLamp", color=(0.2, 0.9, 0.3)):
     p.sphere(0, 0, -0.06, 0.05, mat("status_" + "_".join("%d" % (c * 10) for c in color), color, emit=color), seg=10)
     p.finish(obstacle=False)
     return p
+
+
+def conference_table(S, x, y, yaw=0.0, w=5.0, d=1.6, h=0.75, name="ConferenceTable"):
+    """會議長桌：桌面 + 兩組寬腳架 + 中央線槽。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, h - 0.03, w, d, 0.06, "wood_light")
+    p.box(0, 0, h - 0.065, w - 0.1, d - 0.1, 0.01, "wood_dark")
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - 0.5), 0, (h - 0.06) / 2, 0.08, d * 0.7, h - 0.06, "metal_dark")
+        p.box(sx * (w / 2 - 0.5), 0, 0.02, 0.12, d * 0.8, 0.04, "metal_dark")
+    p.box(0, 0, h + 0.002, 0.5, 0.12, 0.006, "metal")  # 線槽蓋
+    p.finish(footprint=(w, d))
+    return p
+
+
+def projector(S, x, y, z, yaw=0.0, name="Projector"):
+    """天花吊掛投影機（鏡頭朝 -Y）。z 為天花板高度。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.cyl(0, 0, -0.15, 0.02, 0.3, "metal_dark", seg=8)
+    p.box(0, 0, -0.35, 0.36, 0.28, 0.1, "plastic_white")
+    p.cyl(0, -0.16, -0.35, 0.05, 0.06, "plastic_black", seg=14, axis="Y")
+    p.finish(obstacle=False)
+    return p
+
+
+def projector_screen(S, x, y, w=2.8, h=1.6, z=1.0, yaw=0.0, name="ProjectorScreen"):
+    """壁掛投影布幕（白幕＋黑邊＋上方捲筒），(x,y) 為背面中心，正面朝 -Y。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, -0.02, h / 2, w + 0.12, 0.03, h + 0.1, "plastic_black")
+    p.box(0, -0.04, h / 2, w, 0.01, h, mat("screen_white", (0.96, 0.96, 0.94), rough=0.8))
+    p.cyl(0, -0.06, h + 0.08, 0.05, w + 0.2, "metal", seg=12, axis="X")
+    p.finish(obstacle=False)
+    return p
+
+
+def conference_phone(S, x, y, z=0.75, yaw=0.0, name="ConfPhone"):
+    """桌上三腳會議電話。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.cyl(0, 0, 0.02, 0.14, 0.04, "plastic_black", seg=3)
+    p.cyl(0, 0, 0.045, 0.04, 0.01, "panel_blue", seg=12)
+    p.finish(obstacle=False)
+    return p
+
+
+def coffee_machine(S, x, y, z=0.8, yaw=0.0, name="CoffeeMachine"):
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, 0, 0.18, 0.32, 0.4, 0.36, "metal_dark")
+    p.box(0, -0.205, 0.22, 0.2, 0.02, 0.1, "metal")
+    p.cyl(0, -0.12, 0.05, 0.04, 0.08, "plastic_white", seg=10)
+    p.finish(obstacle=False)
+    return p
