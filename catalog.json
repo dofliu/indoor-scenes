@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-02",
+  "updated": "2026-11-04",
   "scenes": [
     {
       "id": "001",
@@ -92,6 +92,31 @@
       ],
       "created": "2026-11-02",
       "preview": "scenes/004_pantry/preview.png"
+    },
+    {
+      "id": "005",
+      "dir": "005_lounge",
+      "name_zh": "休憩交誼區",
+      "name_en": "Lounge & Game Area",
+      "category": "social",
+      "size_m": [
+        10,
+        8
+      ],
+      "height_m": 3.0,
+      "doors": 3,
+      "anchors": 21,
+      "seats": 9,
+      "tags": [
+        "social",
+        "lounge",
+        "sofa",
+        "beanbag",
+        "game",
+        "break"
+      ],
+      "created": "2026-11-04",
+      "preview": "scenes/005_lounge/preview.png"
     }
   ]
 }

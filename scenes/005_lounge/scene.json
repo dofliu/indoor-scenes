@@ -1,0 +1,303 @@
+{
+  "id": "005",
+  "name_zh": "休憩交誼區",
+  "name_en": "Lounge & Game Area",
+  "category": "social",
+  "size_m": [
+    10,
+    8
+  ],
+  "height_m": 3.0,
+  "doors": [
+    {
+      "id": "DOOR_S_01",
+      "wall": "S",
+      "offset_m": 5.0,
+      "width_m": 1.0,
+      "position": [
+        5.0,
+        0.1,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_W_01",
+      "wall": "W",
+      "offset_m": 3.0,
+      "width_m": 1.0,
+      "position": [
+        0.1,
+        3.0,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_E_01",
+      "wall": "E",
+      "offset_m": 1.0,
+      "width_m": 1.0,
+      "position": [
+        9.9,
+        1.0,
+        0.0
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "id": "POI_tv_01",
+      "type": "POI",
+      "use": "tv",
+      "position": [
+        3.8,
+        6.9,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_sofa_01",
+      "type": "SEAT",
+      "use": "sofa",
+      "position": [
+        2.6,
+        3.8,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_sofa_02",
+      "type": "SEAT",
+      "use": "sofa",
+      "position": [
+        3.6,
+        3.8,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_sofa_03",
+      "type": "SEAT",
+      "use": "sofa",
+      "position": [
+        4.7,
+        3.8,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_sofa_04",
+      "type": "SEAT",
+      "use": "sofa",
+      "position": [
+        2.3,
+        5.2,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "SEAT_sofa_05",
+      "type": "SEAT",
+      "use": "sofa",
+      "position": [
+        5.3,
+        5.2,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        3.8,
+        4.5,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_beanbag_01",
+      "type": "SEAT",
+      "use": "beanbag",
+      "position": [
+        1.4,
+        1.3,
+        0.0
+      ],
+      "yaw_deg": -60
+    },
+    {
+      "id": "SEAT_beanbag_02",
+      "type": "SEAT",
+      "use": "beanbag",
+      "position": [
+        2.4,
+        0.7,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_beanbag_03",
+      "type": "SEAT",
+      "use": "beanbag",
+      "position": [
+        3.3,
+        1.4,
+        0.0
+      ],
+      "yaw_deg": 70
+    },
+    {
+      "id": "SEAT_beanbag_04",
+      "type": "SEAT",
+      "use": "beanbag",
+      "position": [
+        1.9,
+        2.4,
+        0.0
+      ],
+      "yaw_deg": -150
+    },
+    {
+      "id": "STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        2.4,
+        1.6,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STAND_pool_01",
+      "type": "STAND",
+      "use": "pool",
+      "position": [
+        6.2,
+        5.7,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "STAND_pool_02",
+      "type": "STAND",
+      "use": "pool",
+      "position": [
+        9.2,
+        5.7,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "STAND_pool_03",
+      "type": "STAND",
+      "use": "pool",
+      "position": [
+        7.2,
+        4.7,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_pool_04",
+      "type": "STAND",
+      "use": "pool",
+      "position": [
+        8.2,
+        6.7,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_foosball_01",
+      "type": "STAND",
+      "use": "foosball",
+      "position": [
+        7.2,
+        2.1,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_foosball_02",
+      "type": "STAND",
+      "use": "foosball",
+      "position": [
+        8.8,
+        2.1,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_foosball_03",
+      "type": "STAND",
+      "use": "foosball",
+      "position": [
+        7.2,
+        3.5,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_foosball_04",
+      "type": "STAND",
+      "use": "foosball",
+      "position": [
+        8.8,
+        3.5,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STATUS_03",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        8.0,
+        4.2,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    }
+  ],
+  "tags": [
+    "social",
+    "lounge",
+    "sofa",
+    "beanbag",
+    "game",
+    "break"
+  ],
+  "nav": {
+    "file": "navmesh.glb",
+    "cell_m": 0.25,
+    "margin_m": 0.3,
+    "cells": 604
+  },
+  "files": {
+    "blend": "scene.blend",
+    "glb": "scene.glb",
+    "navmesh": "navmesh.glb",
+    "preview": "preview.png",
+    "plan": "plan.png",
+    "build": "build.py"
+  },
+  "coord": "Blender Z-up, +Y north, SW corner origin; glb is glTF Y-up (gx=x, gy=z, gz=-y)",
+  "created": "2026-11-04"
+}

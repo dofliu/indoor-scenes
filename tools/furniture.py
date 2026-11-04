@@ -141,15 +141,15 @@ def water_dispenser(S, x, y, yaw=0.0, name="WaterDispenser"):
     return p
 
 
-def sofa(S, x, y, yaw=0.0, w=2.0, d=0.9, color="fabric_grey", name="Sofa"):
-    """沙發，坐向 +Y（yaw=0 背靠南側）。"""
+def sofa(S, x, y, yaw=0.0, w=2.0, d=0.9, color="fabric_grey", name="Sofa", seat_clear=False):
+    """沙發，坐向 +Y（yaw=0 背靠南側）。seat_clear=True 時導航障礙只含靠背半部，讓坐下點貼近導航網格。"""
     p = Piece(S, name, x, y, yaw=yaw)
     p.box(0, 0, 0.2, w, d, 0.4, "metal_dark")
     p.box(0, 0.05, 0.43, w - 0.3, d - 0.2, 0.18, color)
     p.box(0, -d / 2 + 0.1, 0.65, w, 0.2, 0.5, color)
     for sx in (-1, 1):
         p.box(sx * (w / 2 - 0.1), 0, 0.5, 0.2, d, 0.4, color)
-    p.finish(footprint=(w, d))
+    p.finish(footprint=(w, d / 2, 0, -d / 4) if seat_clear else (w, d))
     return p
 
 
@@ -319,5 +319,61 @@ def vending_machine(S, x, y, yaw=0.0, w=0.95, d=0.8, h=1.85, name="VendingMachin
                   ("fabric_orange", "chair_red", "chair_green", "plastic_white")[(i + j) % 4])
     p.box(0.33, -d / 2 - 0.006, h * 0.7, 0.14, 0.008, 0.3, "metal_dark")
     p.box(0, -d / 2 - 0.006, 0.18, 0.5, 0.008, 0.2, "plastic_black")
+    p.finish(footprint=(w, d))
+    return p
+
+
+def armchair(S, x, y, yaw=0.0, color="fabric_teal", name="Armchair"):
+    """單人沙發椅，坐向 +Y（yaw=0 背靠南側）。"""
+    return sofa(S, x, y, yaw, w=0.9, d=0.85, color=color, name=name, seat_clear=True)
+
+
+def coffee_table(S, x, y, yaw=0.0, w=1.2, d=0.6, h=0.4, top="wood_light", name="CoffeeTable"):
+    return table(S, x, y, yaw, w=w, d=d, h=h, top=top, name=name)
+
+
+def beanbag(S, x, y, color="fabric_orange", r=0.42, name="Beanbag"):
+    """懶骨頭（扁球體）。"""
+    p = Piece(S, name, x, y)
+    p.sphere(0, 0, 0.26, r, color, sz=0.62, seg=16)
+    p.sphere(0, -r * 0.45, 0.45, r * 0.62, color, sz=0.9, seg=14)
+    p.finish(footprint=(0.1, 0.1))
+    return p
+
+
+def tv_console(S, x, y, yaw=0.0, w=2.0, name="TVConsole"):
+    """電視櫃（低櫃）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, 0.25, w, 0.4, 0.5, "wood_dark")
+    p.finish(footprint=(w, 0.4))
+    return p
+
+
+def foosball(S, x, y, yaw=0.0, w=1.4, d=0.75, name="Foosball"):
+    """桌上足球機（長邊沿 piece X 軸）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, 0.8, w, d, 0.1, "panel_blue")
+    p.boxc(-w / 2, -d / 2, 0.8, w / 2, -d / 2 + 0.04, 0.95, "wood_dark")
+    p.boxc(-w / 2, d / 2 - 0.04, 0.8, w / 2, d / 2, 0.95, "wood_dark")
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.box(sx * (w / 2 - 0.05), sy * (d / 2 - 0.05), 0.38, 0.07, 0.07, 0.76, "wood_dark")
+    for k in range(-3, 4):
+        p.cyl(k * 0.17, 0, 1.0, 0.012, d + 0.25, "metal", seg=6, axis="Y")
+        p.box(k * 0.17, 0, 0.98, 0.04, 0.06, 0.1, "chair_red" if k < 0 else "plastic_white")
+    p.finish(footprint=(w + 0.05, d + 0.3))
+    return p
+
+
+def pool_table(S, x, y, yaw=0.0, w=2.3, d=1.3, name="PoolTable"):
+    """撞球桌。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, 0.8, w, d, 0.1, "wood_dark")
+    p.box(0, 0, 0.86, w - 0.2, d - 0.2, 0.03, mat("felt", (0.04, 0.32, 0.18), rough=0.9))
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.box(sx * (w / 2 - 0.12), sy * (d / 2 - 0.12), 0.38, 0.14, 0.14, 0.76, "wood_dark")
+    for i, (bx, by) in enumerate(((0.3, 0.0), (0.38, 0.04), (0.38, -0.04), (-0.5, 0.0))):
+        p.sphere(bx, by, 0.9, 0.028, ("chair_red", "fabric_orange", "chair_seat", "plastic_white")[i], seg=8)
     p.finish(footprint=(w, d))
     return p
