@@ -377,3 +377,59 @@ def pool_table(S, x, y, yaw=0.0, w=2.3, d=1.3, name="PoolTable"):
         p.sphere(bx, by, 0.9, 0.028, ("chair_red", "fabric_orange", "chair_seat", "plastic_white")[i], seg=8)
     p.finish(footprint=(w, d))
     return p
+
+
+# ---------------------------------------------------------------- 大廳／接待設備（場景 006 起）
+def reception_desk(S, x, y, yaw=0.0, w=4.0, name="ReceptionDesk"):
+    """接待櫃台：訪客側（-Y）為高檯面 1.1 m，工作側（+Y）為 0.74 m 桌面。(x,y) 為整體中心。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, -0.38, 0.55, w, 0.3, 1.1, "wood_dark")
+    p.box(0, -0.38, 1.11, w + 0.06, 0.38, 0.04, "desk_white")
+    p.box(0, 0.12, 0.735, w - 0.1, 0.72, 0.03, "desk_white")
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - 0.08), 0.12, 0.36, 0.04, 0.6, 0.72, "desk_leg")
+    p.box(0, -0.545, 0.55, w - 0.5, 0.02, 0.6, "metal")  # 前飾板（無文字）
+    p.finish(footprint=(w, 1.0, 0, -0.05))
+    return p
+
+
+def turnstile(S, x, y, yaw=0.0, name="Turnstile"):
+    """閘機柱（通道沿本地 Y 方向；yaw=0 時柱體長軸沿 Y，一對柱形成沿 X 的通道需旋轉）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, 0.5, 0.22, 0.9, 1.0, "metal")
+    p.box(0, 0, 1.01, 0.24, 0.92, 0.03, "plastic_black")
+    p.box(0, 0.0, 1.03, 0.1, 0.5, 0.004, mat("status_green", (0.2, 0.9, 0.3), emit=(0.2, 0.9, 0.3)))
+    p.box(0, 0.35, 0.45, 0.3, 0.02, 0.5, mat("glass_panel", (0.6, 0.8, 0.9), rough=0.05, alpha=0.25))
+    p.finish(footprint=(0.3, 0.92))
+    return p
+
+
+def info_kiosk(S, x, y, yaw=0.0, name="InfoKiosk"):
+    """立式訪客登記機（螢幕面朝 -Y）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, 0.55, 0.45, 0.3, 1.1, "plastic_white")
+    p.box(0, -0.15, 1.25, 0.5, 0.04, 0.4, "plastic_black")
+    p.box(0, -0.172, 1.25, 0.46, 0.004, 0.36, mat("screen_glow", (0.05, 0.15, 0.3), emit=(0.08, 0.3, 0.6)))
+    p.finish(footprint=(0.5, 0.4))
+    return p
+
+
+def feature_wall(S, x, y, yaw=0.0, w=4.0, h=2.3, name="FeatureWall"):
+    """背景裝飾牆板（木紋條 + 無文字金屬圓盤；正面朝 -Y，(x,y) 為背面中心）。"""
+    p = Piece(S, name, x, y, yaw=yaw, coll="PROPS")
+    p.box(0, -0.02, h / 2 + 0.05, w, 0.04, h, "wood_light")
+    for i in range(1, int(w / 0.4)):
+        p.box(-w / 2 + 0.4 * i, -0.045, h / 2 + 0.05, 0.02, 0.01, h, "wood_dark")
+    p.cyl(0, -0.06, 1.6, 0.3, 0.02, "metal", seg=32, axis="Y")
+    p.finish(obstacle=False)
+    return p
+
+
+def bench(S, x, y, yaw=0.0, w=1.6, d=0.45, h=0.45, color="fabric_teal", name="Bench"):
+    """長凳，坐向 +Y。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, h - 0.06, w, d, 0.12, color)
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - 0.1), 0, (h - 0.12) / 2, 0.04, d - 0.1, h - 0.12, "metal_dark")
+    p.finish(footprint=(w, d))
+    return p

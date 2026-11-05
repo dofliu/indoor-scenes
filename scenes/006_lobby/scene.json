@@ -1,0 +1,324 @@
+{
+  "id": "006",
+  "name_zh": "大廳接待區",
+  "name_en": "Lobby & Reception",
+  "category": "service",
+  "size_m": [
+    12,
+    8
+  ],
+  "height_m": 3.0,
+  "doors": [
+    {
+      "id": "DOOR_S_01",
+      "wall": "S",
+      "offset_m": 5.0,
+      "width_m": 1.0,
+      "position": [
+        5.0,
+        0.1,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_S_02",
+      "wall": "S",
+      "offset_m": 7.0,
+      "width_m": 1.0,
+      "position": [
+        7.0,
+        0.1,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_W_01",
+      "wall": "W",
+      "offset_m": 7.0,
+      "width_m": 1.0,
+      "position": [
+        0.1,
+        7.0,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_E_01",
+      "wall": "E",
+      "offset_m": 3.0,
+      "width_m": 1.0,
+      "position": [
+        11.9,
+        3.0,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_E_02",
+      "wall": "E",
+      "offset_m": 5.0,
+      "width_m": 1.0,
+      "position": [
+        11.9,
+        5.0,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_N_01",
+      "wall": "N",
+      "offset_m": 11.0,
+      "width_m": 1.0,
+      "position": [
+        11.0,
+        7.9,
+        0.0
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "id": "SEAT_reception_01",
+      "type": "SEAT",
+      "use": "reception",
+      "position": [
+        5.1,
+        7.2,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "SEAT_reception_02",
+      "type": "SEAT",
+      "use": "reception",
+      "position": [
+        6.9,
+        7.2,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "POI_reception_01",
+      "type": "POI",
+      "use": "reception",
+      "position": [
+        6.0,
+        5.4,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_visitor_01",
+      "type": "STAND",
+      "use": "visitor",
+      "position": [
+        4.9,
+        5.3,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_visitor_02",
+      "type": "STAND",
+      "use": "visitor",
+      "position": [
+        7.1,
+        5.3,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        6.0,
+        6.45,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_waiting_01",
+      "type": "SEAT",
+      "use": "waiting",
+      "position": [
+        1.9,
+        2.7,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_waiting_02",
+      "type": "SEAT",
+      "use": "waiting",
+      "position": [
+        3.1,
+        2.7,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_waiting_03",
+      "type": "SEAT",
+      "use": "waiting",
+      "position": [
+        1.9,
+        5.3,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "SEAT_waiting_04",
+      "type": "SEAT",
+      "use": "waiting",
+      "position": [
+        3.1,
+        5.3,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "SEAT_waiting_05",
+      "type": "SEAT",
+      "use": "waiting",
+      "position": [
+        4.35,
+        4.0,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        2.5,
+        4.0,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "POI_kiosk_01",
+      "type": "POI",
+      "use": "kiosk",
+      "position": [
+        9.2,
+        0.9,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_bench_01",
+      "type": "SEAT",
+      "use": "bench",
+      "position": [
+        4.8,
+        0.6,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_entrance_01",
+      "type": "STAND",
+      "use": "entrance",
+      "position": [
+        5.0,
+        1.3,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_entrance_02",
+      "type": "STAND",
+      "use": "entrance",
+      "position": [
+        7.0,
+        1.3,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "POI_gate_01",
+      "type": "POI",
+      "use": "gate",
+      "position": [
+        9.0,
+        2.85,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "POI_gate_02",
+      "type": "POI",
+      "use": "gate",
+      "position": [
+        9.0,
+        4.15,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "POI_gate_03",
+      "type": "POI",
+      "use": "gate",
+      "position": [
+        9.0,
+        5.45,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "STATUS_03",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        9.6,
+        4.15,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    }
+  ],
+  "tags": [
+    "lobby",
+    "reception",
+    "waiting",
+    "turnstile",
+    "entrance"
+  ],
+  "nav": {
+    "file": "navmesh.glb",
+    "cell_m": 0.25,
+    "margin_m": 0.3,
+    "cells": 826
+  },
+  "files": {
+    "blend": "scene.blend",
+    "glb": "scene.glb",
+    "navmesh": "navmesh.glb",
+    "preview": "preview.png",
+    "plan": "plan.png",
+    "build": "build.py"
+  },
+  "coord": "Blender Z-up, +Y north, SW corner origin; glb is glTF Y-up (gx=x, gy=z, gz=-y)",
+  "created": "2026-11-05"
+}
