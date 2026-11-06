@@ -3,7 +3,7 @@
 以 Blender（bpy）程序化建模的**室內場景模組庫**：每個模組遵守統一規格（2 m 網格、3 m 樓高、奇數公尺門洞、命名錨點、導航網格），
 可任意拼接成一層樓，也可匯入 Three.js / Unity / Godot 讓人物在其中移動。詳見 [SPEC.md](SPEC.md)。
 
-**目前場景數：6**　｜　待做清單：[backlog.md](backlog.md)　｜　清單資料：[catalog.json](catalog.json)
+**目前場景數：10**　｜　待做清單：[backlog.md](backlog.md)　｜　清單資料：[catalog.json](catalog.json)
 
 ## 場景一覽
 
@@ -15,6 +15,16 @@
 | 004 | [茶水間／咖啡吧](scenes/004_pantry/) | 8×6 m | 3 | 18（6 吧凳＋4 小圓桌座＋流理台／咖啡機／冰箱／販賣機互動點） | <img src="scenes/004_pantry/preview.png" width="360"> |
 | 005 | [休憩交誼區](scenes/005_lounge/) | 10×8 m | 3 | 21（5 沙發座＋4 懶骨頭＋撞球／桌上足球站位＋電視） | <img src="scenes/005_lounge/preview.png" width="360"> |
 | 006 | [大廳接待區](scenes/006_lobby/) | 12×8 m | 6 | 20（2 接待座＋5 等候座＋閘機／登記機互動點） | <img src="scenes/006_lobby/preview.png" width="360"> |
+| 007 | [走廊（直線）](scenes/007_corridor_straight/) | 8×2 m | 6 | 6（4 路徑點＋2 狀態點） | <img src="scenes/007_corridor_straight/preview.png" width="360"> |
+| 008 | [走廊（L 型轉角）](scenes/008_corridor_L/) | 2×2 m | 2 | 2 | <img src="scenes/008_corridor_L/preview.png" width="360"> |
+| 009 | [走廊（T 型岔路）](scenes/009_corridor_T/) | 2×2 m | 3 | 2 | <img src="scenes/009_corridor_T/preview.png" width="360"> |
+| 010 | [走廊（十字路口）](scenes/010_corridor_cross/) | 2×2 m | 4 | 2 | <img src="scenes/010_corridor_cross/preview.png" width="360"> |
+
+## 組合範例：AI 代理人公司一層樓
+`compose/ai_company_layout.json` → `python3 tools/compose.py compose/ai_company_layout.json` 產生 `compose/ai_company_floor.{blend,glb,json}`
+（9 個模組、9 組連通門、無重疊；隨新場景持續擴充）。
+
+<img src="compose/ai_company_floor_top.png" width="720">
 
 ## 目錄
 ```
@@ -22,9 +32,11 @@ scenes/<NNN>_<slug>/   scene.blend / scene.glb / navmesh.glb / scene.json / prev
 tools/scenelib.py      共用：牆、地板、門窗洞、燈、錨點、導航網格、輸出與渲染
 tools/furniture.py     共用：桌椅、螢幕、櫃、白板、沙發、影印機等參數化家具
 tools/verify.py        驗證某場景輸出（glb 重讀、錨點數、門洞、導航）
+tools/corridor.py      走廊／樞紐模組產生器（寬 2 m）
 tools/compose.py       依 compose/layout.json 組合多場景成一層樓
 tools/mock_agent_server.py  模擬 AI 代理人後端（WebSocket，示範執行期協議）
-compose/               layout.json 範例與組合輸出
+compose/               layout.json 範例、ai_company_layout.json（AI 公司一層樓）與組合輸出
+                       注意：layout 檔名不可與其 name 同名（輸出 <name>.json 會覆寫輸入）
 viewer/index.html      Three.js 瀏覽器（可用 GitHub Pages）
 viewer/engine.js       世界引擎：導航、人物狀態、指令、鏡頭跟隨、人物面板
 ```

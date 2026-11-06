@@ -1,0 +1,92 @@
+{
+  "id": "009",
+  "name_zh": "走廊（T 型岔路）",
+  "name_en": "Corridor - T Junction",
+  "category": "connector",
+  "size_m": [
+    2,
+    2
+  ],
+  "height_m": 3.0,
+  "doors": [
+    {
+      "id": "DOOR_W_01",
+      "wall": "W",
+      "offset_m": 1.0,
+      "width_m": 1.0,
+      "position": [
+        0.1,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_E_01",
+      "wall": "E",
+      "offset_m": 1.0,
+      "width_m": 1.0,
+      "position": [
+        1.9,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_N_01",
+      "wall": "N",
+      "offset_m": 1.0,
+      "width_m": 1.0,
+      "position": [
+        1.0,
+        1.9,
+        0.0
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "id": "POI_waypoint_01",
+      "type": "POI",
+      "use": "waypoint",
+      "position": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        1.0,
+        1.0,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    }
+  ],
+  "tags": [
+    "connector",
+    "corridor",
+    "T",
+    "junction"
+  ],
+  "nav": {
+    "file": "navmesh.glb",
+    "cell_m": 0.25,
+    "margin_m": 0.3,
+    "cells": 40
+  },
+  "files": {
+    "blend": "scene.blend",
+    "glb": "scene.glb",
+    "navmesh": "navmesh.glb",
+    "preview": "preview.png",
+    "plan": "plan.png",
+    "build": "build.py"
+  },
+  "coord": "Blender Z-up, +Y north, SW corner origin; glb is glTF Y-up (gx=x, gy=z, gz=-y)",
+  "created": "2026-11-06"
+}

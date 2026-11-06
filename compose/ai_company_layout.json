@@ -1,0 +1,16 @@
+{
+  "name": "ai_company_floor",
+  "name_zh": "AI 代理人公司一層樓（組合範例，持續擴充）",
+  "grid_m": 2,
+  "tiles": [
+    { "scene": "006_lobby", "offset": [0, 0], "rot": 0 },
+    { "scene": "004_pantry", "offset": [12, 0], "rot": 0 },
+    { "scene": "007_corridor_straight", "offset": [10, 8], "rot": 90 },
+    { "scene": "009_corridor_T", "offset": [10, 16], "rot": 180 },
+    { "scene": "001_open_office", "offset": [-6, 10], "rot": 0 },
+    { "scene": "007_corridor_straight", "offset": [12, 16], "rot": 0 },
+    { "scene": "002_meeting_room", "offset": [12, 18], "rot": 0 },
+    { "scene": "003_huddle_room", "offset": [14, 12], "rot": 0 },
+    { "scene": "005_lounge", "offset": [20, 14], "rot": 0 }
+  ]
+}

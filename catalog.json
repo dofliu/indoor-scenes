@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-05",
+  "updated": "2026-11-06",
   "scenes": [
     {
       "id": "001",
@@ -141,6 +141,97 @@
       ],
       "created": "2026-11-05",
       "preview": "scenes/006_lobby/preview.png"
+    },
+    {
+      "id": "007",
+      "dir": "007_corridor_straight",
+      "name_zh": "走廊（直線）",
+      "name_en": "Corridor - Straight",
+      "category": "connector",
+      "size_m": [
+        8,
+        2
+      ],
+      "height_m": 3.0,
+      "doors": 6,
+      "anchors": 6,
+      "seats": 0,
+      "tags": [
+        "connector",
+        "corridor",
+        "straight"
+      ],
+      "created": "2026-11-06",
+      "preview": "scenes/007_corridor_straight/preview.png"
+    },
+    {
+      "id": "008",
+      "dir": "008_corridor_L",
+      "name_zh": "走廊（L 型轉角）",
+      "name_en": "Corridor - L Corner",
+      "category": "connector",
+      "size_m": [
+        2,
+        2
+      ],
+      "height_m": 3.0,
+      "doors": 2,
+      "anchors": 2,
+      "seats": 0,
+      "tags": [
+        "connector",
+        "corridor",
+        "L",
+        "corner"
+      ],
+      "created": "2026-11-06",
+      "preview": "scenes/008_corridor_L/preview.png"
+    },
+    {
+      "id": "009",
+      "dir": "009_corridor_T",
+      "name_zh": "走廊（T 型岔路）",
+      "name_en": "Corridor - T Junction",
+      "category": "connector",
+      "size_m": [
+        2,
+        2
+      ],
+      "height_m": 3.0,
+      "doors": 3,
+      "anchors": 2,
+      "seats": 0,
+      "tags": [
+        "connector",
+        "corridor",
+        "T",
+        "junction"
+      ],
+      "created": "2026-11-06",
+      "preview": "scenes/009_corridor_T/preview.png"
+    },
+    {
+      "id": "010",
+      "dir": "010_corridor_cross",
+      "name_zh": "走廊（十字路口）",
+      "name_en": "Corridor - Cross Junction",
+      "category": "connector",
+      "size_m": [
+        2,
+        2
+      ],
+      "height_m": 3.0,
+      "doors": 4,
+      "anchors": 2,
+      "seats": 0,
+      "tags": [
+        "connector",
+        "corridor",
+        "cross",
+        "junction"
+      ],
+      "created": "2026-11-06",
+      "preview": "scenes/010_corridor_cross/preview.png"
     }
   ]
 }
