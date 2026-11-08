@@ -1,0 +1,268 @@
+{
+  "id": "002",
+  "name_zh": "中型會議室",
+  "name_en": "Medium Meeting Room",
+  "category": "meeting",
+  "size_m": [
+    8,
+    6
+  ],
+  "height_m": 3.0,
+  "doors": [
+    {
+      "id": "DOOR_S_01",
+      "wall": "S",
+      "offset_m": 5.0,
+      "width_m": 1.0,
+      "position": [
+        5.0,
+        0.1,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_E_01",
+      "wall": "E",
+      "offset_m": 3.0,
+      "width_m": 1.0,
+      "position": [
+        7.9,
+        3.0,
+        0.0
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "id": "SEAT_meeting_01",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        2.4,
+        1.75,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_meeting_02",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        3.2,
+        1.75,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_meeting_03",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        4.0,
+        1.75,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_meeting_04",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        4.8,
+        1.75,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_meeting_05",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        5.6,
+        1.75,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_meeting_06",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        2.4,
+        4.05,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "SEAT_meeting_07",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        3.2,
+        4.05,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "SEAT_meeting_08",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        4.0,
+        4.05,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "SEAT_meeting_09",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        4.8,
+        4.05,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "SEAT_meeting_10",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        5.6,
+        4.05,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "SEAT_meeting_11",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        1.4,
+        2.9,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "SEAT_meeting_12",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        6.6,
+        2.9,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "STAND_screen_01",
+      "type": "STAND",
+      "use": "screen",
+      "position": [
+        6.3,
+        4.9,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_screen_02",
+      "type": "STAND",
+      "use": "screen",
+      "position": [
+        1.7,
+        4.9,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_whiteboard_01",
+      "type": "STAND",
+      "use": "whiteboard",
+      "position": [
+        0.9,
+        4.4,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "STAND_whiteboard_02",
+      "type": "STAND",
+      "use": "whiteboard",
+      "position": [
+        0.9,
+        5.0,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "POI_credenza_01",
+      "type": "POI",
+      "use": "credenza",
+      "position": [
+        1.75,
+        1.3,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "POI_water_01",
+      "type": "POI",
+      "use": "water",
+      "position": [
+        6.7,
+        5.0,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        4.0,
+        2.9,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    }
+  ],
+  "tags": [
+    "meeting",
+    "whiteboard",
+    "projector",
+    "12-seats"
+  ],
+  "nav": {
+    "file": "navmesh.glb",
+    "cell_m": 0.25,
+    "margin_m": 0.3,
+    "cells": 376
+  },
+  "files": {
+    "blend": "scene.blend",
+    "glb": "scene.glb",
+    "navmesh": "navmesh.glb",
+    "preview": "preview.png",
+    "plan": "plan.png",
+    "build": "build.py"
+  },
+  "coord": "Blender Z-up, +Y north, SW corner origin; glb is glTF Y-up (gx=x, gy=z, gz=-y)",
+  "created": "2026-11-07"
+}
