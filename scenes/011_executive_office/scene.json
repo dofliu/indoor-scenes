@@ -1,0 +1,180 @@
+{
+  "id": "011",
+  "name_zh": "主管辦公室",
+  "name_en": "Executive Office",
+  "category": "office",
+  "size_m": [
+    6,
+    6
+  ],
+  "height_m": 3.0,
+  "doors": [
+    {
+      "id": "DOOR_S_01",
+      "wall": "S",
+      "offset_m": 1.0,
+      "width_m": 1.0,
+      "position": [
+        1.0,
+        0.1,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_E_01",
+      "wall": "E",
+      "offset_m": 5.0,
+      "width_m": 1.0,
+      "position": [
+        5.9,
+        5.0,
+        0.0
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "id": "SEAT_desk_01",
+      "type": "SEAT",
+      "use": "desk",
+      "position": [
+        3.0,
+        4.95,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        3.0,
+        4.2,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_visitor_01",
+      "type": "SEAT",
+      "use": "visitor",
+      "position": [
+        2.45,
+        3.0,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_visitor_02",
+      "type": "SEAT",
+      "use": "visitor",
+      "position": [
+        3.55,
+        3.0,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "POI_credenza_01",
+      "type": "POI",
+      "use": "credenza",
+      "position": [
+        1.6,
+        5.0,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "POI_bookshelf_01",
+      "type": "POI",
+      "use": "bookshelf",
+      "position": [
+        1.3,
+        3.4,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "SEAT_sofa_01",
+      "type": "SEAT",
+      "use": "sofa",
+      "position": [
+        5.25,
+        1.8,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "SEAT_sofa_02",
+      "type": "SEAT",
+      "use": "sofa",
+      "position": [
+        5.25,
+        2.8,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "SEAT_armchair_01",
+      "type": "SEAT",
+      "use": "armchair",
+      "position": [
+        4.1,
+        0.95,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        5.25,
+        2.3,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STAND_whiteboard_01",
+      "type": "STAND",
+      "use": "whiteboard",
+      "position": [
+        3.0,
+        1.1,
+        0.0
+      ],
+      "yaw_deg": 0
+    }
+  ],
+  "tags": [
+    "office",
+    "executive",
+    "private",
+    "sofa-area"
+  ],
+  "nav": {
+    "file": "navmesh.glb",
+    "cell_m": 0.25,
+    "margin_m": 0.3,
+    "cells": 219
+  },
+  "files": {
+    "blend": "scene.blend",
+    "glb": "scene.glb",
+    "navmesh": "navmesh.glb",
+    "preview": "preview.png",
+    "plan": "plan.png",
+    "build": "build.py"
+  },
+  "coord": "Blender Z-up, +Y north, SW corner origin; glb is glTF Y-up (gx=x, gy=z, gz=-y)",
+  "created": "2026-11-08"
+}

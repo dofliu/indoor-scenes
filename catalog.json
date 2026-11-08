@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-06",
+  "updated": "2026-11-08",
   "scenes": [
     {
       "id": "001",
@@ -232,6 +232,29 @@
       ],
       "created": "2026-11-06",
       "preview": "scenes/010_corridor_cross/preview.png"
+    },
+    {
+      "id": "011",
+      "dir": "011_executive_office",
+      "name_zh": "主管辦公室",
+      "name_en": "Executive Office",
+      "category": "office",
+      "size_m": [
+        6,
+        6
+      ],
+      "height_m": 3.0,
+      "doors": 2,
+      "anchors": 11,
+      "seats": 6,
+      "tags": [
+        "office",
+        "executive",
+        "private",
+        "sofa-area"
+      ],
+      "created": "2026-11-08",
+      "preview": "scenes/011_executive_office/preview.png"
     }
   ]
 }
