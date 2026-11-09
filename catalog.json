@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-08",
+  "updated": "2026-11-09",
   "scenes": [
     {
       "id": "001",
@@ -255,6 +255,31 @@
       ],
       "created": "2026-11-08",
       "preview": "scenes/011_executive_office/preview.png"
+    },
+    {
+      "id": "012",
+      "dir": "012_server_room",
+      "name_zh": "伺服器機房",
+      "name_en": "Server Room",
+      "category": "factory",
+      "size_m": [
+        8,
+        6
+      ],
+      "height_m": 3.0,
+      "doors": 2,
+      "anchors": 19,
+      "seats": 1,
+      "tags": [
+        "server",
+        "datacenter",
+        "racks",
+        "cold-aisle",
+        "12-racks",
+        "ai-company"
+      ],
+      "created": "2026-11-09",
+      "preview": "scenes/012_server_room/preview.png"
     }
   ]
 }

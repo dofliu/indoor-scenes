@@ -481,7 +481,7 @@ class Scene:
             kw["use_selection"] = True
         bpy.ops.export_scene.gltf(**kw)
 
-    def finish(self, out_dir, preview_samples=48, render=True, hide_near=("S", "W"), plan_px_per_m=60):
+    def finish(self, out_dir, preview_samples=48, render=True, hide_near=("S", "W"), plan_px_per_m=60, cam_elev=42, cam_azim=45):
         os.makedirs(out_dir, exist_ok=True)
         navobj = self.build_navmesh()
         self.add_camera_and_sun()
@@ -507,7 +507,7 @@ class Scene:
             if o.name.startswith("LightPanel_"):
                 o.hide_render = True
         navobj.hide_render = True
-        self._cam_iso()
+        self._cam_iso(elev=cam_elev, azim=cam_azim)
         self._render(os.path.join(out_dir, "preview.png"), 1280, 720, preview_samples)
         # 平面圖：正交頂視 + PIL 標註
         self._plan(out_dir, plan_px_per_m)

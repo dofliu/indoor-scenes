@@ -3,7 +3,7 @@
 以 Blender（bpy）程序化建模的**室內場景模組庫**：每個模組遵守統一規格（2 m 網格、3 m 樓高、奇數公尺門洞、命名錨點、導航網格），
 可任意拼接成一層樓，也可匯入 Three.js / Unity / Godot 讓人物在其中移動。詳見 [SPEC.md](SPEC.md)。
 
-**目前場景數：11**　｜　待做清單：[backlog.md](backlog.md)　｜　清單資料：[catalog.json](catalog.json)
+**目前場景數：12**　｜　待做清單：[backlog.md](backlog.md)　｜　清單資料：[catalog.json](catalog.json)
 
 ## 場景一覽
 
@@ -20,10 +20,11 @@
 | 009 | [走廊（T 型岔路）](scenes/009_corridor_T/) | 2×2 m | 3 | 2 | <img src="scenes/009_corridor_T/preview.png" width="360"> |
 | 010 | [走廊（十字路口）](scenes/010_corridor_cross/) | 2×2 m | 4 | 2 | <img src="scenes/010_corridor_cross/preview.png" width="360"> |
 | 011 | [主管辦公室](scenes/011_executive_office/) | 6×6 m | 2 | 11（主管座＋2 訪客座＋2 沙發座＋單人椅＋白板／櫃／書櫃互動點） | <img src="scenes/011_executive_office/preview.png" width="360"> |
+| 012 | [伺服器機房](scenes/012_server_room/) | 8×6 m | 2 | 19（1 值班座＋12 機櫃維運站位＋空調／UPS／備品互動點） | <img src="scenes/012_server_room/preview.png" width="360"> |
 
 ## 組合範例：AI 代理人公司一層樓
 `compose/ai_company_layout.json` → `python3 tools/compose.py compose/ai_company_layout.json` 產生 `compose/ai_company_floor.{blend,glb,json}`
-（9 個模組、9 組連通門、無重疊；隨新場景持續擴充）。
+（10 個模組、10 組連通門、無重疊；隨新場景持續擴充）。
 
 <img src="compose/ai_company_floor_top.png" width="720">
 
