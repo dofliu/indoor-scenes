@@ -176,3 +176,24 @@ def status_lamp(S, x, y, z=2.0, name="StatusLamp", color=(0.2, 0.9, 0.3)):
     p.sphere(0, 0, -0.06, 0.05, mat("status_" + "_".join("%d" % (c * 10) for c in color), color, emit=color), seg=10)
     p.finish(obstacle=False)
     return p
+
+
+def phone_booth(S, x, y, name="PhoneBooth", w=1.2, d=1.2, color="wall_accent"):
+    """電話亭／專注艙：開口朝西（-X），後板在 +X。(x,y) 為艙中心。回傳座位建議點（艙內、面向西）。
+    只把後板當導航障礙，艙內可走入就座。"""
+    p = Piece(S, name, x, y)
+    glass = mat("glass", (0.6, 0.8, 0.9), rough=0.05, alpha=0.25)
+    p.box(0, 0, 0.02, d, w, 0.04, "floor_carpet")                      # 艙內地墊
+    p.box(d / 2 - 0.04, 0, 1.1, 0.08, w, 2.2, color)                    # 後板
+    for sy in (-1, 1):
+        p.box(0, sy * (w / 2 - 0.02), 0.45, d, 0.04, 0.9, color)        # 側板下半（實木）
+        p.box(0, sy * (w / 2 - 0.02), 1.55, d, 0.02, 1.3, glass)        # 側板上半（玻璃）
+        p.box(-d / 2 + 0.02, sy * (w / 2 - 0.02), 1.1, 0.05, 0.05, 2.2, "frame")
+    p.box(0, 0, 2.22, d + 0.02, w + 0.02, 0.05, "frame")                # 頂板
+    p.box(0, 0, 2.18, d - 0.1, w - 0.1, 0.02, mat("light_emit", (1, 0.97, 0.9), emit=(1, 0.95, 0.85)))
+    p.box(0.28, 0, 0.72, 0.30, w - 0.1, 0.03, "wood_light")             # 小檯面
+    p.box(0.42, 0, 1.2, 0.02, 0.5, 0.3, mat("screen_glow", (0.05, 0.15, 0.3), emit=(0.08, 0.3, 0.6)))
+    p.cyl(-0.05, 0, 0.30, 0.17, 0.60, "fabric_orange", seg=16)          # 圓凳
+    p.cyl(-0.05, 0, 0.62, 0.19, 0.04, "fabric_orange", seg=16)
+    p.finish(footprint=(0.3, w, d / 2 - 0.15, 0))
+    return p

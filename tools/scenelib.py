@@ -577,14 +577,16 @@ class Scene:
             if a["type"] == "SEAT":
                 lab = a["id"].split("_")[-1]
             dr.text((px + 8, py + 5), lab, fill=(20, 20, 20), font=f)
-        dr.rectangle([0, 0, px_w, 34], fill=(255, 255, 255, 230))
-        dr.text((10, 5), "%s %s  %s  %d×%d m  H=%.1f m" % (self.id, self.name_zh, self.name_en, W, D, self.H), fill=(0, 0, 0), font=fb)
+        small = px_w < 700  # 小房間：圖例換到第二列
+        dr.rectangle([0, 0, px_w, 58 if small else 34], fill=(255, 255, 255, 230))
+        dr.text((10, 5), "%s %s  %d×%d m" % (self.id, self.name_zh, W, D) if small else "%s %s  %s  %d×%d m  H=%.1f m" % (self.id, self.name_zh, self.name_en, W, D, self.H), fill=(0, 0, 0), font=fb)
         lg = [("SEAT", "坐下點"), ("STAND", "站立點"), ("POI", "互動點")]
-        x0 = px_w - 330
+        x0 = 90 if small else px_w - 330
+        ly = 36 if small else 6
         for k, (t, z) in enumerate(lg):
             xx = x0 + k * 105
-            dr.ellipse([xx, 10, xx + 12, 22], fill=colors[t] + (255,))
-            dr.text((xx + 16, 6), z, fill=(0, 0, 0), font=f)
-        dr.line([(x0 - 70, 16), (x0 - 52, 16)], fill=(0, 170, 80), width=6)
-        dr.text((x0 - 48, 6), "門", fill=(0, 0, 0), font=f)
+            dr.ellipse([xx, ly + 4, xx + 12, ly + 16], fill=colors[t] + (255,))
+            dr.text((xx + 16, ly), z, fill=(0, 0, 0), font=f)
+        dr.line([(x0 - 70, ly + 10), (x0 - 52, ly + 10)], fill=(0, 170, 80), width=6)
+        dr.text((x0 - 48, ly), "門", fill=(0, 0, 0), font=f)
         img.save(os.path.join(out_dir, "plan.png"))
