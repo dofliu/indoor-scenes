@@ -433,3 +433,54 @@ def bench(S, x, y, yaw=0.0, w=1.6, d=0.45, h=0.45, color="fabric_teal", name="Be
         p.box(sx * (w / 2 - 0.1), 0, (h - 0.12) / 2, 0.04, d - 0.1, h - 0.12, "metal_dark")
     p.finish(footprint=(w, d))
     return p
+
+
+def server_rack(S, x, y, yaw=0.0, w=0.6, d=1.0, h=2.0, units=9, seed=0, name="Rack"):
+    """19 吋伺服器機櫃。正面（網孔門＋LED）朝 -Y（piece 區域座標）；yaw=π 時朝 +Y。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, h / 2, w, d, h, "metal_dark")
+    p.box(0, 0, 0.04, w + 0.02, d + 0.02, 0.08, "plastic_black")                       # 底座
+    fy = -d / 2 - 0.004
+    p.box(0, fy, h / 2, w - 0.06, 0.012, h - 0.12, mat("rack_door", (0.06, 0.07, 0.08), rough=0.4, metal=0.6))
+    uh = (h - 0.3) / units
+    for i in range(units):
+        z = 0.18 + uh * (i + 0.5)
+        p.box(0, fy - 0.01, z, w - 0.1, 0.012, uh - 0.025, "plastic_black")
+        k = (seed * 7 + i * 5) % 5
+        col = [(0.2, 0.9, 0.3), (0.2, 0.9, 0.3), (0.2, 0.9, 0.3), (0.2, 0.6, 1.0), (1.0, 0.6, 0.1)][k]
+        nm = "led_" + "_".join("%d" % (c * 10) for c in col)
+        led = mat(nm, col, emit=col)
+        for j in range(3):
+            p.box(-w / 2 + 0.1 + j * 0.035, fy - 0.018, z, 0.015, 0.006, 0.012, led)
+        p.box(w / 2 - 0.12, fy - 0.018, z, 0.14, 0.006, 0.012, "metal")
+    p.finish(footprint=(w, d))
+    return p
+
+
+def crac_unit(S, x, y, yaw=0.0, w=1.0, d=0.9, h=2.0, name="CRAC"):
+    """機房精密空調（前面板朝 -Y）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, h / 2, w, d, h, "plastic_white")
+    p.box(0, -d / 2 - 0.006, h * 0.72, w - 0.12, 0.012, 0.7, mat("vent_dark", (0.1, 0.12, 0.14), rough=0.5))
+    for k in range(5):
+        p.box(0, -d / 2 - 0.014, h * 0.5 + 0.18 + k * 0.1, w - 0.2, 0.01, 0.02, "metal")
+    p.box(0.25, -d / 2 - 0.008, 0.6, 0.3, 0.012, 0.2, "panel_blue")
+    p.box(0, 0, 0.04, w + 0.02, d + 0.02, 0.08, "metal_dark")
+    p.finish(footprint=(w, d))
+    return p
+
+
+def cable_tray(S, x0, y0, x1, y1, z=2.55, w=0.3, name="CableTray"):
+    """天花板線槽（軸向對齊，僅裝飾）。"""
+    p = Piece(S, name, (x0 + x1) / 2, (y0 + y1) / 2, z, coll="PROPS")
+    lx, ly = abs(x1 - x0), abs(y1 - y0)
+    if lx >= ly:
+        p.box(0, 0, 0, lx, w, 0.02, "metal")
+        for sy in (-1, 1):
+            p.box(0, sy * w / 2, 0.04, lx, 0.015, 0.08, "metal")
+    else:
+        p.box(0, 0, 0, w, ly, 0.02, "metal")
+        for sx in (-1, 1):
+            p.box(sx * w / 2, 0, 0.04, 0.015, ly, 0.08, "metal")
+    p.finish(obstacle=False)
+    return p
