@@ -108,6 +108,18 @@
         10,
         8
       ]
+    },
+    {
+      "scene": "012_server_room",
+      "offset": [
+        20,
+        0
+      ],
+      "rot": 0,
+      "size_m": [
+        8,
+        6
+      ]
     }
   ],
   "doors": [
@@ -540,6 +552,30 @@
       "position": [
         29.9,
         15.0,
+        0.0
+      ]
+    },
+    {
+      "id": "T09_DOOR_S_01",
+      "tile": 9,
+      "scene": "012_server_room",
+      "wall": "S",
+      "width_m": 1.0,
+      "position": [
+        21.0,
+        0.1,
+        0.0
+      ]
+    },
+    {
+      "id": "T09_DOOR_W_01",
+      "tile": 9,
+      "scene": "012_server_room",
+      "wall": "W",
+      "width_m": 1.0,
+      "position": [
+        20.1,
+        3.0,
         0.0
       ]
     }
@@ -2284,8 +2320,272 @@
       ],
       "yaw_deg": 0.0,
       "tile": 8
+    },
+    {
+      "id": "T09_STAND_rack_01",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        22.3,
+        3.3,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 9
+    },
+    {
+      "id": "T09_STAND_rack_07",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        22.3,
+        3.1,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 9
+    },
+    {
+      "id": "T09_STAND_rack_02",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        22.9,
+        3.3,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 9
+    },
+    {
+      "id": "T09_STAND_rack_08",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        22.9,
+        3.1,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 9
+    },
+    {
+      "id": "T09_STAND_rack_03",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        23.5,
+        3.3,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 9
+    },
+    {
+      "id": "T09_STAND_rack_09",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        23.5,
+        3.1,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 9
+    },
+    {
+      "id": "T09_STAND_rack_04",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        24.1,
+        3.3,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 9
+    },
+    {
+      "id": "T09_STAND_rack_10",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        24.1,
+        3.1,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 9
+    },
+    {
+      "id": "T09_STAND_rack_05",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        24.7,
+        3.3,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 9
+    },
+    {
+      "id": "T09_STAND_rack_11",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        24.7,
+        3.1,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 9
+    },
+    {
+      "id": "T09_STAND_rack_06",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        25.3,
+        3.3,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 9
+    },
+    {
+      "id": "T09_STAND_rack_12",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        25.3,
+        3.1,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 9
+    },
+    {
+      "id": "T09_STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        22.6,
+        3.2,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 9
+    },
+    {
+      "id": "T09_STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        23.8,
+        3.2,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 9
+    },
+    {
+      "id": "T09_STATUS_03",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        25.0,
+        3.2,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 9
+    },
+    {
+      "id": "T09_POI_cooling_01",
+      "type": "POI",
+      "use": "cooling",
+      "position": [
+        26.65,
+        1.4,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 9
+    },
+    {
+      "id": "T09_POI_cooling_02",
+      "type": "POI",
+      "use": "cooling",
+      "position": [
+        26.65,
+        3.0,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 9
+    },
+    {
+      "id": "T09_POI_ups_01",
+      "type": "POI",
+      "use": "ups",
+      "position": [
+        26.65,
+        4.6,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 9
+    },
+    {
+      "id": "T09_SEAT_desk_01",
+      "type": "SEAT",
+      "use": "desk",
+      "position": [
+        21.0,
+        4.6,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 9
+    },
+    {
+      "id": "T09_STATUS_04",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        21.0,
+        5.4,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 9
+    },
+    {
+      "id": "T09_POI_crashcart_01",
+      "type": "POI",
+      "use": "crashcart",
+      "position": [
+        21.2,
+        1.2,
+        0.0
+      ],
+      "yaw_deg": 90,
+      "tile": 9
+    },
+    {
+      "id": "T09_POI_spareparts_02",
+      "type": "POI",
+      "use": "spareparts",
+      "position": [
+        21.2,
+        2.4,
+        0.0
+      ],
+      "yaw_deg": 90,
+      "tile": 9
     }
   ],
-  "connected_door_pairs": 9,
+  "connected_door_pairs": 10,
   "warnings": []
 }

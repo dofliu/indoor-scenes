@@ -11,6 +11,7 @@
     { "scene": "007_corridor_straight", "offset": [12, 16], "rot": 0 },
     { "scene": "002_meeting_room", "offset": [12, 18], "rot": 0 },
     { "scene": "003_huddle_room", "offset": [14, 12], "rot": 0 },
-    { "scene": "005_lounge", "offset": [20, 14], "rot": 0 }
+    { "scene": "005_lounge", "offset": [20, 14], "rot": 0 },
+    { "scene": "012_server_room", "offset": [20, 0], "rot": 0 }
   ]
 }

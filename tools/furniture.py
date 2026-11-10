@@ -433,3 +433,67 @@ def bench(S, x, y, yaw=0.0, w=1.6, d=0.45, h=0.45, color="fabric_teal", name="Be
         p.box(sx * (w / 2 - 0.1), 0, (h - 0.12) / 2, 0.04, d - 0.1, h - 0.12, "metal_dark")
     p.finish(footprint=(w, d))
     return p
+
+
+def server_rack(S, x, y, yaw=0.0, w=0.6, d=1.0, h=2.0, name="Rack", leds=True):
+    """19 吋伺服器機櫃（正面朝本地 -Y；yaw=0 時機櫃正面朝南）。含伺服器面板與狀態 LED。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, h / 2, w, d, h, "metal_dark")
+    p.box(0, -d / 2 - 0.01, h / 2, w - 0.06, 0.02, h - 0.1, mat("rack_front", (0.07, 0.08, 0.09), rough=0.4, metal=0.5))
+    green = mat("led_green", (0.1, 0.9, 0.3), emit=(0.1, 0.9, 0.3))
+    blue = mat("led_blue", (0.2, 0.5, 1.0), emit=(0.2, 0.5, 1.0))
+    for i in range(10):
+        zc = 0.25 + i * 0.17
+        p.box(0, -d / 2 - 0.025, zc, w - 0.1, 0.02, 0.14, "metal")
+        if leds:
+            p.box(-w / 2 + 0.09, -d / 2 - 0.04, zc, 0.03, 0.01, 0.02, green if i % 3 else blue)
+    p.finish(footprint=(w, d))
+    return p
+
+
+def crac_unit(S, x, y, yaw=0.0, w=0.9, d=0.9, h=1.9, name="CoolingUnit"):
+    """精密空調（機房冷卻單元），正面朝本地 -Y。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, h / 2, w, d, h, "cabinet")
+    p.box(0, -d / 2 - 0.01, h * 0.7, w - 0.2, 0.02, 0.6, "metal")
+    for i in range(6):
+        p.box(0, -d / 2 - 0.015, 0.2 + i * 0.1, w - 0.2, 0.02, 0.02, "metal_dark")
+    p.box(0.25, -d / 2 - 0.02, h * 0.45, 0.2, 0.02, 0.1, mat("crac_display", (0.1, 0.3, 0.5), emit=(0.1, 0.4, 0.7)))
+    p.finish(footprint=(w, d))
+    return p
+
+
+def ups_cabinet(S, x, y, yaw=0.0, w=0.8, d=0.8, h=1.7, name="UPS"):
+    """不斷電系統櫃，正面朝本地 -Y。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, h / 2, w, d, h, "fabric_grey")
+    p.box(0, -d / 2 - 0.01, h * 0.8, 0.4, 0.02, 0.25, mat("ups_display", (0.1, 0.5, 0.2), emit=(0.1, 0.8, 0.3)))
+    p.box(0, -d / 2 - 0.01, h * 0.35, w - 0.1, 0.02, h * 0.5, "metal_dark")
+    p.finish(footprint=(w, d))
+    return p
+
+
+def cable_tray(S, x, y, length, yaw=0.0, z=2.5, w=0.4, name="CableTray"):
+    """天花吊掛線槽（沿本地 X 方向）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, 0, 0, length, w, 0.03, "metal")
+    for sy in (-1, 1):
+        p.box(0, sy * (w / 2 - 0.01), 0.04, length, 0.02, 0.08, "metal")
+    for i in range(int(length // 1.5) + 1):
+        p.box(-length / 2 + 0.2 + i * 1.5, 0, 0.2, 0.03, w, 0.03, "metal_dark")
+    p.finish(obstacle=False)
+    return p
+
+
+def crash_cart(S, x, y, yaw=0.0, name="CrashCart"):
+    """機房推車（螢幕＋鍵盤），使用者面向本地 +Y 側。"""
+    p = Piece(S, name, x, y, yaw=yaw, coll="PROPS")
+    p.box(0, 0, 0.45, 0.6, 0.5, 0.04, "metal")
+    p.box(0, 0, 0.1, 0.6, 0.5, 0.03, "metal")
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.box(sx * 0.28, sy * 0.22, 0.25, 0.03, 0.03, 0.5, "metal_dark")
+    p.box(0, 0.1, 0.8, 0.4, 0.03, 0.28, "screen")
+    p.box(0, -0.05, 0.49, 0.36, 0.14, 0.015, "plastic_black")
+    p.finish(footprint=(0.6, 0.5))
+    return p

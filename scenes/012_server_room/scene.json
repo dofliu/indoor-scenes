@@ -1,0 +1,302 @@
+{
+  "id": "012",
+  "name_zh": "伺服器機房",
+  "name_en": "Server Room",
+  "category": "office",
+  "size_m": [
+    8,
+    6
+  ],
+  "height_m": 3.0,
+  "doors": [
+    {
+      "id": "DOOR_S_01",
+      "wall": "S",
+      "offset_m": 1.0,
+      "width_m": 1.0,
+      "position": [
+        1.0,
+        0.1,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_W_01",
+      "wall": "W",
+      "offset_m": 3.0,
+      "width_m": 1.0,
+      "position": [
+        0.1,
+        3.0,
+        0.0
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "id": "STAND_rack_01",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        2.3,
+        3.3,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_rack_07",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        2.3,
+        3.1,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_rack_02",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        2.9,
+        3.3,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_rack_08",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        2.9,
+        3.1,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_rack_03",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        3.5,
+        3.3,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_rack_09",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        3.5,
+        3.1,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_rack_04",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        4.1,
+        3.3,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_rack_10",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        4.1,
+        3.1,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_rack_05",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        4.7,
+        3.3,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_rack_11",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        4.7,
+        3.1,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_rack_06",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        5.3,
+        3.3,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_rack_12",
+      "type": "STAND",
+      "use": "rack",
+      "position": [
+        5.3,
+        3.1,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        2.6,
+        3.2,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        3.8,
+        3.2,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_03",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        5.0,
+        3.2,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "POI_cooling_01",
+      "type": "POI",
+      "use": "cooling",
+      "position": [
+        6.65,
+        1.4,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "POI_cooling_02",
+      "type": "POI",
+      "use": "cooling",
+      "position": [
+        6.65,
+        3.0,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "POI_ups_01",
+      "type": "POI",
+      "use": "ups",
+      "position": [
+        6.65,
+        4.6,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "SEAT_desk_01",
+      "type": "SEAT",
+      "use": "desk",
+      "position": [
+        1.0,
+        4.6,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_04",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        1.0,
+        5.4,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "POI_crashcart_01",
+      "type": "POI",
+      "use": "crashcart",
+      "position": [
+        1.2,
+        1.2,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "POI_spareparts_02",
+      "type": "POI",
+      "use": "spareparts",
+      "position": [
+        1.2,
+        2.4,
+        0.0
+      ],
+      "yaw_deg": 90
+    }
+  ],
+  "tags": [
+    "datacenter",
+    "server",
+    "rack",
+    "cooling",
+    "ups"
+  ],
+  "nav": {
+    "file": "navmesh.glb",
+    "cell_m": 0.25,
+    "margin_m": 0.3,
+    "cells": 261
+  },
+  "files": {
+    "blend": "scene.blend",
+    "glb": "scene.glb",
+    "navmesh": "navmesh.glb",
+    "preview": "preview.png",
+    "plan": "plan.png",
+    "build": "build.py"
+  },
+  "coord": "Blender Z-up, +Y north, SW corner origin; glb is glTF Y-up (gx=x, gy=z, gz=-y)",
+  "created": "2026-11-10"
+}
