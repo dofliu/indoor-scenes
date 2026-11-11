@@ -1,6 +1,6 @@
 {
   "name": "demo_floor",
-  "name_zh": "組合範例（001＋002）",
+  "name_zh": "組合範例（001＋002＋003）",
   "grid_m": 2,
   "tiles": [
     {
@@ -16,6 +16,14 @@
       "offset": [
         16,
         0
+      ],
+      "rot": 180
+    },
+    {
+      "scene": "003_huddle_rooms",
+      "offset": [
+        16,
+        6
       ],
       "rot": 0
     }

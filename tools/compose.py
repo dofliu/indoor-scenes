@@ -79,6 +79,8 @@ def main(layout_path):
                           "width_m": dr["width_m"], "position": [round(ox + x, 3), round(oy + y, 3), 0.0]})
         for a in sj["anchors"]:
             x, y = rot_pt(a["position"], rot, W, D)
+            if a.get("status"):
+                a = {**a, "status": "T%02d_%s" % (ti, a["status"])}
             anchors.append({**a, "id": "T%02d_%s" % (ti, a["id"]), "tile": ti,
                             "position": [round(ox + x, 3), round(oy + y, 3), a["position"][2]],
                             "yaw_deg": ((a["yaw_deg"] + rot + 180) % 360) - 180})

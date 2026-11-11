@@ -200,6 +200,8 @@ function astar(sx,sz,gx,gz){
 
 // ---- Demo 人物
 const STATES={work:['工作中','#7CFC9A'],meet:['開會中','#ffd166'],rest:['休息','#7fd6ff'],idle:['閒置','#c8c8c8'],walk:['移動中','#ffffff']};
+// 錨點用途 → 狀態（未列出者視為工作中）
+const USE_STATE={meeting:'meet',huddle:'meet',duo:'meet',whiteboard:'meet',screen:'meet',lounge:'rest',wait:'rest',sofa:'rest',break:'rest',game:'rest',coffee:'rest'};
 function startDemo(){
   stopDemo();
   if(!meta||!nav) return;
@@ -207,7 +209,9 @@ function startDemo(){
   const status=A.filter(a=>a.type==='STATUS');
   // STATUS ↔ 最近的 SEAT
   const near=new Map();
-  for(const s of seats){ let b=null,bd=1e9; for(const t of status){ const d=Math.hypot(t.position[0]-s.position[0],t.position[1]-s.position[1]); if(d<bd){bd=d;b=t;} } if(b&&!near.has(s.id)) near.set(s.id,b); }
+  const explicit=A.some(a=>a.status);
+  if(explicit){ for(const s of A){ const t=s.status&&status.find(x=>x.id===s.status); if(t) near.set(s.id,t); } }
+  else for(const s of seats){ let b=null,bd=1e9; for(const t of status){ const d=Math.hypot(t.position[0]-s.position[0],t.position[1]-s.position[1]); if(d<bd){bd=d;b=t;} } if(b&&!near.has(s.id)) near.set(s.id,b); }
   const lab=new Map();
   for(const t of status){ const L=makeLabel('閒置','#c8c8c8'); L.sprite.position.copy(B2T(t.position)); scene.add(L.sprite); labels.push(L); lab.set(t.id,L); }
   const n=Math.min(8,Math.max(2,Math.floor(seats.length*0.5)));
@@ -228,7 +232,8 @@ function startDemo(){
     const arr=[...nav.walk]; const [ci,cj]=arr[Math.floor(Math.random()*arr.length)].split(',').map(Number);
     mesh.position.x=(ci+.5)*nav.cell; mesh.position.z=(cj+.5)*nav.cell;
     p.next=()=>{
-      if(p.seat){ used.delete(p.seat); p.seat=null; if(p.seatLab) p.seatLab.set('閒置','#c8c8c8'); p.seatLab=null; mesh.position.y=0.75; }
+      if(p.seat){ used.delete(p.seat); p.seat=null; mesh.position.y=0.75; }
+      if(p.seatLab){ const L=p.seatLab; p.seatLab=null; const o=people.find(q=>q!==p&&q.seatLab===L); if(o) L.set(STATES[o.state][0],STATES[o.state][1]); else L.set('閒置','#c8c8c8'); }
       let t,tries=0; do{ t=targets(); tries++; }while(t.kind==='seat'&&used.has(t.a.id)&&tries<10);
       if(t.kind==='seat'&&used.has(t.a.id)) t={a:(pois[0]||stands[0]||seats[0]),kind:'poi'};
       p.target=t; if(t.kind==='seat') used.add(t.a.id);
@@ -239,9 +244,10 @@ function startDemo(){
     p.arrive=()=>{
       const t=p.target, a=t.a;
       const yaw=a.yaw_deg*Math.PI/180; mesh.rotation.y=yaw; // Three：+Y軸旋轉 θ 讓 -Z(北) 朝 (-sinθ,-cosθ)
-      if(t.kind==='seat'){ p.seat=a.id; const isMeet=a.use==='meeting'; p.state=isMeet?'meet':'work'; mesh.position.y=0.5; p.wait=6+Math.random()*10;
+      if(t.kind==='seat'){ p.seat=a.id; p.state=USE_STATE[a.use]||'work'; mesh.position.y=0.5; p.wait=6+Math.random()*10;
         const s=near.get(a.id); if(s&&lab.get(s.id)){ p.seatLab=lab.get(s.id); p.seatLab.set(STATES[p.state][0],STATES[p.state][1]); } }
-      else if(t.kind==='stand'){ p.state='work'; p.wait=4+Math.random()*6; }
+      else if(t.kind==='stand'){ p.state=USE_STATE[a.use]||'work'; p.wait=4+Math.random()*6;
+        const s=near.get(a.id); if(s&&lab.get(s.id)){ p.seatLab=lab.get(s.id); p.seatLab.set(STATES[p.state][0],STATES[p.state][1]); } }
       else { p.state='rest'; p.wait=4+Math.random()*5; }
     };
     p.next(); people.push(p);

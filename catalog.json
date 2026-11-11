@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-07",
+  "updated": "2026-11-11",
   "scenes": [
     {
       "id": "001",
@@ -46,6 +46,30 @@
       ],
       "created": "2026-11-07",
       "preview": "scenes/002_meeting_room/preview.png"
+    },
+    {
+      "id": "003",
+      "dir": "003_huddle_rooms",
+      "name_zh": "小型討論室與電話亭",
+      "name_en": "Huddle Rooms & Phone Booths",
+      "category": "meeting",
+      "size_m": [
+        8,
+        6
+      ],
+      "height_m": 3.0,
+      "doors": 3,
+      "anchors": 22,
+      "seats": 13,
+      "tags": [
+        "meeting",
+        "huddle",
+        "phone-booth",
+        "focus",
+        "2-4-seats"
+      ],
+      "created": "2026-11-11",
+      "preview": "scenes/003_huddle_rooms/preview.png"
     }
   ]
 }

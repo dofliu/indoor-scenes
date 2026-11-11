@@ -192,8 +192,10 @@ class Scene:
         self._counters[key] = self._counters.get(key, 0) + 1
         return self._counters[key]
 
-    def anchor(self, typ, use, x, y, yaw_deg=0.0, n=None, z=None):
-        """typ: SEAT/STAND/POI/STATUS；SEAT/STAND/POI 的 use 為用途；STATUS 無 use。"""
+    def anchor(self, typ, use, x, y, yaw_deg=0.0, n=None, z=None, status=None):
+        """typ: SEAT/STAND/POI/STATUS；SEAT/STAND/POI 的 use 為用途；STATUS 無 use。
+        status=k（選用）：此錨點對應的狀態燈 STATUS_<k>，寫入 scene.json 的 "status" 欄位；
+        場景內只要有任一錨點指定 status，程式端就應只用明確對應（未指定者不顯示狀態）。"""
         yaw_deg = snap_yaw(yaw_deg)
         if typ == "STATUS":
             n = n or self._next("STATUS")
@@ -201,9 +203,13 @@ class Scene:
         else:
             n = n or self._next(typ + use)
             name, z = "%s_%s_%02d" % (typ, use, n), (0.0 if z is None else z)
-        self._empty(name, x, y, z, yaw_deg, props={"anchor_type": typ, "use": use})
-        self.anchors.append({"id": name, "type": typ, "use": use,
-                             "position": [round(x, 3), round(y, 3), round(z, 3)], "yaw_deg": round(yaw_deg, 2)})
+        props = {"anchor_type": typ, "use": use}
+        rec = {"id": name, "type": typ, "use": use,
+               "position": [round(x, 3), round(y, 3), round(z, 3)], "yaw_deg": round(yaw_deg, 2)}
+        if status is not None and typ != "STATUS":
+            props["status"] = rec["status"] = "STATUS_%02d" % status
+        self._empty(name, x, y, z, yaw_deg, props=props)
+        self.anchors.append(rec)
         return name
 
     # ---------- 結構
@@ -531,6 +537,7 @@ class Scene:
         sc.render.filepath = os.path.join(out_dir, "_plan_raw.png")
         sc.view_settings.view_transform = "Standard"
         sc.render.film_transparent = False
+        sc.view_settings.exposure *= 0.4   # 平面圖以清楚為主：減弱場景自訂的降曝光
         sc.world.color = (0.97, 0.97, 0.97)
         bpy.ops.render.render(write_still=True)
         from PIL import Image, ImageDraw, ImageFont
@@ -578,9 +585,15 @@ class Scene:
                 lab = a["id"].split("_")[-1]
             dr.text((px + 8, py + 5), lab, fill=(20, 20, 20), font=f)
         dr.rectangle([0, 0, px_w, 34], fill=(255, 255, 255, 230))
-        dr.text((10, 5), "%s %s  %s  %d×%d m  H=%.1f m" % (self.id, self.name_zh, self.name_en, W, D, self.H), fill=(0, 0, 0), font=fb)
         lg = [("SEAT", "坐下點"), ("STAND", "站立點"), ("POI", "互動點")]
         x0 = px_w - 330
+        title = "%s %s  %s  %d×%d m  H=%.1f m" % (self.id, self.name_zh, self.name_en, W, D, self.H)
+        if dr.textlength(title, font=fb) > x0 - 90:   # 窄場景：標題過長時省略英文名，避免與圖例重疊
+            title = "%s %s  %d×%d m" % (self.id, self.name_zh, W, D)
+        tf = fb
+        if dr.textlength(title, font=fb) > x0 - 90:
+            title, tf = "%s %s" % (self.id, self.name_zh), f
+        dr.text((10, 5 if tf is fb else 9), title, fill=(0, 0, 0), font=tf)
         for k, (t, z) in enumerate(lg):
             xx = x0 + k * 105
             dr.ellipse([xx, 10, xx + 12, 22], fill=colors[t] + (255,))
