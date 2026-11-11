@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-10",
+  "updated": "2026-11-11",
   "scenes": [
     {
       "id": "001",
@@ -279,6 +279,30 @@
       ],
       "created": "2026-11-10",
       "preview": "scenes/012_server_room/preview.png"
+    },
+    {
+      "id": "013",
+      "dir": "013_mission_control",
+      "name_zh": "AI 代理人公司：任務控制中心",
+      "name_en": "AI Agent Company: Mission Control",
+      "category": "office",
+      "size_m": [
+        12,
+        8
+      ],
+      "height_m": 3.0,
+      "doors": 2,
+      "anchors": 26,
+      "seats": 11,
+      "tags": [
+        "ai-company",
+        "mission-control",
+        "video-wall",
+        "console",
+        "monitoring"
+      ],
+      "created": "2026-11-11",
+      "preview": "scenes/013_mission_control/preview.png"
     }
   ]
 }

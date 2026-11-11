@@ -2,7 +2,7 @@
 用法：python3 tools/compose.py compose/layout.json
 layout.json：{"name":..., "tiles":[{"scene":"001_open_office","offset":[x,y],"rot":0|90|180|270}]}
 offset 為該場景「旋轉後外框」西南角的位置（須為 2 m 倍數）；旋轉繞原場景 SW 角，之後自動平移使外框落在 offset。
-輸出：compose/<name>.blend、<name>.glb、<name>.json（合併後的門／錨點／警告，含門對齊檢查）、<name>_navmesh.glb。"""
+輸出：compose/<name>.blend、<name>.glb、<name>.json（合併後的門／錨點／警告，含門對齊檢查）、<name>_navmesh.glb、<name>_top.png（頂視圖）。"""
 import sys, os, json, math
 import bpy
 from mathutils import Matrix, Vector
@@ -27,6 +27,47 @@ def rot_pt(p, rot, W, D):
 
 def footprint(W, D, rot):
     return (D, W) if rot % 180 else (W, D)
+
+
+def render_top(path, rects, navs, width=1280):
+    """輸出整層樓的正交頂視圖 <name>_top.png（隱藏天花板、燈板與導航網格；+Y 北朝上）。"""
+    sc = bpy.context.scene
+    x0, y0 = min(r[0] for r in rects), min(r[1] for r in rects)
+    x1, y1 = max(r[0] + r[2] for r in rects), max(r[1] + r[3] for r in rects)
+    pad = 1.0
+    w, h = x1 - x0 + 2 * pad, y1 - y0 + 2 * pad
+    for o in bpy.data.objects:
+        if "Ceiling" in o.name or "LightPanel" in o.name:
+            o.hide_render = True
+    for o in navs:
+        o.hide_render = True
+    cam = bpy.data.cameras.new("TopCam")
+    cam.type, cam.ortho_scale, cam.clip_end = "ORTHO", max(w, h), 200
+    co = bpy.data.objects.new("TopCam", cam)
+    co.location = ((x0 + x1) / 2, (y0 + y1) / 2, 50)
+    sc.collection.objects.link(co)
+    sc.camera = co
+    sun = bpy.data.lights.new("TopSun", "SUN")
+    sun.energy, sun.angle = 2.0, math.radians(20)
+    so = bpy.data.objects.new("TopSun", sun)
+    so.rotation_euler = (math.radians(12), math.radians(8), 0)
+    sc.collection.objects.link(so)
+    wd = bpy.data.worlds.new("TopWorld")
+    wd.use_nodes = True
+    wd.node_tree.nodes["Background"].inputs["Color"].default_value = (0.9, 0.93, 1.0, 1)
+    wd.node_tree.nodes["Background"].inputs["Strength"].default_value = 0.6
+    sc.world = wd
+    sc.render.engine = "CYCLES"
+    sc.cycles.device, sc.cycles.samples, sc.cycles.use_denoising, sc.cycles.max_bounces = "CPU", 16, True, 2
+    sc.render.resolution_x, sc.render.resolution_y = width, int(round(width * h / w))
+    sc.render.resolution_percentage = 100
+    sc.view_settings.view_transform = "Standard"
+    sc.view_settings.exposure = -0.6
+    sc.render.image_settings.file_format = "PNG"
+    sc.render.filepath = path
+    bpy.ops.render.render(write_still=True)
+    bpy.data.objects.remove(co)
+    bpy.data.objects.remove(so)
 
 
 def main(layout_path):
@@ -106,6 +147,7 @@ def main(layout_path):
         o.select_set(True)
     bpy.ops.export_scene.gltf(filepath=os.path.join(out, name + "_navmesh.glb"), export_format="GLB",
                               export_extras=True, use_selection=True)
+    render_top(os.path.join(out, name + "_top.png"), rects, navs)
     print("組合完成：%s tiles=%d doors=%d anchors=%d 連通門=%d 警告=%s" % (name, len(tiles_out), len(doors), len(anchors), connected, warns))
 
 

@@ -120,6 +120,30 @@
         8,
         6
       ]
+    },
+    {
+      "scene": "007_corridor_straight",
+      "offset": [
+        12,
+        10
+      ],
+      "rot": 0,
+      "size_m": [
+        8,
+        2
+      ]
+    },
+    {
+      "scene": "013_mission_control",
+      "offset": [
+        20,
+        6
+      ],
+      "rot": 0,
+      "size_m": [
+        12,
+        8
+      ]
     }
   ],
   "doors": [
@@ -576,6 +600,102 @@
       "position": [
         20.1,
         3.0,
+        0.0
+      ]
+    },
+    {
+      "id": "T10_DOOR_W_01",
+      "tile": 10,
+      "scene": "007_corridor_straight",
+      "wall": "W",
+      "width_m": 1.0,
+      "position": [
+        12.1,
+        11.0,
+        0.0
+      ]
+    },
+    {
+      "id": "T10_DOOR_E_01",
+      "tile": 10,
+      "scene": "007_corridor_straight",
+      "wall": "E",
+      "width_m": 1.0,
+      "position": [
+        19.9,
+        11.0,
+        0.0
+      ]
+    },
+    {
+      "id": "T10_DOOR_S_01",
+      "tile": 10,
+      "scene": "007_corridor_straight",
+      "wall": "S",
+      "width_m": 1.0,
+      "position": [
+        15.0,
+        10.1,
+        0.0
+      ]
+    },
+    {
+      "id": "T10_DOOR_S_02",
+      "tile": 10,
+      "scene": "007_corridor_straight",
+      "wall": "S",
+      "width_m": 1.0,
+      "position": [
+        19.0,
+        10.1,
+        0.0
+      ]
+    },
+    {
+      "id": "T10_DOOR_N_01",
+      "tile": 10,
+      "scene": "007_corridor_straight",
+      "wall": "N",
+      "width_m": 1.0,
+      "position": [
+        15.0,
+        11.9,
+        0.0
+      ]
+    },
+    {
+      "id": "T10_DOOR_N_02",
+      "tile": 10,
+      "scene": "007_corridor_straight",
+      "wall": "N",
+      "width_m": 1.0,
+      "position": [
+        19.0,
+        11.9,
+        0.0
+      ]
+    },
+    {
+      "id": "T11_DOOR_W_01",
+      "tile": 11,
+      "scene": "013_mission_control",
+      "wall": "W",
+      "width_m": 1.0,
+      "position": [
+        20.1,
+        11.0,
+        0.0
+      ]
+    },
+    {
+      "id": "T11_DOOR_N_01",
+      "tile": 11,
+      "scene": "013_mission_control",
+      "wall": "N",
+      "width_m": 1.0,
+      "position": [
+        25.0,
+        13.9,
         0.0
       ]
     }
@@ -2584,8 +2704,392 @@
       ],
       "yaw_deg": 90,
       "tile": 9
+    },
+    {
+      "id": "T10_POI_waypoint_01",
+      "type": "POI",
+      "use": "waypoint",
+      "position": [
+        13.0,
+        11.0,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 10
+    },
+    {
+      "id": "T10_POI_waypoint_02",
+      "type": "POI",
+      "use": "waypoint",
+      "position": [
+        15.0,
+        11.0,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 10
+    },
+    {
+      "id": "T10_POI_waypoint_03",
+      "type": "POI",
+      "use": "waypoint",
+      "position": [
+        17.0,
+        11.0,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 10
+    },
+    {
+      "id": "T10_POI_waypoint_04",
+      "type": "POI",
+      "use": "waypoint",
+      "position": [
+        19.0,
+        11.0,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 10
+    },
+    {
+      "id": "T10_STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        16.0,
+        11.0,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 10
+    },
+    {
+      "id": "T10_STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        18.0,
+        11.0,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 10
+    },
+    {
+      "id": "T11_STAND_wall_01",
+      "type": "STAND",
+      "use": "wall",
+      "position": [
+        30.6,
+        8.8,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 11
+    },
+    {
+      "id": "T11_STAND_wall_02",
+      "type": "STAND",
+      "use": "wall",
+      "position": [
+        30.6,
+        11.2,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 11
+    },
+    {
+      "id": "T11_SEAT_console_01",
+      "type": "SEAT",
+      "use": "console",
+      "position": [
+        28.25,
+        8.4,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 11
+    },
+    {
+      "id": "T11_STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        28.8,
+        8.4,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 11
+    },
+    {
+      "id": "T11_SEAT_console_02",
+      "type": "SEAT",
+      "use": "console",
+      "position": [
+        28.25,
+        10.0,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 11
+    },
+    {
+      "id": "T11_STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        28.8,
+        10.0,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 11
+    },
+    {
+      "id": "T11_SEAT_console_03",
+      "type": "SEAT",
+      "use": "console",
+      "position": [
+        28.25,
+        11.6,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 11
+    },
+    {
+      "id": "T11_STATUS_03",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        28.8,
+        11.6,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 11
+    },
+    {
+      "id": "T11_SEAT_console_04",
+      "type": "SEAT",
+      "use": "console",
+      "position": [
+        26.35,
+        8.4,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 11
+    },
+    {
+      "id": "T11_STATUS_04",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        26.9,
+        8.4,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 11
+    },
+    {
+      "id": "T11_SEAT_console_05",
+      "type": "SEAT",
+      "use": "console",
+      "position": [
+        26.35,
+        10.0,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 11
+    },
+    {
+      "id": "T11_STATUS_05",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        26.9,
+        10.0,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 11
+    },
+    {
+      "id": "T11_SEAT_console_06",
+      "type": "SEAT",
+      "use": "console",
+      "position": [
+        26.35,
+        11.6,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 11
+    },
+    {
+      "id": "T11_STATUS_06",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        26.9,
+        11.6,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 11
+    },
+    {
+      "id": "T11_SEAT_console_07",
+      "type": "SEAT",
+      "use": "console",
+      "position": [
+        24.45,
+        8.4,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 11
+    },
+    {
+      "id": "T11_STATUS_07",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        25.0,
+        8.4,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 11
+    },
+    {
+      "id": "T11_SEAT_console_08",
+      "type": "SEAT",
+      "use": "console",
+      "position": [
+        24.45,
+        10.0,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 11
+    },
+    {
+      "id": "T11_STATUS_08",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        25.0,
+        10.0,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 11
+    },
+    {
+      "id": "T11_SEAT_console_09",
+      "type": "SEAT",
+      "use": "console",
+      "position": [
+        24.45,
+        11.6,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 11
+    },
+    {
+      "id": "T11_STATUS_09",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        25.0,
+        11.6,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 11
+    },
+    {
+      "id": "T11_SEAT_supervisor_01",
+      "type": "SEAT",
+      "use": "supervisor",
+      "position": [
+        22.3,
+        9.2,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 11
+    },
+    {
+      "id": "T11_SEAT_supervisor_02",
+      "type": "SEAT",
+      "use": "supervisor",
+      "position": [
+        22.3,
+        10.8,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 11
+    },
+    {
+      "id": "T11_STATUS_10",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        22.9,
+        10.0,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 11
+    },
+    {
+      "id": "T11_STAND_whiteboard_01",
+      "type": "STAND",
+      "use": "whiteboard",
+      "position": [
+        20.95,
+        8.6,
+        0.0
+      ],
+      "yaw_deg": 90,
+      "tile": 11
+    },
+    {
+      "id": "T11_POI_printer_01",
+      "type": "POI",
+      "use": "printer",
+      "position": [
+        21.6,
+        7.45,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 11
+    },
+    {
+      "id": "T11_POI_water_01",
+      "type": "POI",
+      "use": "water",
+      "position": [
+        21.15,
+        12.5,
+        0.0
+      ],
+      "yaw_deg": 90,
+      "tile": 11
     }
   ],
-  "connected_door_pairs": 10,
+  "connected_door_pairs": 13,
   "warnings": []
 }

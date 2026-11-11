@@ -531,6 +531,7 @@ class Scene:
         sc.render.filepath = os.path.join(out_dir, "_plan_raw.png")
         sc.view_settings.view_transform = "Standard"
         sc.render.film_transparent = False
+        sc.view_settings.exposure *= 0.4   # 平面圖以清楚為主：減弱場景自訂的降曝光
         sc.world.color = (0.97, 0.97, 0.97)
         bpy.ops.render.render(write_still=True)
         from PIL import Image, ImageDraw, ImageFont
@@ -578,9 +579,18 @@ class Scene:
                 lab = a["id"].split("_")[-1]
             dr.text((px + 8, py + 5), lab, fill=(20, 20, 20), font=f)
         dr.rectangle([0, 0, px_w, 34], fill=(255, 255, 255, 230))
-        dr.text((10, 5), "%s %s  %s  %d×%d m  H=%.1f m" % (self.id, self.name_zh, self.name_en, W, D, self.H), fill=(0, 0, 0), font=fb)
         lg = [("SEAT", "坐下點"), ("STAND", "站立點"), ("POI", "互動點")]
         x0 = px_w - 330
+        # 標題過長時依序省略英文名／尺寸／改小字，避免與右上角圖例重疊
+        lim = x0 - 90
+        title, tf = "%s %s  %s  %d×%d m  H=%.1f m" % (self.id, self.name_zh, self.name_en, W, D, self.H), fb
+        if dr.textlength(title, font=tf) > lim:
+            title = "%s %s  %d×%d m" % (self.id, self.name_zh, W, D)
+        if dr.textlength(title, font=tf) > lim:
+            tf = f
+        if dr.textlength(title, font=tf) > lim:
+            title = "%s %s" % (self.id, self.name_zh)
+        dr.text((10, 5 if tf is fb else 9), title, fill=(0, 0, 0), font=tf)
         for k, (t, z) in enumerate(lg):
             xx = x0 + k * 105
             dr.ellipse([xx, 10, xx + 12, 22], fill=colors[t] + (255,))

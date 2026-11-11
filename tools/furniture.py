@@ -497,3 +497,79 @@ def crash_cart(S, x, y, yaw=0.0, name="CrashCart"):
     p.box(0, -0.05, 0.49, 0.36, 0.14, 0.015, "plastic_black")
     p.finish(footprint=(0.6, 0.5))
     return p
+
+
+# ---------------------------------------------------------------- 控制中心（013 起）
+def control_console(S, x, y, yaw=0.0, w=1.6, d=0.85, h=0.74, screens=3, name="Console"):
+    """監控工位：桌面＋側板＋後方矮背牆＋弧形排列的 2–3 面螢幕＋鍵盤。使用者坐在 -Y 側、面向 +Y。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    glow = mat("screen_glow", (0.05, 0.15, 0.3), emit=(0.08, 0.3, 0.6))
+    p.box(0, 0, h - 0.02, w, d, 0.04, "desk_white")
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - 0.02), 0, (h - 0.04) / 2, 0.04, d - 0.06, h - 0.04, "desk_leg")
+    p.box(0, d / 2 - 0.03, 0.55, w, 0.06, 1.10, "desk_leg")                 # 背牆（遮線、隔開前排）
+    p.box(0, d / 2 - 0.03, 1.115, w, 0.10, 0.03, "metal")                   # 背牆頂蓋
+    sw, sh = 0.50, 0.30
+    offs = (-1, 0, 1) if screens >= 3 else (-0.5, 0.5)
+    for k in offs:
+        ang = -k * math.radians(22)
+        cx, cy = k * (sw + 0.015) * math.cos(math.radians(11) * abs(k)), d / 2 - 0.20 - abs(k) * 0.085
+        p.box(cx, cy + 0.04, h + 0.11, 0.04, 0.04, 0.22, "metal_dark", rz=ang)
+        p.box(cx, cy, h + 0.12 + sh / 2, sw, 0.025, sh, "plastic_black", rz=ang)
+        p.box(cx + 0.014 * math.sin(ang), cy - 0.014 * math.cos(ang), h + 0.12 + sh / 2, sw - 0.03, 0.002, sh - 0.03, glow, rz=ang)
+    p.box(0, -0.12, h + 0.01, 0.42, 0.14, 0.02, "plastic_white")             # 鍵盤
+    p.box(0.33, -0.12, h + 0.008, 0.06, 0.10, 0.016, "plastic_black")        # 滑鼠
+    p.box(-0.55, -0.05, h + 0.03, 0.16, 0.20, 0.06, "metal_dark")            # 通話面板
+    p.finish(footprint=(w, d))
+    return p
+
+
+def video_wall(S, x, y, yaw=0.0, cols=4, rows=2, tw=1.6, th=0.9, z=0.85, name="VideoWall"):
+    """拼接大螢幕牆，正面朝 -Y（(x,y) 為背面中心）。每格以發光方塊畫出通用的圖表／狀態矩陣／趨勢線（無文字、無商標）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    W, H = cols * tw, rows * th
+    base = mat("vw_base", (0.02, 0.05, 0.10), emit=(0.01, 0.035, 0.08))
+    cs = {"g": mat("vw_green", (0.1, 0.8, 0.4), emit=(0.08, 0.75, 0.35)),
+          "a": mat("vw_amber", (0.9, 0.6, 0.1), emit=(0.9, 0.55, 0.08)),
+          "r": mat("vw_red", (0.9, 0.2, 0.15), emit=(0.9, 0.15, 0.1)),
+          "b": mat("vw_blue", (0.2, 0.6, 0.95), emit=(0.15, 0.55, 0.95)),
+          "w": mat("vw_white", (0.8, 0.9, 1.0), emit=(0.6, 0.75, 0.9))}
+    p.box(0, -0.04, H / 2, W + 0.12, 0.08, H + 0.12, "plastic_black")
+    yf = -0.083
+
+    def E(u, v, su, sv, c):   # u,v 為牆面座標（左下為 -W/2, 0）
+        p.box(u, yf - 0.004, v, su, 0.004, sv, cs[c])
+    for i in range(cols):
+        for j in range(rows):
+            u0, v0 = -W / 2 + i * tw, j * th
+            p.box(u0 + tw / 2, yf, v0 + th / 2, tw - 0.03, 0.006, th - 0.03, base)
+            kind = (i + 2 * j) % 4
+            E(u0 + 0.33, v0 + th - 0.11, 0.42, 0.045, "w")                  # 標題列
+            if kind == 0:      # 長條圖
+                for k, hh in enumerate((0.25, 0.42, 0.33, 0.55, 0.47, 0.30, 0.52, 0.38)):
+                    E(u0 + 0.22 + k * 0.165, v0 + 0.10 + hh / 2, 0.10, hh, "b" if k % 3 else "g")
+            elif kind == 1:    # 代理人狀態矩陣
+                pat = "ggagggrggaggggggagggggga"
+                for k in range(24):
+                    E(u0 + 0.20 + (k % 8) * 0.17, v0 + 0.16 + (k // 8) * 0.17, 0.12, 0.12, pat[(k + 5 * i + 3 * j) % 24])
+            elif kind == 2:    # 趨勢折線（以短段近似）
+                ys = (0.20, 0.27, 0.24, 0.35, 0.31, 0.44, 0.40, 0.52, 0.49, 0.58)
+                for k, yy in enumerate(ys):
+                    E(u0 + 0.18 + k * 0.135, v0 + yy, 0.12, 0.03, "g")
+                    E(u0 + 0.18 + k * 0.135, v0 + yy * 0.55 + 0.04, 0.12, 0.03, "a")
+            else:              # 佇列／進度條
+                for k, ww in enumerate((1.1, 0.8, 1.25, 0.55, 0.95)):
+                    E(u0 + 0.15 + ww / 2, v0 + 0.14 + k * 0.115, ww, 0.06, ("b", "g", "b", "a", "g")[k])
+    p.finish(obstacle=False)
+    return p
+
+
+def pendant_status_lamp(S, x, y, z=2.2, name="StatusPendant", color=(0.2, 0.9, 0.3)):
+    """自天花板垂吊的狀態燈（細桿＋燈座＋發光球），發光球中心約在 STATUS 錨點高度 z。"""
+    p = Piece(S, name, x, y, 0, coll="PROPS")
+    top = S.H
+    p.cyl(0, 0, (top + z + 0.08) / 2, 0.008, top - z - 0.08, "metal_dark", seg=6)
+    p.cyl(0, 0, z + 0.07, 0.05, 0.04, "metal_dark", seg=12)
+    p.sphere(0, 0, z, 0.06, mat("status_" + "_".join("%d" % (c * 10) for c in color), color, emit=color), seg=10)
+    p.finish(obstacle=False)
+    return p
