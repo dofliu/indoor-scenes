@@ -144,6 +144,18 @@
         12,
         8
       ]
+    },
+    {
+      "scene": "014_agent_pods",
+      "offset": [
+        -14,
+        4
+      ],
+      "rot": 180,
+      "size_m": [
+        14,
+        6
+      ]
     }
   ],
   "doors": [
@@ -696,6 +708,54 @@
       "position": [
         25.0,
         13.9,
+        0.0
+      ]
+    },
+    {
+      "id": "T12_DOOR_S_01",
+      "tile": 12,
+      "scene": "014_agent_pods",
+      "wall": "N",
+      "width_m": 1.0,
+      "position": [
+        -3.0,
+        9.9,
+        0.0
+      ]
+    },
+    {
+      "id": "T12_DOOR_S_02",
+      "tile": 12,
+      "scene": "014_agent_pods",
+      "wall": "N",
+      "width_m": 1.0,
+      "position": [
+        -11.0,
+        9.9,
+        0.0
+      ]
+    },
+    {
+      "id": "T12_DOOR_W_01",
+      "tile": 12,
+      "scene": "014_agent_pods",
+      "wall": "E",
+      "width_m": 1.0,
+      "position": [
+        -0.1,
+        7.0,
+        0.0
+      ]
+    },
+    {
+      "id": "T12_DOOR_E_01",
+      "tile": 12,
+      "scene": "014_agent_pods",
+      "wall": "W",
+      "width_m": 1.0,
+      "position": [
+        -13.9,
+        7.0,
         0.0
       ]
     }
@@ -3088,8 +3148,284 @@
       ],
       "yaw_deg": 90,
       "tile": 11
+    },
+    {
+      "id": "T12_SEAT_pod_01",
+      "type": "SEAT",
+      "use": "pod",
+      "position": [
+        -1.4,
+        5.33,
+        0.0
+      ],
+      "yaw_deg": -180,
+      "tile": 12
+    },
+    {
+      "id": "T12_STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        -1.4,
+        4.23,
+        2.2
+      ],
+      "yaw_deg": -180.0,
+      "tile": 12
+    },
+    {
+      "id": "T12_SEAT_pod_02",
+      "type": "SEAT",
+      "use": "pod",
+      "position": [
+        -3.0,
+        5.33,
+        0.0
+      ],
+      "yaw_deg": -180,
+      "tile": 12
+    },
+    {
+      "id": "T12_STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        -3.0,
+        4.23,
+        2.2
+      ],
+      "yaw_deg": -180.0,
+      "tile": 12
+    },
+    {
+      "id": "T12_SEAT_pod_03",
+      "type": "SEAT",
+      "use": "pod",
+      "position": [
+        -4.6,
+        5.33,
+        0.0
+      ],
+      "yaw_deg": -180,
+      "tile": 12
+    },
+    {
+      "id": "T12_STATUS_03",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        -4.6,
+        4.23,
+        2.2
+      ],
+      "yaw_deg": -180.0,
+      "tile": 12
+    },
+    {
+      "id": "T12_SEAT_pod_04",
+      "type": "SEAT",
+      "use": "pod",
+      "position": [
+        -6.2,
+        5.33,
+        0.0
+      ],
+      "yaw_deg": -180,
+      "tile": 12
+    },
+    {
+      "id": "T12_STATUS_04",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        -6.2,
+        4.23,
+        2.2
+      ],
+      "yaw_deg": -180.0,
+      "tile": 12
+    },
+    {
+      "id": "T12_SEAT_pod_05",
+      "type": "SEAT",
+      "use": "pod",
+      "position": [
+        -7.8,
+        5.33,
+        0.0
+      ],
+      "yaw_deg": -180,
+      "tile": 12
+    },
+    {
+      "id": "T12_STATUS_05",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        -7.8,
+        4.23,
+        2.2
+      ],
+      "yaw_deg": -180.0,
+      "tile": 12
+    },
+    {
+      "id": "T12_SEAT_pod_06",
+      "type": "SEAT",
+      "use": "pod",
+      "position": [
+        -9.4,
+        5.33,
+        0.0
+      ],
+      "yaw_deg": -180,
+      "tile": 12
+    },
+    {
+      "id": "T12_STATUS_06",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        -9.4,
+        4.23,
+        2.2
+      ],
+      "yaw_deg": -180.0,
+      "tile": 12
+    },
+    {
+      "id": "T12_SEAT_pod_07",
+      "type": "SEAT",
+      "use": "pod",
+      "position": [
+        -11.0,
+        5.33,
+        0.0
+      ],
+      "yaw_deg": -180,
+      "tile": 12
+    },
+    {
+      "id": "T12_STATUS_07",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        -11.0,
+        4.23,
+        2.2
+      ],
+      "yaw_deg": -180.0,
+      "tile": 12
+    },
+    {
+      "id": "T12_SEAT_pod_08",
+      "type": "SEAT",
+      "use": "pod",
+      "position": [
+        -12.6,
+        5.33,
+        0.0
+      ],
+      "yaw_deg": -180,
+      "tile": 12
+    },
+    {
+      "id": "T12_STATUS_08",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        -12.6,
+        4.23,
+        2.2
+      ],
+      "yaw_deg": -180.0,
+      "tile": 12
+    },
+    {
+      "id": "T12_STAND_overview_01",
+      "type": "STAND",
+      "use": "overview",
+      "position": [
+        -7.0,
+        8.7,
+        0.0
+      ],
+      "yaw_deg": 0.0,
+      "tile": 12
+    },
+    {
+      "id": "T12_STAND_handoff_01",
+      "type": "STAND",
+      "use": "handoff",
+      "position": [
+        -6.1,
+        7.45,
+        0.0
+      ],
+      "yaw_deg": 90,
+      "tile": 12
+    },
+    {
+      "id": "T12_STAND_handoff_02",
+      "type": "STAND",
+      "use": "handoff",
+      "position": [
+        -7.9,
+        7.45,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 12
+    },
+    {
+      "id": "T12_POI_supply_01",
+      "type": "POI",
+      "use": "supply",
+      "position": [
+        -4.75,
+        8.7,
+        0.0
+      ],
+      "yaw_deg": 0.0,
+      "tile": 12
+    },
+    {
+      "id": "T12_POI_supply_02",
+      "type": "POI",
+      "use": "supply",
+      "position": [
+        -9.25,
+        8.7,
+        0.0
+      ],
+      "yaw_deg": 0.0,
+      "tile": 12
+    },
+    {
+      "id": "T12_POI_printer_01",
+      "type": "POI",
+      "use": "printer",
+      "position": [
+        -12.7,
+        8.55,
+        0.0
+      ],
+      "yaw_deg": 0.0,
+      "tile": 12
+    },
+    {
+      "id": "T12_POI_water_01",
+      "type": "POI",
+      "use": "water",
+      "position": [
+        -1.15,
+        8.7,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 12
     }
   ],
-  "connected_door_pairs": 13,
+  "connected_door_pairs": 15,
   "warnings": []
 }

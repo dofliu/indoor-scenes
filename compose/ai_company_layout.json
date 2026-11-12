@@ -14,6 +14,7 @@
     { "scene": "005_lounge", "offset": [20, 14], "rot": 0 },
     { "scene": "012_server_room", "offset": [20, 0], "rot": 0 },
     { "scene": "007_corridor_straight", "offset": [12, 10], "rot": 0 },
-    { "scene": "013_mission_control", "offset": [20, 6], "rot": 0 }
+    { "scene": "013_mission_control", "offset": [20, 6], "rot": 0 },
+    { "scene": "014_agent_pods", "offset": [-14, 4], "rot": 180 }
   ]
 }

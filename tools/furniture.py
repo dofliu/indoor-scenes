@@ -573,3 +573,69 @@ def pendant_status_lamp(S, x, y, z=2.2, name="StatusPendant", color=(0.2, 0.9, 0
     p.sphere(0, 0, z, 0.06, mat("status_" + "_".join("%d" % (c * 10) for c in color), color, emit=color), seg=10)
     p.finish(obstacle=False)
     return p
+
+
+# ---------------------------------------------------------------- 代理人工作艙（014 起）
+def agent_pod(S, x, y, yaw=0.0, w=1.6, d=1.6, h=1.5, accent=(0.10, 0.50, 0.52), lamp=(0.2, 0.9, 0.3),
+              lamp_z=2.2, index=1, name="AgentPod"):
+    """標準化代理人工作艙：背板（+Y 側，靠牆）＋兩側隔板＋桌面＋雙螢幕＋運算單元＋地墊＋背板頂端狀態燈座。
+    (x,y) 為艙位中心，使用者坐在 -Y 側、面向 +Y；艙口開在 -Y 側。狀態燈球心在背板中央上方 lamp_z。
+    index 以背板上的小方點數量表示艙號（不使用文字）。回傳 (piece, 椅子位置, 狀態燈位置)（世界座標）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    glow = mat("screen_glow", (0.05, 0.15, 0.3), emit=(0.08, 0.3, 0.6))
+    acc = mat("pod_acc_" + "_".join("%d" % (c * 100) for c in accent), accent, rough=0.8)
+    shell = mat("pod_shell", (0.80, 0.82, 0.84), rough=0.7)
+    t = 0.06
+    yb = d / 2 - t / 2                      # 背板中心
+    side_len = d - 0.3                      # 側板不到艙口，留 0.3 m 讓出入口較寬
+    ys = d / 2 - side_len / 2
+    p.box(0, yb, h / 2, w, t, h, shell)                                   # 背板
+    p.box(0, yb - t / 2 - 0.006, h - 0.16, w - 2 * t, 0.012, 0.22, acc)       # 背板色帶
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - t / 2), ys, (h - 0.1) / 2, t, side_len, h - 0.1, shell)
+        p.box(sx * (w / 2 - t / 2), ys, h - 0.1 + 0.015, t + 0.02, side_len, 0.03, "metal_dark")
+        p.box(sx * (w / 2 - t / 2), d / 2 - side_len - 0.012, (h - 0.1) / 2, t + 0.01, 0.024, h - 0.1, acc)   # 側板端蓋
+    p.box(0, yb, h + 0.015, w + 0.02, t + 0.02, 0.03, "metal_dark")       # 背板頂蓋
+    # 桌面
+    dd, dh = 0.65, 0.74
+    yd = d / 2 - t - dd / 2
+    p.box(0, yd, dh - 0.015, w - 2 * t, dd, 0.03, "desk_white")
+    p.box(0, yd + dd / 2 - 0.25, dh / 2, 0.05, 0.05, dh - 0.03, "desk_leg")
+    p.box(0, yd - dd / 2 + 0.02, dh - 0.045, w - 2 * t, 0.03, 0.03, "desk_leg")
+    # 雙螢幕（掛在背板上）
+    sw, sh = 0.56, 0.33
+    for k in (-1, 1):
+        cx = k * (sw / 2 + 0.01)
+        p.box(cx, d / 2 - t - 0.035, dh + 0.14 + sh / 2, sw, 0.03, sh, "plastic_black")
+        p.box(cx, d / 2 - t - 0.052, dh + 0.14 + sh / 2, sw - 0.03, 0.002, sh - 0.03, glow)
+    p.box(0, d / 2 - t - 0.02, dh + 0.14 + sh / 2, 0.10, 0.04, 0.10, "metal_dark")
+    p.box(-0.05, yd - 0.12, dh + 0.01, 0.42, 0.14, 0.02, "plastic_white")       # 鍵盤
+    p.box(0.28, yd - 0.12, dh + 0.008, 0.06, 0.10, 0.016, "plastic_black")      # 滑鼠
+    # 桌下運算單元（通用機箱＋指示燈）
+    ux = w / 2 - t - 0.16
+    p.box(ux, yd + 0.05, 0.25, 0.20, 0.45, 0.46, "metal_dark")
+    led = mat("status_" + "_".join("%d" % (c * 10) for c in lamp), lamp, emit=lamp)
+    for k in range(3):
+        p.box(ux, yd + 0.05 - 0.2265, 0.38 - k * 0.07, 0.10, 0.004, 0.02, led)
+    # 艙號方點（背板色帶上）
+    for k in range(index):
+        p.box(-w / 2 + t + 0.12 + k * 0.07, yb - t / 2 - 0.014, h - 0.16, 0.04, 0.006, 0.04, "plastic_white")
+    # 地墊
+    p.box(0, -0.05, 0.004, w - 2 * t - 0.04, d - 0.2, 0.008, acc)
+    # 狀態燈座：背板頂端立桿＋燈座＋發光球
+    p.cyl(0, yb, (h + lamp_z - 0.08) / 2, 0.012, lamp_z - 0.08 - h, "metal_dark", seg=8)
+    p.cyl(0, yb, h + 0.05, 0.05, 0.04, "metal_dark", seg=12)
+    p.cyl(0, yb, lamp_z - 0.075, 0.045, 0.03, "metal_dark", seg=12)
+    p.sphere(0, yb, lamp_z, 0.07, led, seg=12)
+    p.finish()
+    # 導航障礙：背板＋桌、兩側隔板
+    c, s = math.cos(yaw), math.sin(yaw)
+
+    def wpt(lx, ly):
+        return (x + lx * c - ly * s, y + lx * s + ly * c)
+    ox, oy = wpt(0, d / 2 - (t + dd) / 2)
+    S.obstacles.append((ox, oy, yaw, w, t + dd))
+    for sx in (-1, 1):
+        ox, oy = wpt(sx * (w / 2 - t / 2), ys)
+        S.obstacles.append((ox, oy, yaw, t, side_len))
+    return p, wpt(0, yd - dd / 2 - 0.42), wpt(0, yb)

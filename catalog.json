@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-11",
+  "updated": "2026-11-12",
   "scenes": [
     {
       "id": "001",
@@ -303,6 +303,30 @@
       ],
       "created": "2026-11-11",
       "preview": "scenes/013_mission_control/preview.png"
+    },
+    {
+      "id": "014",
+      "dir": "014_agent_pods",
+      "name_zh": "AI 代理人公司：代理人工作艙",
+      "name_en": "AI Agent Company: Agent Work Pods",
+      "category": "office",
+      "size_m": [
+        14,
+        6
+      ],
+      "height_m": 3.0,
+      "doors": 4,
+      "anchors": 23,
+      "seats": 8,
+      "tags": [
+        "ai-company",
+        "agent-pod",
+        "workstation",
+        "status-lamp",
+        "8-pods"
+      ],
+      "created": "2026-11-12",
+      "preview": "scenes/014_agent_pods/preview.png"
     }
   ]
 }

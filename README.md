@@ -3,7 +3,7 @@
 以 Blender（bpy）程序化建模的**室內場景模組庫**：每個模組遵守統一規格（2 m 網格、3 m 樓高、奇數公尺門洞、命名錨點、導航網格），
 可任意拼接成一層樓，也可匯入 Three.js / Unity / Godot 讓人物在其中移動。詳見 [SPEC.md](SPEC.md)。
 
-**目前場景數：13**　｜　待做清單：[backlog.md](backlog.md)　｜　清單資料：[catalog.json](catalog.json)
+**目前場景數：14**　｜　待做清單：[backlog.md](backlog.md)　｜　清單資料：[catalog.json](catalog.json)
 
 ## 場景一覽
 
@@ -22,10 +22,11 @@
 | 011 | [主管辦公室](scenes/011_executive_office/) | 6×6 m | 2 | 11（主管座＋2 訪客座＋2 沙發座＋單人椅＋白板／櫃／書櫃互動點） | <img src="scenes/011_executive_office/preview.png" width="360"> |
 | 012 | [伺服器機房](scenes/012_server_room/) | 8×6 m | 2 | 22（12 機櫃巡檢站、維運座、冷卻／UPS／推車／備品互動點） | <img src="scenes/012_server_room/preview.png" width="360"> |
 | 013 | [AI 代理人公司：任務控制中心](scenes/013_mission_control/) | 12×8 m | 2 | 26（9 監控席＋2 指揮席＋10 狀態燈＋螢幕牆／白板站位＋事務機／飲水互動點） | <img src="scenes/013_mission_control/preview.png" width="360"> |
+| 014 | [AI 代理人公司：代理人工作艙](scenes/014_agent_pods/) | 14×6 m | 4 | 23（8 工作艙座位＋8 狀態燈座＋總覽看板／交接桌站位＋補給櫃／事務機／飲水互動點） | <img src="scenes/014_agent_pods/preview.png" width="360"> |
 
 ## 組合範例：AI 代理人公司一層樓
 `compose/ai_company_layout.json` → `python3 tools/compose.py compose/ai_company_layout.json` 產生 `compose/ai_company_floor.{blend,glb,json}`
-（12 個模組、13 組連通門、無重疊；隨新場景持續擴充；另輸出頂視圖 `ai_company_floor_top.png`）。
+（13 個模組、15 組連通門、無重疊；隨新場景持續擴充；另輸出頂視圖 `ai_company_floor_top.png`）。
 
 <img src="compose/ai_company_floor_top.png" width="720">
 
@@ -33,7 +34,7 @@
 ```
 scenes/<NNN>_<slug>/   scene.blend / scene.glb / navmesh.glb / scene.json / preview.png / plan.png / build.py
 tools/scenelib.py      共用：牆、地板、門窗洞、燈、錨點、導航網格、輸出與渲染
-tools/furniture.py     共用：桌椅、螢幕、櫃、白板、沙發、影印機、機櫃、監控工位、拼接螢幕牆等參數化家具
+tools/furniture.py     共用：桌椅、螢幕、櫃、白板、沙發、影印機、機櫃、監控工位、拼接螢幕牆、代理人工作艙等參數化家具
 tools/verify.py        驗證某場景輸出（glb 重讀、錨點數、門洞、導航）
 tools/corridor.py      走廊／樞紐模組產生器（寬 2 m）
 tools/compose.py       依 compose/layout.json 組合多場景成一層樓

@@ -1,0 +1,335 @@
+{
+  "id": "014",
+  "name_zh": "AI 代理人公司：代理人工作艙",
+  "name_en": "AI Agent Company: Agent Work Pods",
+  "category": "office",
+  "size_m": [
+    14,
+    6
+  ],
+  "height_m": 3.0,
+  "doors": [
+    {
+      "id": "DOOR_S_01",
+      "wall": "S",
+      "offset_m": 3.0,
+      "width_m": 1.0,
+      "position": [
+        3.0,
+        0.1,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_S_02",
+      "wall": "S",
+      "offset_m": 11.0,
+      "width_m": 1.0,
+      "position": [
+        11.0,
+        0.1,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_W_01",
+      "wall": "W",
+      "offset_m": 3.0,
+      "width_m": 1.0,
+      "position": [
+        0.1,
+        3.0,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_E_01",
+      "wall": "E",
+      "offset_m": 3.0,
+      "width_m": 1.0,
+      "position": [
+        13.9,
+        3.0,
+        0.0
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "id": "SEAT_pod_01",
+      "type": "SEAT",
+      "use": "pod",
+      "position": [
+        1.4,
+        4.67,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        1.4,
+        5.77,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_pod_02",
+      "type": "SEAT",
+      "use": "pod",
+      "position": [
+        3.0,
+        4.67,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        3.0,
+        5.77,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_pod_03",
+      "type": "SEAT",
+      "use": "pod",
+      "position": [
+        4.6,
+        4.67,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_03",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        4.6,
+        5.77,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_pod_04",
+      "type": "SEAT",
+      "use": "pod",
+      "position": [
+        6.2,
+        4.67,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_04",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        6.2,
+        5.77,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_pod_05",
+      "type": "SEAT",
+      "use": "pod",
+      "position": [
+        7.8,
+        4.67,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_05",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        7.8,
+        5.77,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_pod_06",
+      "type": "SEAT",
+      "use": "pod",
+      "position": [
+        9.4,
+        4.67,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_06",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        9.4,
+        5.77,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_pod_07",
+      "type": "SEAT",
+      "use": "pod",
+      "position": [
+        11.0,
+        4.67,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_07",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        11.0,
+        5.77,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_pod_08",
+      "type": "SEAT",
+      "use": "pod",
+      "position": [
+        12.6,
+        4.67,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_08",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        12.6,
+        5.77,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STAND_overview_01",
+      "type": "STAND",
+      "use": "overview",
+      "position": [
+        7.0,
+        1.3,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_handoff_01",
+      "type": "STAND",
+      "use": "handoff",
+      "position": [
+        6.1,
+        2.55,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "STAND_handoff_02",
+      "type": "STAND",
+      "use": "handoff",
+      "position": [
+        7.9,
+        2.55,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "POI_supply_01",
+      "type": "POI",
+      "use": "supply",
+      "position": [
+        4.75,
+        1.3,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "POI_supply_02",
+      "type": "POI",
+      "use": "supply",
+      "position": [
+        9.25,
+        1.3,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "POI_printer_01",
+      "type": "POI",
+      "use": "printer",
+      "position": [
+        12.7,
+        1.45,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "POI_water_01",
+      "type": "POI",
+      "use": "water",
+      "position": [
+        1.15,
+        1.3,
+        0.0
+      ],
+      "yaw_deg": 90
+    }
+  ],
+  "tags": [
+    "ai-company",
+    "agent-pod",
+    "workstation",
+    "status-lamp",
+    "8-pods"
+  ],
+  "nav": {
+    "file": "navmesh.glb",
+    "cell_m": 0.25,
+    "margin_m": 0.3,
+    "cells": 752
+  },
+  "files": {
+    "blend": "scene.blend",
+    "glb": "scene.glb",
+    "navmesh": "navmesh.glb",
+    "preview": "preview.png",
+    "plan": "plan.png",
+    "build": "build.py"
+  },
+  "coord": "Blender Z-up, +Y north, SW corner origin; glb is glTF Y-up (gx=x, gy=z, gz=-y)",
+  "created": "2026-11-12"
+}
