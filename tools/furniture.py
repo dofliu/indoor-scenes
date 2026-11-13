@@ -639,3 +639,119 @@ def agent_pod(S, x, y, yaw=0.0, w=1.6, d=1.6, h=1.5, accent=(0.10, 0.50, 0.52), 
         ox, oy = wpt(sx * (w / 2 - t / 2), ys)
         S.obstacles.append((ox, oy, yaw, t, side_len))
     return p, wpt(0, yd - dd / 2 - 0.42), wpt(0, yb)
+
+
+# ---------------------------------------------------------------- 多功能活動空間（015 起）
+def tiered_seating(S, x, y, yaw=0.0, w=6.4, tiers=4, depth=0.9, rise=0.45, aisle=1.0, per_side=3,
+                   name="TieredSeating"):
+    """階梯座位（看台）：tiers 階木質平台，中央走道含半階踏步，每階兩側各 per_side 個坐墊。
+    (x,y) 為整體中心；yaw=0 時觀眾面向 +Y（最低階在 +Y 側、最高階靠 -Y 側牆）。
+    第 k 階（0 起算）的人坐在該階前緣、腳踩前一階（或地面），故坐下點高度 z = k*rise。
+    導航障礙只含前緣後 0.3 m 起的範圍，使最低階坐下點貼近導航網格。
+    回傳 (piece, seats)；seats = [(世界x, 世界y, z, 階序k), ...]，由低階到高階、每階由 -X 到 +X。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    D = tiers * depth
+    wood, dark = "wood_light", "wood_dark"
+    cols = ("fabric_teal", "fabric_orange", "fabric_grey")
+    side_w = (w - aisle) / 2
+    seats = []
+    c, s = math.cos(yaw), math.sin(yaw)
+    for k in range(tiers):
+        y0, y1 = -D / 2, D / 2 - k * depth          # 第 k 階平台（由後牆延伸到前緣）
+        z0, z1 = k * rise, (k + 1) * rise
+        p.boxc(-w / 2, y0, z0, w / 2, y1, z1, wood)
+        p.box(0, y1 + 0.006, (z0 + z1) / 2, w, 0.012, rise - 0.04, dark)            # 立板深色面
+        p.box(0, y1 - 0.02, z1 + 0.003, w, 0.04, 0.006, "metal")                    # 踏面前緣止滑條
+        # 中央走道半階踏步
+        p.boxc(-aisle / 2 + 0.05, y1, z0, aisle / 2 - 0.05, y1 + 0.3, z0 + rise / 2, dark)
+        for sx in (-1, 1):
+            for i in range(per_side):
+                lx = sx * (aisle / 2 + side_w * (i + 0.5) / per_side)
+                ly = y1 - 0.28
+                p.box(lx, ly, z1 + 0.03, min(0.6, side_w / per_side - 0.12), 0.46, 0.06, cols[(i + k) % 3])
+                seats.append((lx, ly, z0, k))
+    for sx in (-1, 1):                               # 兩側階梯形封板
+        for k in range(tiers):
+            p.boxc(sx * w / 2, -D / 2, k * rise, sx * (w / 2 + 0.02), D / 2 - k * depth, (k + 1) * rise, dark)
+    p.finish(footprint=(w, D - 0.3, 0, -0.15))
+    S.obstacles.append((x - (D / 2 + 0.15) * s, y + (D / 2 + 0.15) * c, yaw, aisle - 0.1, 0.3))   # 最低半階
+    seats.sort(key=lambda t: (t[3], t[0]))
+    return p, [(x + lx * c - ly * s, y + lx * s + ly * c, z, k) for (lx, ly, z, k) in seats]
+
+
+def movable_partition(S, x, y, yaw=0.0, w=1.6, h=1.9, color="fabric_teal", name="Partition"):
+    """附輪可移動隔間板：-Y 面為白板、+Y 面為吸音布面，兩支橫腳附腳輪。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, 0.12 + (h - 0.12) / 2, w, 0.05, h - 0.12, "metal")
+    p.box(0, -0.028, 0.12 + (h - 0.12) / 2, w - 0.08, 0.008, h - 0.2, "whiteboard")
+    p.box(0, 0.028, 0.12 + (h - 0.12) / 2, w - 0.08, 0.008, h - 0.2, mat(color, rough=0.95))
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - 0.15), 0, 0.10, 0.05, 0.5, 0.04, "metal_dark")
+        for sy in (-1, 1):
+            p.cyl(sx * (w / 2 - 0.15), sy * 0.22, 0.04, 0.04, 0.03, "plastic_black", seg=10, axis="X")
+    p.finish(footprint=(w, 0.5))
+    return p
+
+
+def stage_platform(S, x, y, yaw=0.0, w=6.0, d=3.0, h=0.2, name="Stage"):
+    """矮舞台平台（木質面＋深色側裙＋前緣警示條）。(x,y) 為中心，前緣在 -Y 側。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, h / 2, w, d, h, "wood_dark")
+    p.box(0, 0, h + 0.004, w - 0.04, d - 0.04, 0.008, mat("stage_top", (0.42, 0.30, 0.19), rough=0.6))
+    p.box(0, -d / 2 + 0.05, h + 0.009, w - 0.04, 0.05, 0.003, mat("stage_edge", (0.92, 0.75, 0.15), rough=0.7))
+    p.finish(footprint=(w, d))
+    return p
+
+
+def lectern(S, x, y, yaw=0.0, z=0.0, name="Lectern"):
+    """講桌（講者站在 -Y 側、面向 +Y）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, 0.05, 0.5, 0.5, 0.3, 1.0, "wood_light")
+    p.box(0, 0.212, 0.5, 0.42, 0.006, 0.7, "wood_dark")
+    p.box(0, 0, 1.03, 0.6, 0.45, 0.03, "wood_dark")
+    p.cyl(0.15, 0.1, 1.16, 0.008, 0.24, "metal_dark", seg=6)
+    p.sphere(0.15, 0.1, 1.29, 0.025, "plastic_black", seg=8)
+    p.finish(obstacle=False)
+    return p
+
+
+def stack_chair(S, x, y, yaw=0.0, color="chair_seat", name="StackChair"):
+    """可堆疊活動椅（四腳，人坐向 +Y）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    for sx in (-1, 1):
+        p.box(sx * 0.2, 0.18, 0.22, 0.025, 0.025, 0.44, "metal")
+        p.box(sx * 0.2, -0.2, 0.42, 0.025, 0.025, 0.84, "metal")
+    p.box(0, 0, 0.455, 0.44, 0.42, 0.04, color)
+    p.box(0, -0.205, 0.72, 0.44, 0.03, 0.26, color)
+    p.finish(obstacle=False)
+    return p
+
+
+def pa_speaker(S, x, y, yaw=0.0, z=0.0, name="Speaker"):
+    """立架式擴聲喇叭（正面朝 -Y）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.cyl(0, 0, 0.6, 0.02, 1.2, "metal_dark", seg=8)
+    for a in range(3):
+        an = a * 2.094
+        p.box(0.16 * math.cos(an), 0.16 * math.sin(an), 0.02, 0.34, 0.03, 0.03, "metal_dark", rz=an)
+    p.box(0, 0, 1.47, 0.32, 0.28, 0.54, "plastic_black")
+    p.cyl(0, -0.142, 1.38, 0.11, 0.01, "metal_dark", seg=16, axis="Y")
+    p.cyl(0, -0.142, 1.62, 0.05, 0.01, "metal_dark", seg=12, axis="Y")
+    p.finish(obstacle=False)
+    return p
+
+
+def lighting_truss(S, x, y, length, yaw=0.0, z=2.7, lamps=5, name="LightTruss"):
+    """舞台燈桿：沿本地 X 的桿件＋吊桿＋數盞筒燈（朝本地 +Y 斜下方打光，燈口自發光）。"""
+    p = Piece(S, name, x, y, 0, yaw=yaw, coll="PROPS")
+    p.cyl(0, 0, z, 0.03, length, "metal_dark", seg=8, axis="X")
+    for sx in (-1, 1):
+        p.cyl(sx * (length / 2 - 0.2), 0, (z + S.H) / 2, 0.012, S.H - z, "metal_dark", seg=6)
+    warm = mat("spot_warm", (1.0, 0.85, 0.6), emit=(1.0, 0.8, 0.5))
+    for i in range(lamps):
+        lx = -length / 2 + length * (i + 0.5) / lamps
+        p.box(lx, 0, z - 0.06, 0.03, 0.03, 0.08, "metal_dark")
+        p.cyl(lx, 0.05, z - 0.17, 0.07, 0.2, "plastic_black", seg=12, axis="Y")
+        p.cyl(lx, 0.152, z - 0.17, 0.06, 0.006, warm, seg=12, axis="Y")
+    p.finish(obstacle=False)
+    return p

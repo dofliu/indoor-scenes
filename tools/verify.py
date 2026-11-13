@@ -92,11 +92,19 @@ else:
     if any(abs(v.z) > 1e-4 or v.x < -1e-4 or v.y < -1e-4 or v.x > W + 1e-4 or v.y > D + 1e-4 for v in vs):
         fail("navmesh 超出範圍或不在 z=0")
     print("  navmesh 頂點=%d 面=%d" % (len(vs), len(nm[0].data.polygons)))
+    elevated = 0
     for a in sj["anchors"]:
         if a["type"] in ("SEAT", "STAND", "POI"):
             ax, ay = a["position"][:2]
             dmin = min(math.hypot(v.x - ax, v.y - ay) for v in vs)
-            if dmin > 0.4:
+            if a["position"][2] > 0.05:
+                # 高架錨點（階梯座位、舞台等，z 為腳底高度）：不在 z=0 導航網格上，由最近導航點直接移動過去
+                if dmin > 3.0:
+                    fail("高架錨點離導航網格過遠 %s %.2f m" % (a["id"], dmin))
+                elevated += 1
+            elif dmin > 0.4:
                 fail("錨點離導航網格過遠 %s %.2f m" % (a["id"], dmin))
+if 'elevated' in dir() and elevated:
+    print("  高架錨點=%d（z>0，距導航網格 ≤ 3.0 m）" % elevated)
 print("RESULT:", "PASS" if bad == 0 else "FAIL x%d" % bad)
 sys.exit(1 if bad else 0)

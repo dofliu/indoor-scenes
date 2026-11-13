@@ -156,6 +156,18 @@
         14,
         6
       ]
+    },
+    {
+      "scene": "015_event_space",
+      "offset": [
+        -4,
+        22
+      ],
+      "rot": 0,
+      "size_m": [
+        16,
+        12
+      ]
     }
   ],
   "doors": [
@@ -756,6 +768,78 @@
       "position": [
         -13.9,
         7.0,
+        0.0
+      ]
+    },
+    {
+      "id": "T13_DOOR_S_01",
+      "tile": 13,
+      "scene": "015_event_space",
+      "wall": "S",
+      "width_m": 1.0,
+      "position": [
+        -1.0,
+        22.1,
+        0.0
+      ]
+    },
+    {
+      "id": "T13_DOOR_S_02",
+      "tile": 13,
+      "scene": "015_event_space",
+      "wall": "S",
+      "width_m": 1.0,
+      "position": [
+        9.0,
+        22.1,
+        0.0
+      ]
+    },
+    {
+      "id": "T13_DOOR_N_01",
+      "tile": 13,
+      "scene": "015_event_space",
+      "wall": "N",
+      "width_m": 1.0,
+      "position": [
+        1.0,
+        33.9,
+        0.0
+      ]
+    },
+    {
+      "id": "T13_DOOR_N_02",
+      "tile": 13,
+      "scene": "015_event_space",
+      "wall": "N",
+      "width_m": 1.0,
+      "position": [
+        9.0,
+        33.9,
+        0.0
+      ]
+    },
+    {
+      "id": "T13_DOOR_E_01",
+      "tile": 13,
+      "scene": "015_event_space",
+      "wall": "E",
+      "width_m": 1.0,
+      "position": [
+        11.9,
+        23.0,
+        0.0
+      ]
+    },
+    {
+      "id": "T13_DOOR_E_02",
+      "tile": 13,
+      "scene": "015_event_space",
+      "wall": "E",
+      "width_m": 1.0,
+      "position": [
+        11.9,
+        33.0,
         0.0
       ]
     }
@@ -3424,8 +3508,752 @@
       ],
       "yaw_deg": -90,
       "tile": 12
+    },
+    {
+      "id": "T13_SEAT_tier_01",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -0.48,
+        30.75,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_02",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -0.48,
+        29.85,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_03",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -0.48,
+        28.95,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_04",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -0.48,
+        27.05,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_05",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -0.48,
+        26.15,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_06",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -0.48,
+        25.25,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_07",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -1.38,
+        30.75,
+        0.45
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_08",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -1.38,
+        29.85,
+        0.45
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_09",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -1.38,
+        28.95,
+        0.45
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_10",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -1.38,
+        27.05,
+        0.45
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_11",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -1.38,
+        26.15,
+        0.45
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_12",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -1.38,
+        25.25,
+        0.45
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_13",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -2.28,
+        30.75,
+        0.9
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_14",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -2.28,
+        29.85,
+        0.9
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_15",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -2.28,
+        28.95,
+        0.9
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_16",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -2.28,
+        27.05,
+        0.9
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_17",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -2.28,
+        26.15,
+        0.9
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_18",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -2.28,
+        25.25,
+        0.9
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_19",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -3.18,
+        30.75,
+        1.35
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_20",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -3.18,
+        29.85,
+        1.35
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_21",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -3.18,
+        28.95,
+        1.35
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_22",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -3.18,
+        27.05,
+        1.35
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_23",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -3.18,
+        26.15,
+        1.35
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_tier_24",
+      "type": "SEAT",
+      "use": "tier",
+      "position": [
+        -3.18,
+        25.25,
+        1.35
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_STAND_lectern_01",
+      "type": "STAND",
+      "use": "lectern",
+      "position": [
+        10.0,
+        30.1,
+        0.2
+      ],
+      "yaw_deg": 90,
+      "tile": 13
+    },
+    {
+      "id": "T13_STAND_present_01",
+      "type": "STAND",
+      "use": "present",
+      "position": [
+        9.6,
+        28.0,
+        0.2
+      ],
+      "yaw_deg": 90,
+      "tile": 13
+    },
+    {
+      "id": "T13_STAND_present_02",
+      "type": "STAND",
+      "use": "present",
+      "position": [
+        9.9,
+        26.6,
+        0.2
+      ],
+      "yaw_deg": 90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_beanbag_01",
+      "type": "SEAT",
+      "use": "beanbag",
+      "position": [
+        1.6,
+        26.2,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_beanbag_02",
+      "type": "SEAT",
+      "use": "beanbag",
+      "position": [
+        1.6,
+        27.4,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_beanbag_03",
+      "type": "SEAT",
+      "use": "beanbag",
+      "position": [
+        1.6,
+        28.6,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_beanbag_04",
+      "type": "SEAT",
+      "use": "beanbag",
+      "position": [
+        1.6,
+        29.8,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_audience_01",
+      "type": "SEAT",
+      "use": "audience",
+      "position": [
+        4.2,
+        25.75,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_audience_02",
+      "type": "SEAT",
+      "use": "audience",
+      "position": [
+        4.2,
+        26.65,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_audience_03",
+      "type": "SEAT",
+      "use": "audience",
+      "position": [
+        4.2,
+        27.55,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_audience_04",
+      "type": "SEAT",
+      "use": "audience",
+      "position": [
+        4.2,
+        28.45,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_audience_05",
+      "type": "SEAT",
+      "use": "audience",
+      "position": [
+        4.2,
+        29.35,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_audience_06",
+      "type": "SEAT",
+      "use": "audience",
+      "position": [
+        4.2,
+        30.25,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_audience_07",
+      "type": "SEAT",
+      "use": "audience",
+      "position": [
+        5.5,
+        25.75,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_audience_08",
+      "type": "SEAT",
+      "use": "audience",
+      "position": [
+        5.5,
+        26.65,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_audience_09",
+      "type": "SEAT",
+      "use": "audience",
+      "position": [
+        5.5,
+        27.55,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_audience_10",
+      "type": "SEAT",
+      "use": "audience",
+      "position": [
+        5.5,
+        28.45,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_audience_11",
+      "type": "SEAT",
+      "use": "audience",
+      "position": [
+        5.5,
+        29.35,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_audience_12",
+      "type": "SEAT",
+      "use": "audience",
+      "position": [
+        5.5,
+        30.25,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_workshop_01",
+      "type": "SEAT",
+      "use": "workshop",
+      "position": [
+        3.55,
+        23.95,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_workshop_02",
+      "type": "SEAT",
+      "use": "workshop",
+      "position": [
+        4.45,
+        23.95,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_workshop_03",
+      "type": "SEAT",
+      "use": "workshop",
+      "position": [
+        2.75,
+        23.15,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_workshop_04",
+      "type": "SEAT",
+      "use": "workshop",
+      "position": [
+        5.25,
+        23.15,
+        0.0
+      ],
+      "yaw_deg": 90,
+      "tile": 13
+    },
+    {
+      "id": "T13_STAND_whiteboard_01",
+      "type": "STAND",
+      "use": "whiteboard",
+      "position": [
+        5.9,
+        24.15,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 13
+    },
+    {
+      "id": "T13_POI_partition_01",
+      "type": "POI",
+      "use": "partition",
+      "position": [
+        -2.1,
+        23.25,
+        0.0
+      ],
+      "yaw_deg": 90,
+      "tile": 13
+    },
+    {
+      "id": "T13_POI_coffee_01",
+      "type": "POI",
+      "use": "coffee",
+      "position": [
+        4.2,
+        32.75,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 13
+    },
+    {
+      "id": "T13_POI_catering_01",
+      "type": "POI",
+      "use": "catering",
+      "position": [
+        5.6,
+        32.75,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 13
+    },
+    {
+      "id": "T13_STAND_cocktail_01",
+      "type": "STAND",
+      "use": "cocktail",
+      "position": [
+        1.65,
+        32.2,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_STAND_cocktail_02",
+      "type": "STAND",
+      "use": "cocktail",
+      "position": [
+        3.15,
+        32.2,
+        0.0
+      ],
+      "yaw_deg": 90,
+      "tile": 13
+    },
+    {
+      "id": "T13_STAND_cocktail_03",
+      "type": "STAND",
+      "use": "cocktail",
+      "position": [
+        6.85,
+        32.2,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_STAND_cocktail_04",
+      "type": "STAND",
+      "use": "cocktail",
+      "position": [
+        8.35,
+        32.2,
+        0.0
+      ],
+      "yaw_deg": 90,
+      "tile": 13
+    },
+    {
+      "id": "T13_SEAT_av_01",
+      "type": "SEAT",
+      "use": "av",
+      "position": [
+        -2.45,
+        32.6,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 13
+    },
+    {
+      "id": "T13_STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        9.6,
+        28.0,
+        2.5
+      ],
+      "yaw_deg": 0.0,
+      "tile": 13
+    },
+    {
+      "id": "T13_STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        -1.4,
+        26.3,
+        2.6
+      ],
+      "yaw_deg": 0.0,
+      "tile": 13
+    },
+    {
+      "id": "T13_STATUS_03",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        -1.4,
+        29.7,
+        2.6
+      ],
+      "yaw_deg": 0.0,
+      "tile": 13
+    },
+    {
+      "id": "T13_STATUS_04",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        4.0,
+        28.0,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 13
+    },
+    {
+      "id": "T13_STATUS_05",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        4.0,
+        23.15,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 13
+    },
+    {
+      "id": "T13_STATUS_06",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        -2.0,
+        32.6,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 13
     }
   ],
-  "connected_door_pairs": 15,
+  "connected_door_pairs": 16,
   "warnings": []
 }

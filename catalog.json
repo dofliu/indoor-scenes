@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-12",
+  "updated": "2026-11-13",
   "scenes": [
     {
       "id": "001",
@@ -327,6 +327,32 @@
       ],
       "created": "2026-11-12",
       "preview": "scenes/014_agent_pods/preview.png"
+    },
+    {
+      "id": "015",
+      "dir": "015_event_space",
+      "name_zh": "多功能活動空間",
+      "name_en": "Multipurpose Event Space",
+      "category": "social",
+      "size_m": [
+        16,
+        12
+      ],
+      "height_m": 3.0,
+      "doors": 6,
+      "anchors": 62,
+      "seats": 45,
+      "tags": [
+        "event",
+        "town-hall",
+        "tiered-seating",
+        "stage",
+        "movable-partition",
+        "workshop",
+        "multipurpose"
+      ],
+      "created": "2026-11-13",
+      "preview": "scenes/015_event_space/preview.png"
     }
   ]
 }

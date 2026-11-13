@@ -244,11 +244,12 @@ export function createWorld({ scene, camera, controls, dom, container }) {
   function releaseSeat(ag) {
     if (ag.seat) { if (reserved.get(ag.seat) === ag.id) reserved.delete(ag.seat); ag.seat = null; }
     if (ag.status) { const o = statusOcc.get(ag.status); o && o.delete(ag.id); const s = ag.status; ag.status = null; setStatusLabel(s); }
-    ag.body.position.y = .75;
+    ag.body.position.y = .75; ag.root.position.y = 0;   // 離開高架錨點（階梯座位／舞台）時高度歸零
   }
   function arrive(ag) {
     const a = ag.dest; ag.busy = null; ag.dest = null; if (!a) return;
     ag.at = a.id; ag.root.rotation.y = a.yaw_deg * Math.PI / 180;
+    if (a.position[2] > .05) { const p = B2T(a.position); ag.root.position.set(p.x, a.position[2], p.z); }   // 高架錨點：直接移到錨點並抬升
     if (a.type === 'SEAT') {
       ag.seat = a.id; reserved.set(a.id, ag.id); ag.body.position.y = .5;
       const st = seatStatus.get(a.id);
