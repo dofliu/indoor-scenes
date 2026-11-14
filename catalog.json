@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-13",
+  "updated": "2026-11-14",
   "scenes": [
     {
       "id": "001",
@@ -353,6 +353,32 @@
       ],
       "created": "2026-11-13",
       "preview": "scenes/015_event_space/preview.png"
+    },
+    {
+      "id": "016",
+      "dir": "016_rd_lab",
+      "name_zh": "研發實驗室",
+      "name_en": "R&D Laboratory",
+      "category": "lab",
+      "size_m": [
+        12,
+        8
+      ],
+      "height_m": 3.0,
+      "doors": 3,
+      "anchors": 29,
+      "seats": 5,
+      "tags": [
+        "lab",
+        "r&d",
+        "workbench",
+        "instrument-rack",
+        "fume-hood",
+        "3d-printer",
+        "prototyping"
+      ],
+      "created": "2026-11-14",
+      "preview": "scenes/016_rd_lab/preview.png"
     }
   ]
 }

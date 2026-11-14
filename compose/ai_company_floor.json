@@ -168,6 +168,18 @@
         16,
         12
       ]
+    },
+    {
+      "scene": "016_rd_lab",
+      "offset": [
+        30,
+        14
+      ],
+      "rot": 0,
+      "size_m": [
+        12,
+        8
+      ]
     }
   ],
   "doors": [
@@ -840,6 +852,42 @@
       "position": [
         11.9,
         33.0,
+        0.0
+      ]
+    },
+    {
+      "id": "T14_DOOR_W_01",
+      "tile": 14,
+      "scene": "016_rd_lab",
+      "wall": "W",
+      "width_m": 1.0,
+      "position": [
+        30.1,
+        15.0,
+        0.0
+      ]
+    },
+    {
+      "id": "T14_DOOR_S_01",
+      "tile": 14,
+      "scene": "016_rd_lab",
+      "wall": "S",
+      "width_m": 1.0,
+      "position": [
+        39.0,
+        14.1,
+        0.0
+      ]
+    },
+    {
+      "id": "T14_DOOR_N_01",
+      "tile": 14,
+      "scene": "016_rd_lab",
+      "wall": "N",
+      "width_m": 1.0,
+      "position": [
+        39.0,
+        21.9,
         0.0
       ]
     }
@@ -4252,8 +4300,356 @@
       ],
       "yaw_deg": 0.0,
       "tile": 13
+    },
+    {
+      "id": "T14_STAND_bench_01",
+      "type": "STAND",
+      "use": "bench",
+      "position": [
+        32.4,
+        17.0,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 14
+    },
+    {
+      "id": "T14_STAND_bench_02",
+      "type": "STAND",
+      "use": "bench",
+      "position": [
+        33.4,
+        17.0,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 14
+    },
+    {
+      "id": "T14_STAND_bench_03",
+      "type": "STAND",
+      "use": "bench",
+      "position": [
+        34.4,
+        17.0,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 14
+    },
+    {
+      "id": "T14_STAND_bench_04",
+      "type": "STAND",
+      "use": "bench",
+      "position": [
+        36.6,
+        17.0,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 14
+    },
+    {
+      "id": "T14_STAND_bench_05",
+      "type": "STAND",
+      "use": "bench",
+      "position": [
+        37.6,
+        17.0,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 14
+    },
+    {
+      "id": "T14_STAND_bench_06",
+      "type": "STAND",
+      "use": "bench",
+      "position": [
+        38.6,
+        17.0,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 14
+    },
+    {
+      "id": "T14_STAND_bench_07",
+      "type": "STAND",
+      "use": "bench",
+      "position": [
+        32.4,
+        19.4,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 14
+    },
+    {
+      "id": "T14_STAND_bench_08",
+      "type": "STAND",
+      "use": "bench",
+      "position": [
+        33.4,
+        19.4,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 14
+    },
+    {
+      "id": "T14_STAND_bench_09",
+      "type": "STAND",
+      "use": "bench",
+      "position": [
+        34.4,
+        19.4,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 14
+    },
+    {
+      "id": "T14_SEAT_bench_01",
+      "type": "SEAT",
+      "use": "bench",
+      "position": [
+        36.6,
+        19.25,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 14
+    },
+    {
+      "id": "T14_SEAT_bench_02",
+      "type": "SEAT",
+      "use": "bench",
+      "position": [
+        37.6,
+        19.25,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 14
+    },
+    {
+      "id": "T14_SEAT_bench_03",
+      "type": "SEAT",
+      "use": "bench",
+      "position": [
+        38.6,
+        19.25,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 14
+    },
+    {
+      "id": "T14_POI_instrument_01",
+      "type": "POI",
+      "use": "instrument",
+      "position": [
+        31.25,
+        17.4,
+        0.0
+      ],
+      "yaw_deg": 90,
+      "tile": 14
+    },
+    {
+      "id": "T14_POI_instrument_02",
+      "type": "POI",
+      "use": "instrument",
+      "position": [
+        31.25,
+        18.7,
+        0.0
+      ],
+      "yaw_deg": 90,
+      "tile": 14
+    },
+    {
+      "id": "T14_POI_instrument_03",
+      "type": "POI",
+      "use": "instrument",
+      "position": [
+        31.25,
+        20.0,
+        0.0
+      ],
+      "yaw_deg": 90,
+      "tile": 14
+    },
+    {
+      "id": "T14_STAND_sink_01",
+      "type": "STAND",
+      "use": "sink",
+      "position": [
+        34.6,
+        20.7,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 14
+    },
+    {
+      "id": "T14_STAND_hood_01",
+      "type": "STAND",
+      "use": "hood",
+      "position": [
+        36.5,
+        20.55,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 14
+    },
+    {
+      "id": "T14_POI_storage_01",
+      "type": "POI",
+      "use": "storage",
+      "position": [
+        40.45,
+        20.8,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 14
+    },
+    {
+      "id": "T14_STAND_whiteboard_01",
+      "type": "STAND",
+      "use": "whiteboard",
+      "position": [
+        41.1,
+        15.5,
+        0.0
+      ],
+      "yaw_deg": 90,
+      "tile": 14
+    },
+    {
+      "id": "T14_SEAT_desk_01",
+      "type": "SEAT",
+      "use": "desk",
+      "position": [
+        40.65,
+        18.4,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 14
+    },
+    {
+      "id": "T14_SEAT_desk_02",
+      "type": "SEAT",
+      "use": "desk",
+      "position": [
+        40.65,
+        19.9,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 14
+    },
+    {
+      "id": "T14_POI_labcoat_01",
+      "type": "POI",
+      "use": "labcoat",
+      "position": [
+        32.2,
+        14.85,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 14
+    },
+    {
+      "id": "T14_POI_printer3d_01",
+      "type": "POI",
+      "use": "printer3d",
+      "position": [
+        36.2,
+        15.4,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 14
+    },
+    {
+      "id": "T14_POI_safety_01",
+      "type": "POI",
+      "use": "safety",
+      "position": [
+        37.75,
+        14.9,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 14
+    },
+    {
+      "id": "T14_STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        33.4,
+        18.2,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 14
+    },
+    {
+      "id": "T14_STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        37.6,
+        18.2,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 14
+    },
+    {
+      "id": "T14_STATUS_03",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        41.3,
+        18.4,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 14
+    },
+    {
+      "id": "T14_STATUS_04",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        41.3,
+        19.9,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 14
+    },
+    {
+      "id": "T14_STATUS_05",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        36.5,
+        20.8,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 14
     }
   ],
-  "connected_door_pairs": 16,
+  "connected_door_pairs": 17,
   "warnings": []
 }

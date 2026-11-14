@@ -3,7 +3,7 @@
 以 Blender（bpy）程序化建模的**室內場景模組庫**：每個模組遵守統一規格（2 m 網格、3 m 樓高、奇數公尺門洞、命名錨點、導航網格），
 可任意拼接成一層樓，也可匯入 Three.js / Unity / Godot 讓人物在其中移動。詳見 [SPEC.md](SPEC.md)。
 
-**目前場景數：15**　｜　待做清單：[backlog.md](backlog.md)　｜　清單資料：[catalog.json](catalog.json)
+**目前場景數：16**　｜　待做清單：[backlog.md](backlog.md)　｜　清單資料：[catalog.json](catalog.json)
 
 ## 場景一覽
 
@@ -24,10 +24,11 @@
 | 013 | [AI 代理人公司：任務控制中心](scenes/013_mission_control/) | 12×8 m | 2 | 26（9 監控席＋2 指揮席＋10 狀態燈＋螢幕牆／白板站位＋事務機／飲水互動點） | <img src="scenes/013_mission_control/preview.png" width="360"> |
 | 014 | [AI 代理人公司：代理人工作艙](scenes/014_agent_pods/) | 14×6 m | 4 | 23（8 工作艙座位＋8 狀態燈座＋總覽看板／交接桌站位＋補給櫃／事務機／飲水互動點） | <img src="scenes/014_agent_pods/preview.png" width="360"> |
 | 015 | [多功能活動空間](scenes/015_event_space/) | 16×12 m | 6 | 62（24 階梯座位＋12 活動椅＋4 懶骨頭＋4 工作坊座＋影音控制席；舞台／講桌／白板／站立圓桌站位；茶點／咖啡互動點；6 狀態點） | <img src="scenes/015_event_space/preview.png" width="360"> |
+| 016 | [研發實驗室](scenes/016_rd_lab/) | 12×8 m | 3 | 29（9 工作台站位＋3 高腳凳工位＋2 分析工位；排氣櫃／水槽／白板站位；儀器架 ×3、3D 列印、藥品櫃、洗眼器、實驗衣互動點；5 狀態點） | <img src="scenes/016_rd_lab/preview.png" width="360"> |
 
 ## 組合範例：AI 代理人公司一層樓
 `compose/ai_company_layout.json` → `python3 tools/compose.py compose/ai_company_layout.json` 產生 `compose/ai_company_floor.{blend,glb,json}`
-（14 個模組、16 組連通門、無重疊；隨新場景持續擴充；另輸出頂視圖 `ai_company_floor_top.png`）。
+（15 個模組、17 組連通門、無重疊；隨新場景持續擴充；另輸出頂視圖 `ai_company_floor_top.png`）。
 
 <img src="compose/ai_company_floor_top.png" width="720">
 

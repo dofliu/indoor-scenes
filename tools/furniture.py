@@ -755,3 +755,252 @@ def lighting_truss(S, x, y, length, yaw=0.0, z=2.7, lamps=5, name="LightTruss"):
         p.cyl(lx, 0.152, z - 0.17, 0.06, 0.006, warm, seg=12, axis="Y")
     p.finish(obstacle=False)
     return p
+
+
+# ---------------------------------------------------------------- 實驗室（016 起）
+def lab_bench(S, x, y, yaw=0.0, w=3.0, d=1.5, h=0.9, shelves=2, name="LabBench"):
+    """中島式實驗工作台：雙面使用（±Y 兩側），深色耐蝕檯面＋白色底櫃（中段留膝位）＋中央試劑／儀器層架。
+    層架板頂面高度：h+0.38、h+0.70（shelves=2），深 0.3，可放小型儀器與瓶罐。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    top = mat("lab_top", (0.13, 0.14, 0.16), rough=0.35)
+    p.box(0, 0, h - 0.02, w, d, 0.04, top)
+    for sx in (-1, 1):   # 兩端底櫃
+        p.box(sx * (w / 2 - 0.3), 0, 0.06 + (h - 0.1) / 2, 0.56, d - 0.12, h - 0.1, "desk_white")
+        for sy in (-1, 1):
+            for k in range(3):
+                zc = 0.2 + k * 0.24
+                p.box(sx * (w / 2 - 0.3), sy * (d / 2 - 0.055), zc, 0.5, 0.01, 0.2, "cabinet")
+                p.box(sx * (w / 2 - 0.3), sy * (d / 2 - 0.045), zc + 0.06, 0.16, 0.012, 0.015, "metal")
+    p.box(0, 0, 0.06 + (h - 0.1) / 2, w - 1.2, 0.3, h - 0.1, "desk_white")   # 中央管線槽
+    p.box(0, 0, 0.03, w - 0.1, d - 0.2, 0.06, "metal_dark")                  # 踢腳
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - 0.05), 0, h + (0.32 * shelves + 0.08) / 2, 0.04, 0.3, 0.32 * shelves + 0.08, "metal")
+    for k in range(shelves):
+        p.box(0, 0, h + 0.37 + 0.32 * k, w - 0.06, 0.3, 0.02, "desk_white")
+    for sx in (-0.5, 0.5):  # 檯面插座盒
+        for sy in (-1, 1):
+            p.box(sx * (w - 1.4), sy * 0.16, h + 0.05, 0.3, 0.02, 0.07, "plastic_white")
+    p.finish(footprint=(w, d))
+    return p
+
+
+def _screen(p, cx, cy, cz, sx, sz, color=(0.1, 0.8, 0.5)):
+    p.box(cx, cy, cz, sx, 0.004, sz, mat("inst_scr_%d%d%d" % tuple(int(c * 9) for c in color),
+                                         tuple(c * 0.3 for c in color), emit=color))
+
+
+def oscilloscope(S, x, y, yaw=0.0, z=0.9, name="Oscilloscope"):
+    """桌上型示波器（正面朝本地 -Y）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, 0, 0.1, 0.34, 0.16, 0.2, "plastic_white")
+    _screen(p, -0.05, -0.082, 0.11, 0.2, 0.13, (0.2, 0.9, 0.5))
+    for k in range(3):
+        p.cyl(0.115, -0.09, 0.05 + 0.05 * k, 0.014, 0.02, "metal_dark", seg=8, axis="Y")
+    p.finish(obstacle=False)
+    return p
+
+
+def bench_psu(S, x, y, yaw=0.0, z=0.9, name="PowerSupply"):
+    """桌上型直流電源供應器。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, 0, 0.075, 0.2, 0.26, 0.15, "metal")
+    _screen(p, -0.02, -0.132, 0.105, 0.12, 0.045, (0.95, 0.3, 0.2))
+    for sx, c in ((-0.05, "chair_red"), (0.0, "plastic_black"), (0.05, "chair_green")):
+        p.cyl(sx, -0.14, 0.035, 0.012, 0.02, c, seg=8, axis="Y")
+    p.finish(obstacle=False)
+    return p
+
+
+def soldering_station(S, x, y, yaw=0.0, z=0.9, name="SolderStation"):
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, 0, 0.05, 0.12, 0.15, 0.1, "panel_blue")
+    _screen(p, 0, -0.077, 0.065, 0.07, 0.03, (0.95, 0.6, 0.1))
+    p.cyl(0.14, 0, 0.01, 0.045, 0.02, "metal_dark", seg=12)
+    p.cyl(0.14, 0, 0.07, 0.012, 0.12, "metal", seg=6)
+    p.box(-0.02, -0.22, 0.004, 0.22, 0.14, 0.008, mat("pcb_green", (0.05, 0.35, 0.15), rough=0.4))
+    p.finish(obstacle=False)
+    return p
+
+
+def microscope(S, x, y, yaw=0.0, z=0.9, name="Microscope"):
+    """立體顯微鏡（目鏡朝本地 -Y 側使用者）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, 0, 0.015, 0.2, 0.26, 0.03, "plastic_white")
+    p.box(0, 0.09, 0.17, 0.05, 0.05, 0.3, "plastic_white")
+    p.box(0, 0.02, 0.3, 0.09, 0.16, 0.08, "plastic_white")
+    p.cyl(0, -0.02, 0.21, 0.03, 0.1, "metal_dark", seg=10)
+    for sx in (-1, 1):
+        p.cyl(sx * 0.03, -0.07, 0.36, 0.015, 0.08, "plastic_black", seg=8)
+    p.cyl(0, -0.02, 0.035, 0.05, 0.008, "metal", seg=12)
+    p.finish(obstacle=False)
+    return p
+
+
+def bottles(S, x, y, yaw=0.0, z=0.9, n=5, gap=0.11, name="Bottles"):
+    """一排試劑瓶／量杯（沿本地 X 排列）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    cols = [mat("bottle_amber", (0.55, 0.28, 0.05), rough=0.2, alpha=0.85), mat("bottle_blue", (0.2, 0.45, 0.8), rough=0.2, alpha=0.8),
+            mat("bottle_white", (0.92, 0.92, 0.9), rough=0.3), mat("bottle_clear", (0.75, 0.9, 0.95), rough=0.05, alpha=0.45)]
+    for i in range(n):
+        cx = (i - (n - 1) / 2) * gap
+        hh = 0.14 + 0.05 * ((i * 7) % 3)
+        p.cyl(cx, 0, hh / 2, 0.04, hh, cols[(i * 3) % 4], seg=10)
+        p.cyl(cx, 0, hh + 0.015, 0.018, 0.03, "plastic_black" if i % 2 else "plastic_white", seg=8)
+    p.finish(obstacle=False)
+    return p
+
+
+def parts_bins(S, x, y, yaw=0.0, z=0.9, n=5, name="PartsBins"):
+    """零件盒一排（開口朝本地 -Y）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    cols = ["panel_blue", "chair_red", "fabric_orange", "chair_green"]
+    for i in range(n):
+        p.box((i - (n - 1) / 2) * 0.17, 0, 0.06, 0.15, 0.22, 0.12, cols[i % 4])
+        p.box((i - (n - 1) / 2) * 0.17, -0.1, 0.085, 0.12, 0.03, 0.07, "plastic_black")
+    p.finish(obstacle=False)
+    return p
+
+
+def desktop_robot_arm(S, x, y, yaw=0.0, z=0.9, name="DesktopArm"):
+    """桌上型小型機械手臂（通用造型，原型測試用）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    body = mat("arm_orange", (0.92, 0.42, 0.08), rough=0.4)
+    p.cyl(0, 0, 0.03, 0.09, 0.06, "metal_dark", seg=16)
+    p.cyl(0, 0, 0.1, 0.06, 0.08, body, seg=12)
+    p.box(0, 0, 0.3, 0.07, 0.07, 0.34, body)
+    p.cyl(0, 0, 0.47, 0.05, 0.1, "metal_dark", seg=10, axis="X")
+    p.box(0, -0.15, 0.47, 0.06, 0.3, 0.06, body)
+    p.cyl(0, -0.3, 0.47, 0.04, 0.08, "metal_dark", seg=10, axis="X")
+    p.box(0, -0.3, 0.38, 0.04, 0.04, 0.14, "metal")
+    for sx in (-1, 1):
+        p.box(sx * 0.025, -0.3, 0.28, 0.012, 0.03, 0.07, "metal_dark")
+    p.finish(obstacle=False)
+    return p
+
+
+def printer3d(S, x, y, yaw=0.0, z=0.74, name="Printer3D"):
+    """桌上型 3D 列印機（方框式，正面朝本地 -Y）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    s, hh = 0.44, 0.5
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.box(sx * (s / 2 - 0.015), sy * (s / 2 - 0.015), hh / 2, 0.03, 0.03, hh, "metal_dark")
+    p.box(0, 0, 0.03, s, s, 0.06, "metal_dark")
+    p.box(0, 0, hh - 0.015, s, s, 0.03, "metal_dark")
+    p.box(0, 0, 0.13, s - 0.1, s - 0.1, 0.012, "metal")
+    p.box(0, 0, 0.17, 0.1, 0.1, 0.07, mat("print_part", (0.95, 0.55, 0.1), rough=0.6))
+    p.box(0, 0, 0.36, s - 0.06, 0.03, 0.03, "metal")
+    p.box(0.03, -0.02, 0.33, 0.06, 0.06, 0.07, "panel_blue")
+    _screen(p, 0.1, -s / 2 - 0.003, 0.03, 0.12, 0.04, (0.3, 0.7, 1.0))
+    p.finish(obstacle=False)
+    return p
+
+
+def instrument_rack(S, x, y, yaw=0.0, w=1.2, d=0.5, h=2.0, seed=0, name="InstrumentRack"):
+    """儀器架：開放式層架，上有各式量測儀器（發光面板），正面朝本地 -Y。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.box(sx * (w / 2 - 0.02), sy * (d / 2 - 0.02), h / 2, 0.04, 0.04, h, "metal_dark")
+    levels = (0.12, 0.6, 1.08, 1.56)
+    for zc in levels + (h - 0.02,):
+        p.box(0, 0, zc, w, d, 0.03, "metal")
+    cols = [(0.2, 0.9, 0.5), (0.3, 0.7, 1.0), (0.95, 0.6, 0.1), (0.95, 0.3, 0.2)]
+    bodies = ["plastic_white", "metal", "desk_leg", "cabinet"]
+    for li, zc in enumerate(levels):
+        k = (li + seed) % 3
+        if k == 0:      # 兩台並排
+            for j, sx in enumerate((-0.28, 0.28)):
+                p.box(sx, 0, zc + 0.015 + 0.15, 0.48, d - 0.1, 0.3, bodies[(li + j + seed) % 4])
+                _screen(p, sx - 0.08, -d / 2 + 0.048, zc + 0.19, 0.24, 0.16, cols[(li + j + seed) % 4])
+                for q in range(3):
+                    p.cyl(sx + 0.15, -d / 2 + 0.04, zc + 0.09 + 0.08 * q, 0.016, 0.02, "plastic_black", seg=8, axis="Y")
+        elif k == 1:    # 一台寬型＋堆疊
+            p.box(0, 0, zc + 0.015 + 0.09, w - 0.2, d - 0.1, 0.18, bodies[(li + seed) % 4])
+            _screen(p, -0.25, -d / 2 + 0.048, zc + 0.11, 0.3, 0.09, cols[(li + seed) % 4])
+            p.box(0.1, 0, zc + 0.015 + 0.18 + 0.07, w - 0.5, d - 0.14, 0.14, bodies[(li + seed + 2) % 4])
+            _screen(p, 0.1, -d / 2 + 0.068, zc + 0.27, 0.3, 0.06, cols[(li + seed + 1) % 4])
+        else:           # 收納箱
+            for j, sx in enumerate((-0.38, 0.0, 0.38)):
+                p.box(sx, 0, zc + 0.015 + 0.12, 0.33, d - 0.12, 0.24, ("panel_blue", "fabric_grey", "fabric_teal")[(j + seed) % 3])
+                p.box(sx, -d / 2 + 0.055, zc + 0.19, 0.14, 0.012, 0.03, "plastic_white")
+    p.finish(footprint=(w, d))
+    return p
+
+
+def fume_hood(S, x, y, yaw=0.0, w=1.5, d=0.8, h=2.3, name="FumeHood"):
+    """排氣櫃／通風櫥（正面朝本地 -Y，背靠牆）：底櫃＋操作腔（半開玻璃拉門、內照明）＋頂部排風管至天花板。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, 0.45, w, d, 0.9, "desk_white")
+    p.box(0, -d / 2 - 0.005, 0.47, 0.01, 0.01, 0.8, "metal_dark")
+    for sx in (-1, 1):
+        p.box(sx * 0.08, -d / 2 - 0.012, 0.6, 0.02, 0.02, 0.16, "metal")
+        p.box(sx * (w / 2 - 0.04), 0, 1.3, 0.08, d, 0.8, "desk_white")
+    p.box(0, 0, 0.92, w, d, 0.04, mat("lab_top", (0.13, 0.14, 0.16), rough=0.35))
+    p.box(0, d / 2 - 0.02, 1.3, w, 0.04, 0.8, "cabinet")
+    p.box(0, 0, 2.0, w, d, h - 1.7, "desk_white")
+    p.box(0, -d / 2 - 0.004, 2.0, w - 0.3, 0.008, 0.12, "panel_blue")
+    p.box(0, 0, 1.69, w - 0.2, d - 0.2, 0.01, mat("light_emit", (1, 0.97, 0.9), emit=(1, 0.95, 0.85)))
+    p.box(0, -d / 2 + 0.03, 1.5, w - 0.16, 0.012, 0.4, mat("glass", (0.6, 0.8, 0.9), rough=0.05, alpha=0.25))
+    p.box(0, -d / 2 + 0.03, 1.29, w - 0.14, 0.03, 0.03, "metal")
+    p.cyl(0, 0.05, (h + S.H) / 2, 0.15, S.H - h, "metal", seg=14)
+    p.finish(footprint=(w, d))
+    return p
+
+
+def eyewash_station(S, x, y, yaw=0.0, name="Eyewash"):
+    """落地立管式緊急洗眼器＋綠色標示牌（正面朝本地 -Y，(x,y) 為牆面）。"""
+    p = Piece(S, name, x, y, 0, yaw=yaw, coll="PROPS")
+    green = mat("safety_green", (0.05, 0.55, 0.25), rough=0.5)
+    p.box(0, -0.01, 1.75, 0.34, 0.02, 0.34, green)
+    p.box(0, -0.022, 1.75, 0.2, 0.004, 0.06, "plastic_white")
+    p.box(0, -0.022, 1.75, 0.06, 0.004, 0.2, "plastic_white")
+    p.cyl(0, -0.03, 0.96, 0.02, 1.92, mat("safety_yellow", (0.92, 0.72, 0.08), rough=0.5), seg=8)   # 落地立管（同時支撐標示牌）
+    p.cyl(0, -0.18, 1.02, 0.14, 0.07, green, seg=16)
+    p.box(0, -0.1, 1.0, 0.03, 0.14, 0.03, "metal")
+    for sx in (-1, 1):
+        p.cyl(sx * 0.05, -0.18, 1.08, 0.015, 0.05, "plastic_white", seg=8)
+    p.finish(obstacle=False)
+    return p
+
+
+def fire_extinguisher(S, x, y, name="Extinguisher"):
+    p = Piece(S, name, x, y, coll="PROPS")
+    p.cyl(0, 0, 0.27, 0.075, 0.5, "chair_red", seg=12)
+    p.cyl(0, 0, 0.55, 0.03, 0.08, "metal_dark", seg=8)
+    p.box(0.04, 0, 0.6, 0.12, 0.03, 0.03, "plastic_black")
+    p.finish(obstacle=False)
+    return p
+
+
+def gas_cylinders(S, x, y, yaw=0.0, n=2, name="GasCylinders"):
+    """氣體鋼瓶組（靠牆固定架，背面在本地 +Y）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    cols = [mat("cyl_grey", (0.5, 0.52, 0.55), rough=0.35, metal=0.6), mat("cyl_blue", (0.15, 0.3, 0.6), rough=0.35, metal=0.4)]
+    for i in range(n):
+        cx = (i - (n - 1) / 2) * 0.3
+        p.cyl(cx, 0, 0.65, 0.115, 1.3, cols[i % 2], seg=14)
+        p.sphere(cx, 0, 1.3, 0.115, cols[i % 2], seg=10)
+        p.cyl(cx, 0, 1.45, 0.035, 0.12, "metal", seg=8)
+    p.box(0, 0.1, 0.95, n * 0.3 + 0.1, 0.03, 0.05, "metal_dark")
+    p.box(0, -0.125, 0.95, n * 0.3 + 0.06, 0.01, 0.03, "metal")
+    p.box(0, 0, 0.02, n * 0.3 + 0.1, 0.3, 0.04, "metal_dark")
+    p.finish(footprint=(n * 0.3 + 0.1, 0.3))
+    return p
+
+
+def coat_rail(S, x, y, yaw=0.0, n=3, stand=True, name="CoatRail"):
+    """靠牆衣架與實驗衣（正面朝本地 -Y，(x,y) 為牆面）。stand=True 時附落地立柱。"""
+    p = Piece(S, name, x, y, 0, yaw=yaw, coll="PROPS")
+    w = 0.35 * n + 0.1
+    p.box(0, -0.015, 1.75, w, 0.03, 0.08, "wood_light")
+    if stand:
+        for sx in (-1, 1):
+            p.box(sx * (w / 2 - 0.02), -0.02, 0.87, 0.04, 0.04, 1.74, "metal_dark")
+            p.box(sx * (w / 2 - 0.02), -0.12, 0.015, 0.04, 0.3, 0.03, "metal_dark")
+    for i in range(n):
+        cx = (i - (n - 1) / 2) * 0.35
+        p.cyl(cx, -0.06, 1.75, 0.012, 0.08, "metal", seg=6, axis="Y")
+        p.box(cx, -0.09, 1.25, 0.3, 0.08, 0.95, "plastic_white")
+    p.finish(obstacle=False)
+    return p

@@ -1,0 +1,392 @@
+{
+  "id": "016",
+  "name_zh": "研發實驗室",
+  "name_en": "R&D Laboratory",
+  "category": "lab",
+  "size_m": [
+    12,
+    8
+  ],
+  "height_m": 3.0,
+  "doors": [
+    {
+      "id": "DOOR_W_01",
+      "wall": "W",
+      "offset_m": 1.0,
+      "width_m": 1.0,
+      "position": [
+        0.1,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_S_01",
+      "wall": "S",
+      "offset_m": 9.0,
+      "width_m": 1.0,
+      "position": [
+        9.0,
+        0.1,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_N_01",
+      "wall": "N",
+      "offset_m": 9.0,
+      "width_m": 1.0,
+      "position": [
+        9.0,
+        7.9,
+        0.0
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "id": "STAND_bench_01",
+      "type": "STAND",
+      "use": "bench",
+      "position": [
+        2.4,
+        3.0,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_bench_02",
+      "type": "STAND",
+      "use": "bench",
+      "position": [
+        3.4,
+        3.0,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_bench_03",
+      "type": "STAND",
+      "use": "bench",
+      "position": [
+        4.4,
+        3.0,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_bench_04",
+      "type": "STAND",
+      "use": "bench",
+      "position": [
+        6.6,
+        3.0,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_bench_05",
+      "type": "STAND",
+      "use": "bench",
+      "position": [
+        7.6,
+        3.0,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_bench_06",
+      "type": "STAND",
+      "use": "bench",
+      "position": [
+        8.6,
+        3.0,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_bench_07",
+      "type": "STAND",
+      "use": "bench",
+      "position": [
+        2.4,
+        5.4,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_bench_08",
+      "type": "STAND",
+      "use": "bench",
+      "position": [
+        3.4,
+        5.4,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_bench_09",
+      "type": "STAND",
+      "use": "bench",
+      "position": [
+        4.4,
+        5.4,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "SEAT_bench_01",
+      "type": "SEAT",
+      "use": "bench",
+      "position": [
+        6.6,
+        5.25,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "SEAT_bench_02",
+      "type": "SEAT",
+      "use": "bench",
+      "position": [
+        7.6,
+        5.25,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "SEAT_bench_03",
+      "type": "SEAT",
+      "use": "bench",
+      "position": [
+        8.6,
+        5.25,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "POI_instrument_01",
+      "type": "POI",
+      "use": "instrument",
+      "position": [
+        1.25,
+        3.4,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "POI_instrument_02",
+      "type": "POI",
+      "use": "instrument",
+      "position": [
+        1.25,
+        4.7,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "POI_instrument_03",
+      "type": "POI",
+      "use": "instrument",
+      "position": [
+        1.25,
+        6.0,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "STAND_sink_01",
+      "type": "STAND",
+      "use": "sink",
+      "position": [
+        4.6,
+        6.7,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_hood_01",
+      "type": "STAND",
+      "use": "hood",
+      "position": [
+        6.5,
+        6.55,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "POI_storage_01",
+      "type": "POI",
+      "use": "storage",
+      "position": [
+        10.45,
+        6.8,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_whiteboard_01",
+      "type": "STAND",
+      "use": "whiteboard",
+      "position": [
+        11.1,
+        1.5,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "SEAT_desk_01",
+      "type": "SEAT",
+      "use": "desk",
+      "position": [
+        10.65,
+        4.4,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "SEAT_desk_02",
+      "type": "SEAT",
+      "use": "desk",
+      "position": [
+        10.65,
+        5.9,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "POI_labcoat_01",
+      "type": "POI",
+      "use": "labcoat",
+      "position": [
+        2.2,
+        0.85,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "POI_printer3d_01",
+      "type": "POI",
+      "use": "printer3d",
+      "position": [
+        6.2,
+        1.4,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "POI_safety_01",
+      "type": "POI",
+      "use": "safety",
+      "position": [
+        7.75,
+        0.9,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        3.4,
+        4.2,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        7.6,
+        4.2,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_03",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        11.3,
+        4.4,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_04",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        11.3,
+        5.9,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_05",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        6.5,
+        6.8,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    }
+  ],
+  "tags": [
+    "lab",
+    "r&d",
+    "workbench",
+    "instrument-rack",
+    "fume-hood",
+    "3d-printer",
+    "prototyping"
+  ],
+  "nav": {
+    "file": "navmesh.glb",
+    "cell_m": 0.25,
+    "margin_m": 0.3,
+    "cells": 809
+  },
+  "files": {
+    "blend": "scene.blend",
+    "glb": "scene.glb",
+    "navmesh": "navmesh.glb",
+    "preview": "preview.png",
+    "plan": "plan.png",
+    "build": "build.py"
+  },
+  "coord": "Blender Z-up, +Y north, SW corner origin; glb is glTF Y-up (gx=x, gy=z, gz=-y)",
+  "created": "2026-11-14"
+}
