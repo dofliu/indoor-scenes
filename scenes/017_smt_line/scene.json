@@ -1,0 +1,514 @@
+{
+  "id": "017",
+  "name_zh": "電子組裝產線",
+  "name_en": "Electronics Assembly Line (SMT)",
+  "category": "factory",
+  "size_m": [
+    18,
+    10
+  ],
+  "height_m": 3.0,
+  "doors": [
+    {
+      "id": "DOOR_W_01",
+      "wall": "W",
+      "offset_m": 3.0,
+      "width_m": 1.0,
+      "position": [
+        0.1,
+        3.0,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_E_01",
+      "wall": "E",
+      "offset_m": 3.0,
+      "width_m": 1.0,
+      "position": [
+        17.9,
+        3.0,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_S_01",
+      "wall": "S",
+      "offset_m": 11.0,
+      "width_m": 1.0,
+      "position": [
+        11.0,
+        0.1,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_N_01",
+      "wall": "N",
+      "offset_m": 15.0,
+      "width_m": 1.0,
+      "position": [
+        15.0,
+        9.9,
+        0.0
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "id": "STAND_machine_01",
+      "type": "STAND",
+      "use": "machine",
+      "position": [
+        1.8,
+        5.9,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        1.8,
+        7.2,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STAND_machine_02",
+      "type": "STAND",
+      "use": "machine",
+      "position": [
+        3.35,
+        5.9,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        3.35,
+        7.2,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STAND_machine_03",
+      "type": "STAND",
+      "use": "machine",
+      "position": [
+        4.9,
+        5.9,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_03",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        4.9,
+        7.2,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STAND_machine_04",
+      "type": "STAND",
+      "use": "machine",
+      "position": [
+        6.55,
+        5.6,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_04",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        6.55,
+        7.2,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STAND_machine_05",
+      "type": "STAND",
+      "use": "machine",
+      "position": [
+        8.35,
+        5.6,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_05",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        8.35,
+        7.2,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STAND_machine_06",
+      "type": "STAND",
+      "use": "machine",
+      "position": [
+        11.6,
+        5.9,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_06",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        11.6,
+        7.2,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STAND_machine_07",
+      "type": "STAND",
+      "use": "machine",
+      "position": [
+        14.85,
+        5.9,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_07",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        14.85,
+        7.2,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STAND_machine_08",
+      "type": "STAND",
+      "use": "machine",
+      "position": [
+        16.3,
+        5.9,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_08",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        16.3,
+        7.2,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_station_01",
+      "type": "SEAT",
+      "use": "station",
+      "position": [
+        2.55,
+        2.65,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_09",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        2.6,
+        3.4,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_station_02",
+      "type": "SEAT",
+      "use": "station",
+      "position": [
+        4.15,
+        2.65,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_10",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        4.2,
+        3.4,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_station_03",
+      "type": "SEAT",
+      "use": "station",
+      "position": [
+        5.75,
+        2.65,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_11",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        5.8,
+        3.4,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_station_04",
+      "type": "SEAT",
+      "use": "station",
+      "position": [
+        7.35,
+        2.65,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_12",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        7.4,
+        3.4,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_station_05",
+      "type": "SEAT",
+      "use": "station",
+      "position": [
+        13.35,
+        2.65,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_13",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        13.4,
+        3.4,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_station_06",
+      "type": "SEAT",
+      "use": "station",
+      "position": [
+        14.95,
+        2.65,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_14",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        15.0,
+        3.4,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "POI_andon_01",
+      "type": "POI",
+      "use": "andon",
+      "position": [
+        10.4,
+        3.6,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "POI_reel_01",
+      "type": "POI",
+      "use": "reel",
+      "position": [
+        3.2,
+        1.25,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "POI_stencil_01",
+      "type": "POI",
+      "use": "stencil",
+      "position": [
+        5.9,
+        1.2,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "POI_feeder_01",
+      "type": "POI",
+      "use": "feeder",
+      "position": [
+        7.95,
+        1.4,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_packing_01",
+      "type": "STAND",
+      "use": "packing",
+      "position": [
+        13.4,
+        1.5,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "POI_output_01",
+      "type": "POI",
+      "use": "output",
+      "position": [
+        16.4,
+        1.25,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "POI_esd_01",
+      "type": "POI",
+      "use": "esd",
+      "position": [
+        0.95,
+        4.15,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "POI_gown_01",
+      "type": "POI",
+      "use": "gown",
+      "position": [
+        0.95,
+        1.35,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "STAND_whiteboard_01",
+      "type": "STAND",
+      "use": "whiteboard",
+      "position": [
+        17.05,
+        5.0,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "POI_paste_01",
+      "type": "POI",
+      "use": "paste",
+      "position": [
+        2.3,
+        8.6,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_maintenance_01",
+      "type": "STAND",
+      "use": "maintenance",
+      "position": [
+        11.4,
+        8.5,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    }
+  ],
+  "tags": [
+    "factory",
+    "electronics",
+    "smt",
+    "assembly-line",
+    "pick-and-place",
+    "reflow",
+    "esd",
+    "workstation"
+  ],
+  "nav": {
+    "file": "navmesh.glb",
+    "cell_m": 0.25,
+    "margin_m": 0.3,
+    "cells": 1601
+  },
+  "files": {
+    "blend": "scene.blend",
+    "glb": "scene.glb",
+    "navmesh": "navmesh.glb",
+    "preview": "preview.png",
+    "plan": "plan.png",
+    "build": "build.py"
+  },
+  "coord": "Blender Z-up, +Y north, SW corner origin; glb is glTF Y-up (gx=x, gy=z, gz=-y)",
+  "created": "2026-11-15"
+}

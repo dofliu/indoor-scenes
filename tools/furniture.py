@@ -1004,3 +1004,337 @@ def coat_rail(S, x, y, yaw=0.0, n=3, stand=True, name="CoatRail"):
         p.box(cx, -0.09, 1.25, 0.3, 0.08, 0.95, "plastic_white")
     p.finish(obstacle=False)
     return p
+
+
+# ---------------------------------------------------------------- 電子組裝產線／SMT（017 起）
+MACHINE_WHITE = (0.80, 0.82, 0.84)
+SAFETY_YELLOW = (0.92, 0.72, 0.08)
+ESD_MAT = (0.12, 0.42, 0.46)
+PCB_GREEN = (0.05, 0.36, 0.16)
+CONVEYOR_H = 0.95          # 產線輸送高度（板面）
+
+
+def _signal_tower(p, cx, cy, z0, lit="green"):
+    """機台三色警示燈（紅／黃／綠由上而下），lit 指定目前亮的那一層。"""
+    p.cyl(cx, cy, z0 + 0.09, 0.012, 0.18, "metal", seg=6)
+    cols = (("red", (0.9, 0.12, 0.1)), ("yellow", (0.95, 0.75, 0.1)), ("green", (0.15, 0.85, 0.3)))
+    for k, (nm, c) in enumerate(cols):
+        on = nm == lit
+        m = mat("tower_%s_%s" % (nm, "on" if on else "off"), c if on else tuple(v * 0.45 for v in c),
+                rough=0.3, emit=c if on else None)
+        p.cyl(cx, cy, z0 + 0.18 + 0.035 + 0.07 * (2 - k), 0.035, 0.068, m, seg=10)
+    p.cyl(cx, cy, z0 + 0.18 + 0.215, 0.037, 0.012, "metal_dark", seg=10)
+
+
+def _hmi(p, cx, cy, cz, color=(0.2, 0.7, 0.95), w=0.36, h=0.27):
+    """機台操作螢幕（朝本地 -Y）＋支臂＋下方鍵盤托盤。"""
+    p.box(cx, cy + 0.06, cz, 0.05, 0.12, 0.05, "metal_dark")
+    p.box(cx, cy, cz, w, 0.035, h, "plastic_black")
+    _screen(p, cx, cy - 0.02, cz, w - 0.04, h - 0.04, color)
+    p.box(cx, cy - 0.02, cz - h / 2 - 0.1, w, 0.16, 0.02, "metal_dark")
+
+
+def _passthrough(p, w, d, z=CONVEYOR_H):
+    """機台兩側的過板開口＋伸出的短軌。"""
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 + 0.003), 0, z + 0.06, 0.006, 0.52, 0.2, "plastic_black")
+        for sy in (-1, 1):
+            p.box(sx * (w / 2 + 0.04), sy * 0.2, z, 0.08, 0.03, 0.05, "metal")
+
+
+def smt_machine(S, x, y, yaw=0.0, w=1.3, d=1.4, h=1.55, kind="pnp", lit="green", name="SMTMachine"):
+    """通用 SMT 機台（無品牌）：底座機櫃＋上罩（深色觀察窗）＋操作螢幕＋急停鈕＋三色警示燈。
+    操作面朝本地 -Y，板流沿本地 X、板面高 0.95 m。
+    kind：printer 錫膏印刷機、spi 錫膏檢查、pnp 貼片機（前方含供料器排與料捲）、aoi 光學檢查。"""
+    accent = {"printer": (0.88, 0.45, 0.15), "spi": (0.10, 0.50, 0.52),
+              "pnp": (0.10, 0.35, 0.60), "aoi": (0.22, 0.52, 0.32)}[kind]
+    body = mat("machine_white", MACHINE_WHITE, rough=0.4)
+    win = mat("machine_window", (0.04, 0.07, 0.10), rough=0.08)
+    acc = mat("machine_accent_" + kind, accent, rough=0.4)
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, 0.04, w - 0.06, d - 0.06, 0.08, "metal_dark")
+    p.box(0, 0, 0.47, w, d, 0.78, body)
+    p.box(0, 0, 0.875, w + 0.01, d + 0.01, 0.05, acc)
+    hh = h - 0.9
+    p.box(0, 0.04, 0.9 + hh / 2, w, d - 0.08, hh, body)
+    p.box(0, -d / 2 + 0.035, 0.9 + hh / 2, w - 0.12, 0.012, hh - 0.14, win)             # 前觀察窗
+    p.box(0, -d / 2 + 0.028, 0.9 + hh - 0.035, w - 0.5, 0.02, 0.025, "metal")            # 掀蓋把手
+    p.box(0, 0, h + 0.015, w - 0.1, d - 0.2, 0.03, "cabinet")
+    for sx in (-1, 1):                                                                    # 底座檢修門縫
+        p.box(sx * w / 4, -d / 2 - 0.003, 0.45, w / 2 - 0.06, 0.006, 0.62, "cabinet")
+        p.box(sx * 0.05, -d / 2 - 0.012, 0.55, 0.02, 0.02, 0.14, "metal_dark")
+    _passthrough(p, w, d)
+    front = -d / 2
+    if kind == "pnp":       # 供料器排（前側）＋料捲
+        fw = w - 0.3
+        p.box(0, front - 0.13, 0.8, fw, 0.26, 0.2, "metal_dark")
+        n = int(fw / 0.11)
+        for i in range(n):
+            fx = -fw / 2 + (i + 0.5) * fw / n
+            p.box(fx, front - 0.14, 0.915, 0.035, 0.24, 0.03, "metal" if i % 2 else "cabinet")
+            p.cyl(fx, front - 0.2, 0.6, 0.085, 0.03, ("plastic_white", "panel_blue", "plastic_black")[i % 3], seg=10, axis="X")
+        _hmi(p, w / 2 - 0.2, front - 0.02, 1.38, (0.2, 0.7, 0.95), w=0.32, h=0.22)
+        fp = (w, d + 0.3, 0, -0.15)
+    else:
+        scr = {"printer": (0.95, 0.6, 0.15), "spi": (0.2, 0.85, 0.75), "aoi": (0.3, 0.9, 0.4)}[kind]
+        big = kind in ("spi", "aoi")
+        _hmi(p, w / 2 - 0.26, front - 0.06, 1.3, scr, w=0.44 if big else 0.36, h=0.3 if big else 0.26)
+        if kind == "printer":   # 鋼板抽換口
+            p.box(-0.12, front - 0.002, 1.0, w - 0.75, 0.01, 0.05, "plastic_black")
+        fp = (w, d)
+    p.cyl(-w / 2 + 0.13, front - 0.012, 0.8, 0.035, 0.03, mat("estop_red", (0.85, 0.08, 0.06), rough=0.4), seg=10, axis="Y")
+    p.box(-w / 2 + 0.13, front - 0.002, 0.8, 0.11, 0.006, 0.11, mat("safety_yellow", SAFETY_YELLOW))
+    _signal_tower(p, -w / 2 + 0.16, d / 2 - 0.2, h + 0.03, lit)
+    p.finish(footprint=fp)
+    return p
+
+
+def reflow_oven(S, x, y, yaw=0.0, w=4.2, d=1.4, h=1.5, zones=8, lit="green", name="ReflowOven"):
+    """迴焊爐（長型多溫區）：底座＋分段上罩（每溫區小觀察窗）＋操作螢幕＋兩支排風管至天花板＋警示燈。
+    操作面朝本地 -Y，板流沿本地 X。"""
+    body = mat("machine_white", MACHINE_WHITE, rough=0.4)
+    win = mat("machine_window", (0.04, 0.07, 0.10), rough=0.08)
+    hot = mat("machine_accent_reflow", (0.75, 0.22, 0.14), rough=0.4)
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, 0.04, w - 0.08, d - 0.06, 0.08, "metal_dark")
+    p.box(0, 0, 0.47, w, d, 0.78, body)
+    p.box(0, 0, 0.875, w + 0.01, d + 0.01, 0.05, hot)
+    hh = h - 0.9
+    p.box(0, 0.03, 0.9 + hh / 2, w - 0.1, d - 0.1, hh, body)
+    zw = (w - 0.9) / zones
+    for i in range(zones):
+        zx = -w / 2 + 0.75 + (i + 0.5) * zw
+        p.box(zx, -d / 2 + 0.075, 0.9 + hh * 0.55, zw - 0.1, 0.012, hh * 0.42, win)
+        p.box(zx, -d / 2 + 0.072, 0.9 + hh * 0.18, zw - 0.2, 0.012, 0.03, "metal")
+        if i:
+            p.box(zx - zw / 2, 0.03, 0.9 + hh / 2, 0.012, d - 0.09, hh + 0.004, "cabinet")
+    for i in range(6):                                                                    # 底座檢修門
+        p.box(-w / 2 + (i + 0.5) * w / 6, -d / 2 - 0.003, 0.45, w / 6 - 0.05, 0.006, 0.62, "cabinet")
+    _hmi(p, -w / 2 + 0.36, -d / 2 - 0.03, 1.3, (0.95, 0.45, 0.2), w=0.44, h=0.3)
+    _passthrough(p, w, d)
+    for sx in (-0.28, 0.28):                                                              # 排風管
+        p.box(sx * w, 0.1, h + 0.06, 0.36, 0.36, 0.12, "metal_dark")
+        p.cyl(sx * w, 0.1, (h + 0.12 + S.H) / 2, 0.13, S.H - h - 0.12, mat("duct", (0.70, 0.72, 0.74), rough=0.3, metal=0.6), seg=14)
+    p.cyl(w / 2 - 0.14, -d / 2 - 0.012, 0.8, 0.035, 0.03, mat("estop_red", (0.85, 0.08, 0.06), rough=0.4), seg=10, axis="Y")
+    p.box(w / 2 - 0.14, -d / 2 - 0.002, 0.8, 0.11, 0.006, 0.11, mat("safety_yellow", SAFETY_YELLOW))
+    _signal_tower(p, -w / 2 + 0.2, d / 2 - 0.25, h + 0.0, lit)
+    p.finish(footprint=(w, d))
+    return p
+
+
+def pcb_board(p, cx, cy, cz, sx=0.25, sy=0.2, populated=True):
+    """在 Piece 上加一片電路板（populated=True 時附幾顆零件）。"""
+    p.box(cx, cy, cz + 0.004, sx, sy, 0.008, mat("pcb_green", PCB_GREEN, rough=0.35))
+    if populated:
+        p.box(cx - sx * 0.18, cy + sy * 0.1, cz + 0.014, sx * 0.24, sy * 0.3, 0.012, "plastic_black")
+        p.box(cx + sx * 0.22, cy - sy * 0.15, cz + 0.012, sx * 0.16, sy * 0.2, 0.008, "metal")
+        p.box(cx + sx * 0.2, cy + sy * 0.25, cz + 0.016, sx * 0.3, sy * 0.14, 0.016, "plastic_white")
+
+
+def conveyor(S, x, y, length, yaw=0.0, h=CONVEYOR_H, pcb=True, populated=True, name="Conveyor"):
+    """邊軌式接駁輸送段（沿本地 X）：雙側鋁軌＋皮帶＋支腳，可放一片電路板。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    for sy in (-1, 1):
+        p.box(0, sy * 0.2, h - 0.01, length, 0.035, 0.07, "metal")
+        p.box(0, sy * 0.17, h - 0.004, length - 0.02, 0.02, 0.008, "plastic_black")
+    for sx in (-1, 1):
+        lx = sx * max(0.0, length / 2 - 0.08)
+        for sy in (-1, 1):
+            p.box(lx, sy * 0.2, (h - 0.05) / 2, 0.04, 0.04, h - 0.05, "metal_dark")
+        p.box(lx, 0, 0.25, 0.04, 0.4, 0.04, "metal_dark")
+        if length < 0.3:
+            break
+    p.box(0, 0, h - 0.2, max(0.12, length - 0.2), 0.3, 0.12, "cabinet")
+    if pcb:
+        pcb_board(p, 0, 0, h, min(0.25, length - 0.06), 0.34, populated)
+    p.finish(footprint=(length, 0.5))
+    return p
+
+
+def pcb_magazine_loader(S, x, y, yaw=0.0, w=1.0, d=1.2, h=1.5, lit="green", name="PCBLoader"):
+    """收／送板機（料匣升降式）：封閉機櫃＋透明門內的料匣（層疊電路板）＋操作面板＋警示燈。板流沿本地 X。"""
+    body = mat("machine_white", MACHINE_WHITE, rough=0.4)
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, 0.04, w - 0.06, d - 0.06, 0.08, "metal_dark")
+    p.box(0, 0, 0.33, w, d, 0.5, body)
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.box(sx * (w / 2 - 0.03), sy * (d / 2 - 0.03), (h + 0.58) / 2, 0.06, 0.06, h - 0.58, body)
+    p.box(0, 0, h - 0.04, w, d, 0.08, body)
+    p.box(0, d / 2 - 0.02, (h + 0.58) / 2, w - 0.12, 0.02, h - 0.66, body)
+    p.box(0, -d / 2 + 0.02, (h + 0.5) / 2, w - 0.12, 0.01, h - 0.66, mat("glass", (0.6, 0.8, 0.9), rough=0.05, alpha=0.25))
+    mg = mat("magazine_blue", (0.08, 0.16, 0.36), rough=0.5)
+    for sy in (-0.25, 0.25):                                                              # 兩組料匣
+        for sx in (-1, 1):
+            p.box(sx * 0.19, sy, 0.98, 0.02, 0.4, 0.72, mg)
+        p.box(0, sy, 0.63, 0.4, 0.4, 0.02, mg)
+        p.box(0, sy, 1.33, 0.4, 0.4, 0.02, mg)
+        for k in range(9):
+            p.box(0, sy, 0.7 + 0.07 * k, 0.34, 0.36, 0.008, mat("pcb_green", PCB_GREEN, rough=0.35))
+    _passthrough(p, w, d)
+    p.box(w / 2 - 0.2, -d / 2 - 0.012, 0.44, 0.24, 0.02, 0.18, "plastic_black")
+    _screen(p, w / 2 - 0.2, -d / 2 - 0.024, 0.44, 0.2, 0.13, (0.2, 0.7, 0.95))
+    _signal_tower(p, -w / 2 + 0.14, d / 2 - 0.16, h, lit)
+    p.finish(footprint=(w, d))
+    return p
+
+
+def esd_workbench(S, x, y, yaw=0.0, w=1.5, d=0.75, h=0.76, seed=0, name="ESDBench"):
+    """防靜電作業台：白色桌面＋防靜電桌墊＋抽屜櫃＋後立柱層板（零件盒）＋燈條＋放大鏡燈＋治具上的電路板。
+    使用者在本地 -Y 側、面向 +Y。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, h - 0.015, w, d, 0.03, "desk_white")
+    p.box(0, -0.06, h + 0.003, w - 0.3, d - 0.3, 0.006, mat("esd_mat", ESD_MAT, rough=0.8))
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - 0.03), -d / 2 + 0.04, (h - 0.03) / 2, 0.04, 0.04, h - 0.03, "metal")
+        p.box(sx * (w / 2 - 0.03), d / 2 - 0.03, 0.9, 0.04, 0.04, 1.8, "metal")
+        p.box(sx * (w / 2 - 0.03), 0, 0.08, 0.04, d - 0.04, 0.04, "metal")
+    p.box(w / 2 - 0.28, 0.05, h - 0.03 - 0.22, 0.42, d - 0.2, 0.44, "cabinet")              # 抽屜櫃
+    for k in range(3):
+        p.box(w / 2 - 0.28, -d / 2 + 0.145, h - 0.11 - 0.14 * k, 0.2, 0.012, 0.02, "metal_dark")
+    p.box(0, d / 2 - 0.15, 1.3, w, 0.28, 0.025, "desk_white")                              # 層板
+    p.box(0, d / 2 - 0.02, 1.02, w - 0.08, 0.012, 0.5, mat("pegboard", (0.80, 0.82, 0.80), rough=0.8))
+    cols = ("panel_blue", "chair_red", mat("safety_yellow", SAFETY_YELLOW), "chair_green")
+    nb = 6
+    for i in range(nb):
+        bx = -w / 2 + 0.14 + i * (w - 0.28) / (nb - 1)
+        p.box(bx, d / 2 - 0.16, 1.3125 + 0.055, 0.17, 0.22, 0.11, cols[(i + seed) % 4])
+        p.box(bx, d / 2 - 0.275, 1.3125 + 0.03, 0.13, 0.012, 0.04, "plastic_black")
+    p.box(0, d / 2 - 0.2, 1.79, w, 0.36, 0.025, "metal")                                   # 頂燈罩
+    p.box(0, d / 2 - 0.2, 1.775, w - 0.2, 0.2, 0.008, mat("light_emit", (1, 0.97, 0.9), emit=(1, 0.95, 0.85)))
+    # 放大鏡燈
+    lx = -w / 2 + 0.2
+    p.cyl(lx, 0.2, h + 0.01, 0.05, 0.02, "metal_dark", seg=10)
+    p.box(lx, 0.12, h + 0.2, 0.02, 0.2, 0.02, "metal_dark", rz=0)
+    p.cyl(lx, 0.2, h + 0.2, 0.012, 0.38, "metal_dark", seg=6)
+    p.box(lx + 0.06, 0.05, h + 0.38, 0.02, 0.32, 0.02, "metal_dark", rz=R(-22))
+    p.cyl(lx + 0.12, -0.1, h + 0.37, 0.085, 0.025, "plastic_white", seg=14)
+    p.cyl(lx + 0.12, -0.1, h + 0.357, 0.06, 0.004, mat("glass", (0.6, 0.8, 0.9), rough=0.05, alpha=0.25), seg=14)
+    # 治具＋電路板、成品盤
+    p.box(-0.02, -0.08, h + 0.02, 0.32, 0.26, 0.028, "metal_dark")
+    pcb_board(p, -0.02, -0.08, h + 0.034, 0.26, 0.2)
+    tote = mat("esd_tote", (0.07, 0.08, 0.10), rough=0.6)
+    p.box(0.3, 0.12, h + 0.04, 0.3, 0.22, 0.07, tote)
+    for k in range(3):
+        p.box(0.22 + 0.08 * k, 0.12, h + 0.075, 0.008, 0.18, 0.11, mat("pcb_green", PCB_GREEN, rough=0.35))
+    p.finish(footprint=(w, d))
+    return p
+
+
+def reel_rack(S, x, y, yaw=0.0, w=1.2, d=0.5, h=2.0, seed=0, name="ReelRack"):
+    """料捲儲存架：開放層架，每層直立排放 SMD 料捲（正面朝本地 -Y）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.box(sx * (w / 2 - 0.02), sy * (d / 2 - 0.02), h / 2, 0.04, 0.04, h, "metal_dark")
+    levels = (0.15, 0.55, 0.95, 1.35, 1.72)
+    cols = ("plastic_white", "panel_blue", "plastic_black", "plastic_white", "cabinet")
+    for li, zc in enumerate(levels):
+        p.box(0, 0, zc, w, d, 0.025, "metal")
+        p.box(0, -d / 2 + 0.01, zc + 0.04, w - 0.08, 0.012, 0.06, "metal")
+        n = 11
+        for i in range(n):
+            if (i * 7 + li * 3 + seed) % 9 == 0:
+                continue                                                                  # 留幾個空位
+            rx = -w / 2 + 0.1 + i * (w - 0.2) / (n - 1)
+            p.cyl(rx, -0.02, zc + 0.0125 + 0.15, 0.15, 0.035, cols[(i + li + seed) % 5], seg=12, axis="X")
+    p.box(0, 0, h - 0.01, w, d, 0.02, "metal")
+    p.finish(footprint=(w, d))
+    return p
+
+
+def tote_shelf(S, x, y, yaw=0.0, w=1.2, d=0.5, h=1.8, name="ToteShelf"):
+    """成品／半成品周轉箱層架（防靜電黑色周轉箱，部分露出電路板；正面朝本地 -Y）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    tote = mat("esd_tote", (0.07, 0.08, 0.10), rough=0.6)
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.box(sx * (w / 2 - 0.02), sy * (d / 2 - 0.02), h / 2, 0.04, 0.04, h, "metal")
+    for li, zc in enumerate((0.15, 0.6, 1.05, 1.5)):
+        p.box(0, 0, zc, w, d, 0.025, "metal")
+        for j, sx in enumerate((-0.36, 0.0, 0.36)):
+            if (li + j) % 5 == 4:
+                continue
+            p.box(sx * w / 1.2, 0, zc + 0.0125 + 0.13, 0.32, d - 0.08, 0.26, tote)
+            p.box(sx * w / 1.2, -d / 2 + 0.035, zc + 0.2, 0.12, 0.008, 0.06, mat("safety_yellow", SAFETY_YELLOW))
+    p.finish(footprint=(w, d))
+    return p
+
+
+def feeder_cart(S, x, y, yaw=0.0, w=0.75, d=0.5, name="FeederCart"):
+    """供料器台車：附輪框架＋兩層斜置供料器＋料捲＋推把（把手在本地 +X 端）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.cyl(sx * (w / 2 - 0.06), sy * (d / 2 - 0.06), 0.04, 0.04, 0.03, "plastic_black", seg=8, axis="Y")
+            p.box(sx * (w / 2 - 0.03), sy * (d / 2 - 0.03), 0.52, 0.03, 0.03, 0.9, "metal")
+    p.box(0, 0, 0.1, w, d, 0.03, "metal")
+    for zc in (0.45, 0.85):
+        p.box(0, 0, zc, w - 0.04, d - 0.04, 0.03, "metal_dark")
+        n = 6
+        for i in range(n):
+            fx = -w / 2 + 0.1 + i * (w - 0.2) / (n - 1)
+            p.box(fx, 0, zc + 0.07, 0.035, d - 0.1, 0.1, "cabinet" if i % 2 else "metal")
+            p.cyl(fx, -d / 2 + 0.12, zc + 0.16, 0.075, 0.028, ("plastic_white", "panel_blue")[i % 2], seg=10, axis="X")
+    p.box(w / 2 + 0.04, 0, 0.97, 0.03, d - 0.06, 0.03, "metal_dark")
+    p.finish(footprint=(w, d))
+    return p
+
+
+def esd_tester(S, x, y, yaw=0.0, name="ESDTester"):
+    """入口防靜電測試站：腳踏板＋立柱＋測試面板（螢幕與通過燈）；正面朝本地 -Y，(x,y) 為立柱位置。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, -0.38, 0.015, 0.5, 0.5, 0.03, "metal")
+    p.box(0, -0.38, 0.032, 0.42, 0.42, 0.006, mat("esd_mat", ESD_MAT, rough=0.8))
+    p.box(0, 0, 0.6, 0.08, 0.08, 1.2, "metal_dark")
+    p.box(0, -0.03, 1.3, 0.3, 0.1, 0.4, "plastic_white")
+    _screen(p, 0, -0.082, 1.36, 0.2, 0.12, (0.2, 0.85, 0.75))
+    p.cyl(-0.07, -0.085, 1.18, 0.025, 0.02, mat("status_ok", (0.2, 0.9, 0.3), emit=(0.2, 0.9, 0.3)), seg=10, axis="Y")
+    p.cyl(0.07, -0.085, 1.18, 0.03, 0.02, "metal", seg=10, axis="Y")
+    p.finish(footprint=(0.3, 0.2))
+    return p
+
+
+def hanging_display(S, x, y, yaw=0.0, w=1.8, h=0.8, z=2.05, rows=4, name="AndonBoard"):
+    """天花板吊掛的產線看板（Andon）：螢幕面朝本地 -Y，以發光色塊表示各站狀態與產量條（無文字）。"""
+    p = Piece(S, name, x, y, yaw=yaw, coll="PROPS")
+    for sx in (-1, 1):
+        p.cyl(sx * (w / 2 - 0.2), 0, (z + h + S.H) / 2, 0.012, S.H - z - h, "metal_dark", seg=6)
+    p.box(0, 0, z + h / 2, w, 0.07, h, "plastic_black")
+    p.box(0, -0.037, z + h / 2, w - 0.06, 0.004, h - 0.06, mat("andon_bg", (0.02, 0.04, 0.07), rough=0.2))
+    cols = [(0.15, 0.85, 0.3), (0.15, 0.85, 0.3), (0.95, 0.75, 0.1), (0.15, 0.85, 0.3), (0.9, 0.15, 0.1)]
+    rh = (h - 0.16) / rows
+    for r in range(rows):
+        zc = z + h - 0.08 - (r + 0.5) * rh
+        c = cols[(r * 2) % 5]
+        m = mat("andon_%d%d%d" % tuple(int(v * 9) for v in c), tuple(v * 0.3 for v in c), emit=c)
+        p.box(-w / 2 + 0.16, -0.04, zc, 0.14, 0.004, rh * 0.6, m)
+        frac = (0.82, 0.64, 0.9, 0.47)[r % 4]
+        bw = (w - 0.5) * frac
+        p.box(-w / 2 + 0.3 + bw / 2, -0.04, zc, bw, 0.004, rh * 0.42,
+              mat("andon_bar", (0.05, 0.2, 0.3), emit=(0.2, 0.7, 0.95)))
+    p.finish(obstacle=False)
+    return p
+
+
+def floor_line(S, x0, y0, x1, y1, width=0.08, color=None, name="FloorLine"):
+    """地面標線（預設安全黃），軸向矩形 (x0,y0)-(x1,y1) 為中心線端點。"""
+    p = Piece(S, name, 0, 0, coll="PROPS")
+    m = color or mat("safety_yellow", SAFETY_YELLOW)
+    if abs(x1 - x0) >= abs(y1 - y0):
+        p.boxc(min(x0, x1), y0 - width / 2, 0.001, max(x0, x1), y0 + width / 2, 0.004, m)
+    else:
+        p.boxc(x0 - width / 2, min(y0, y1), 0.001, x0 + width / 2, max(y0, y1), 0.004, m)
+    p.finish(obstacle=False)
+    return p
+
+
+def carton_stack(S, x, y, yaw=0.0, n=3, z=0.0, name="Cartons"):
+    """紙箱堆（包裝出貨用）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    cb = mat("cardboard", (0.62, 0.46, 0.28), rough=0.85)
+    for k in range(n):
+        p.box(0.02 * (k % 2), 0, 0.14 + 0.28 * k, 0.4, 0.3, 0.27, cb, rz=R(4 * (k % 2)))
+        p.box(0.02 * (k % 2), 0, 0.276 + 0.28 * k, 0.4, 0.05, 0.002, "paper", rz=R(4 * (k % 2)))
+    p.finish(obstacle=False)
+    return p

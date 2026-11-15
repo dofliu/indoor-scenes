@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-14",
+  "updated": "2026-11-15",
   "scenes": [
     {
       "id": "001",
@@ -379,6 +379,33 @@
       ],
       "created": "2026-11-14",
       "preview": "scenes/016_rd_lab/preview.png"
+    },
+    {
+      "id": "017",
+      "dir": "017_smt_line",
+      "name_zh": "電子組裝產線",
+      "name_en": "Electronics Assembly Line (SMT)",
+      "category": "factory",
+      "size_m": [
+        18,
+        10
+      ],
+      "height_m": 3.0,
+      "doors": 4,
+      "anchors": 39,
+      "seats": 6,
+      "tags": [
+        "factory",
+        "electronics",
+        "smt",
+        "assembly-line",
+        "pick-and-place",
+        "reflow",
+        "esd",
+        "workstation"
+      ],
+      "created": "2026-11-15",
+      "preview": "scenes/017_smt_line/preview.png"
     }
   ]
 }
