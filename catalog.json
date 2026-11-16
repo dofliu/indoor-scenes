@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-15",
+  "updated": "2026-11-16",
   "scenes": [
     {
       "id": "001",
@@ -406,6 +406,33 @@
       ],
       "created": "2026-11-15",
       "preview": "scenes/017_smt_line/preview.png"
+    },
+    {
+      "id": "018",
+      "dir": "018_cnc_workshop",
+      "name_zh": "CNC 加工車間",
+      "name_en": "CNC Machining Workshop",
+      "category": "factory",
+      "size_m": [
+        16,
+        12
+      ],
+      "height_m": 3.0,
+      "doors": 3,
+      "anchors": 28,
+      "seats": 0,
+      "tags": [
+        "factory",
+        "cnc",
+        "machining",
+        "milling",
+        "turning",
+        "robot-cell",
+        "machine-tending",
+        "workshop"
+      ],
+      "created": "2026-11-16",
+      "preview": "scenes/018_cnc_workshop/preview.png"
     }
   ]
 }

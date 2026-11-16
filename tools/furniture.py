@@ -1338,3 +1338,350 @@ def carton_stack(S, x, y, yaw=0.0, n=3, z=0.0, name="Cartons"):
         p.box(0.02 * (k % 2), 0, 0.276 + 0.28 * k, 0.4, 0.05, 0.002, "paper", rz=R(4 * (k % 2)))
     p.finish(obstacle=False)
     return p
+
+
+# ---------------------------------------------------------------- CNC 加工車間（018 起）
+ROBOT_ORANGE = (0.90, 0.46, 0.10)
+
+
+def _chip_conveyor(p, cx, cy, length, yaw_dir="Y", w=0.42, h_end=1.15):
+    """排屑機（斜升式）＋末端集屑車；沿本地 +Y（yaw_dir='Y'）或 +X 伸出，cx,cy 為伸出起點。"""
+    sgn = 1
+    body = mat("chip_conv", (0.32, 0.36, 0.40), rough=0.5, metal=0.3)
+    if yaw_dir == "Y":
+        p.box(cx, cy + length * 0.5 * sgn, 0.35, w, length, 0.3, body)
+        p.box(cx, cy + length * sgn - 0.12, (0.35 + h_end) / 2 + 0.1, w, 0.24, h_end - 0.25, body)
+        p.box(cx, cy + length * sgn + 0.32, 0.36, 0.62, 0.48, 0.62, mat("chip_bin", (0.20, 0.36, 0.55), rough=0.5))
+        p.box(cx, cy + length * sgn + 0.32, 0.68, 0.56, 0.42, 0.02, mat("chips", (0.55, 0.55, 0.52), rough=0.3, metal=0.8))
+    else:
+        p.box(cx + length * 0.5, cy, 0.35, length, w, 0.3, body)
+        p.box(cx + length - 0.12, cy, (0.35 + h_end) / 2 + 0.1, 0.24, w, h_end - 0.25, body)
+        p.box(cx + length + 0.32, cy, 0.36, 0.48, 0.62, 0.62, mat("chip_bin", (0.20, 0.36, 0.55), rough=0.5))
+        p.box(cx + length + 0.32, cy, 0.68, 0.42, 0.56, 0.02, mat("chips", (0.55, 0.55, 0.52), rough=0.3, metal=0.8))
+
+
+def cnc_mill(S, x, y, yaw=0.0, w=2.2, d=2.0, h=2.45, lit="green", hmi_side=1, chip=True, name="CNCMill"):
+    """立式加工中心（通用、無品牌）：全罩鈑金機身、雙片滑門（透明觀察窗，可見工作台／虎鉗／主軸頭）、
+    側柱操作面板（hmi_side=±1 → 本地 ±X 側）、三色警示燈、後方排屑機＋集屑車。操作面朝本地 -Y。"""
+    body = mat("machine_white", MACHINE_WHITE, rough=0.4)
+    dark = mat("cnc_grey", (0.28, 0.31, 0.34), rough=0.45)
+    acc = mat("cnc_accent", (0.10, 0.35, 0.60), rough=0.4)
+    glass = mat("glass", (0.6, 0.8, 0.9), rough=0.05, alpha=0.25)
+    p = Piece(S, name, x, y, yaw=yaw)
+    f = -d / 2
+    p.box(0, 0, 0.06, w - 0.04, d - 0.04, 0.12, "metal_dark")                         # 底座
+    p.box(0, 0.25, 0.12 + (h - 0.12) / 2, w, d - 0.5, h - 0.12, body)                  # 後段機身
+    p.box(0, f + 0.25, 0.12 + 0.35, w, 0.5, 0.7, dark)                                 # 前下裙板（接屑盤）
+    p.box(0, f + 0.25, h - 0.18, w, 0.5, 0.36, body)                                   # 前上眉板
+    for sx in (-1, 1):                                                                 # 前框側柱
+        p.box(sx * (w / 2 - 0.12), f + 0.25, 0.82 + (h - 1.18) / 2, 0.24, 0.5, h - 1.18, body)
+    p.box(0, f + 0.5, 0.82 + (h - 1.18) / 2, w - 0.48, 0.02, h - 1.18, dark)           # 內腔背板
+    # 內部：工作台＋虎鉗＋工件、主軸頭
+    p.box(0, f + 0.75, 0.95, 1.1, 0.5, 0.06, "metal")
+    p.box(0, f + 0.75, 1.03, 0.22, 0.16, 0.1, "metal_dark")
+    p.box(0, f + 0.75, 1.11, 0.12, 0.08, 0.06, mat("aluminum", (0.80, 0.81, 0.83), rough=0.25, metal=0.9))
+    p.box(0.1, f + 0.78, 1.75, 0.34, 0.36, 0.5, dark)
+    p.cyl(0.1, f + 0.72, 1.43, 0.06, 0.14, "metal", seg=12)
+    p.cyl(0.1, f + 0.72, 1.31, 0.012, 0.1, "metal_dark", seg=8)
+    # 滑門（左右各一，微錯開）＋觀察窗
+    dw = (w - 0.48) / 2 + 0.04
+    for k, sx in enumerate((-1, 1)):
+        dy = f - 0.01 - 0.03 * k
+        cx = sx * (dw / 2 - 0.02)
+        p.box(cx, dy, 0.82 + (h - 1.18) / 2, dw, 0.02, h - 1.18, "cabinet")
+        p.box(cx, dy - 0.012, 0.82 + (h - 1.18) / 2 + 0.05, dw - 0.16, 0.006, h - 1.48, glass)
+        p.box(cx - sx * (dw / 2 - 0.1), dy - 0.03, 1.4, 0.04, 0.04, 0.4, "metal_dark")   # 門把（靠中縫）
+    p.box(0, f + 0.002, 0.8, w - 0.3, 0.004, 0.04, acc)                                 # 色帶
+    p.box(0, f + 0.002, h - 0.33, w, 0.004, 0.05, acc)
+    # 操作面板（側柱外懸）
+    hx = hmi_side * (w / 2 + 0.14)
+    p.box(hx, f + 0.25, 1.35, 0.06, 0.06, 0.5, "metal_dark")
+    p.box(hx, f + 0.1, 1.45, 0.5, 0.12, 0.62, dark, rz=hmi_side * R(-20))
+    _screen(p, hx - hmi_side * 0.02, f + 0.035, 1.58, 0.34, 0.24, (0.2, 0.7, 0.95))
+    p.box(hx, f + 0.03, 1.27, 0.38, 0.01, 0.16, "plastic_black")
+    p.cyl(hx + hmi_side * 0.17, f + 0.03, 1.22, 0.03, 0.03, mat("estop_red", (0.85, 0.08, 0.06), rough=0.4), seg=10, axis="Y")
+    _signal_tower(p, hmi_side * (w / 2 - 0.15), f + 0.35, h, lit)
+    # 後方：電控箱、冷卻水箱、排屑機
+    p.box(-w / 2 + 0.35, d / 2 + 0.18, 0.95, 0.6, 0.36, 1.6, dark)
+    p.box(w / 2 - 0.45, d / 2 + 0.15, 0.3, 0.7, 0.3, 0.45, mat("coolant_tank", (0.20, 0.40, 0.30), rough=0.5))
+    fp_d = d + 0.36
+    if chip:
+        _chip_conveyor(p, 0.15, d / 2, 0.55)
+        fp_d = d + 1.25
+    p.finish(footprint=(w + 0.36, fp_d, 0, (fp_d - d) / 2))
+    return p
+
+
+def cnc_lathe(S, x, y, yaw=0.0, w=2.6, d=1.5, h=1.95, lit="green", name="CNCLathe"):
+    """CNC 車床（斜床式車削中心，通用無品牌）：機身、單片大滑門（觀察窗內可見夾頭與刀塔）、
+    右側操作面板、警示燈、右側排屑機＋集屑車。操作面朝本地 -Y。"""
+    body = mat("machine_white", MACHINE_WHITE, rough=0.4)
+    dark = mat("cnc_grey", (0.28, 0.31, 0.34), rough=0.45)
+    acc = mat("cnc_accent", (0.10, 0.35, 0.60), rough=0.4)
+    glass = mat("glass", (0.6, 0.8, 0.9), rough=0.05, alpha=0.25)
+    p = Piece(S, name, x, y, yaw=yaw)
+    f = -d / 2
+    p.box(0, 0, 0.06, w - 0.04, d - 0.04, 0.12, "metal_dark")
+    p.box(0, 0.2, 0.12 + (h - 0.12) / 2, w, d - 0.4, h - 0.12, body)
+    p.box(0, f + 0.2, 0.12 + 0.36, w, 0.4, 0.72, dark)
+    p.box(0, f + 0.2, h - 0.15, w, 0.4, 0.3, body)
+    p.box(-w / 2 + 0.3, f + 0.2, 0.84 + (h - 1.14) / 2, 0.6, 0.4, h - 1.14, body)       # 主軸箱側
+    p.box(w / 2 - 0.12, f + 0.2, 0.84 + (h - 1.14) / 2, 0.24, 0.4, h - 1.14, body)
+    p.box(0.15, f + 0.4, 0.84 + (h - 1.14) / 2, w - 0.84, 0.02, h - 1.14, dark)
+    p.cyl(-w / 2 + 0.66, f + 0.55, 1.25, 0.16, 0.12, "metal", seg=16, axis="X")         # 夾頭
+    p.cyl(-w / 2 + 0.8, f + 0.55, 1.25, 0.04, 0.2, mat("aluminum", (0.80, 0.81, 0.83), rough=0.25, metal=0.9), seg=12, axis="X")
+    p.cyl(0.2, f + 0.6, 1.4, 0.18, 0.1, "metal_dark", seg=12, axis="X")                 # 刀塔
+    dw = w * 0.52
+    p.box(0.05, f - 0.02, 0.84 + (h - 1.14) / 2, dw, 0.02, h - 1.14, "cabinet")
+    p.box(0.05, f - 0.032, 0.84 + (h - 1.14) / 2 + 0.04, dw - 0.18, 0.006, h - 1.4, glass)
+    p.box(0.05 - dw / 2 + 0.1, f - 0.05, 1.3, 0.04, 0.04, 0.36, "metal_dark")
+    p.box(0, f + 0.002, 0.82, w - 0.3, 0.004, 0.04, acc)
+    hx = w / 2 - 0.12
+    p.box(hx, f - 0.05, 1.4, 0.42, 0.1, 0.56, dark)
+    _screen(p, hx, f - 0.102, 1.5, 0.3, 0.22, (0.2, 0.7, 0.95))
+    p.box(hx, f - 0.102, 1.24, 0.32, 0.004, 0.12, "plastic_black")
+    p.cyl(hx + 0.15, f - 0.11, 1.18, 0.03, 0.03, mat("estop_red", (0.85, 0.08, 0.06), rough=0.4), seg=10, axis="Y")
+    _signal_tower(p, w / 2 - 0.2, 0.2, h, lit)
+    _chip_conveyor(p, w / 2, 0.15, 0.3, yaw_dir="X", h_end=1.0)
+    p.finish(footprint=(w + 0.9, d + 0.1, 0.45, 0))
+    return p
+
+
+def industrial_robot(S, x, y, yaw=0.0, base_h=0.45, j1=0.0, j2=-25.0, j3=40.0, color=ROBOT_ORANGE, name="Robot"):
+    """六軸關節型機器手臂（通用造型）＋底座台；j1 底座旋轉（度，0 = 手臂伸向本地 +Y），
+    j2 大臂前傾角、j3 小臂相對水平下壓角。末端為雙指氣動夾爪。"""
+    arm = mat("robot_body", color, rough=0.4)
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, base_h / 2, 0.6, 0.6, base_h, "metal_dark")                            # 底座台
+    p.box(0, 0, base_h + 0.01, 0.66, 0.66, 0.02, mat("safety_yellow", SAFETY_YELLOW))
+    p.cyl(0, 0, base_h + 0.09, 0.2, 0.16, "metal_dark", seg=18)                         # J1 底座
+    a1 = R(j1)
+    ux, uy = -math.sin(a1), math.cos(a1)                                                # 手臂水平方向
+    z1 = base_h + 0.3
+    p.cyl(0, 0, base_h + 0.22, 0.17, 0.12, arm, seg=18)                                 # 迴轉座
+    p.box(0, 0, z1, 0.26, 0.26, 0.2, arm, rz=a1)
+    # 大臂：自 J2（z1）向上前傾
+    L2, L3 = 0.75, 0.7
+    t2 = R(90 + j2)                                                                     # 與水平夾角
+    ex, ez = L2 * math.cos(t2), L2 * math.sin(t2)
+    _beam(p, (0, 0, z1), (ux * ex, uy * ex, z1 + ez), 0.16, arm)
+    e = (ux * ex, uy * ex, z1 + ez)
+    t3 = R(-j3)
+    fx, fz = L3 * math.cos(t3), L3 * math.sin(t3)
+    w_ = (e[0] + ux * fx, e[1] + uy * fx, e[2] + fz)
+    p.sphere(e[0], e[1], e[2], 0.12, arm, seg=12)
+    _beam(p, e, w_, 0.12, arm)
+    p.sphere(w_[0], w_[1], w_[2], 0.08, "metal_dark", seg=10)
+    # 夾爪（朝下）
+    p.cyl(w_[0], w_[1], w_[2] - 0.1, 0.05, 0.12, "metal", seg=10)
+    for s in (-1, 1):
+        p.box(w_[0] + s * 0.045 * uy, w_[1] - s * 0.045 * ux, w_[2] - 0.22, 0.03, 0.03, 0.12, "metal_dark", rz=a1)
+    p.finish(footprint=(0.66, 0.66))
+    return p
+
+
+def _beam(p, a, b, t, m):
+    """在 a、b 兩點間加一根方截面樑（以 bmesh cube 沿向量拉伸）。"""
+    from mathutils import Vector as V
+    import bmesh as _bm
+    va, vb = V(a), V(b)
+    L = (vb - va).length
+    r = _bm.ops.create_cube(p.bm, size=1.0)
+    rot = (vb - va).to_track_quat("Z", "Y").to_matrix().to_4x4()
+    from mathutils import Matrix as Mx
+    T = Mx.Translation((va + vb) / 2) @ rot @ Mx.Diagonal((t, t, L + t * 0.4, 1))
+    _bm.ops.transform(p.bm, matrix=T, verts=r["verts"])
+    p._tag(r["verts"], m)
+
+
+def safety_fence(S, x0, y0, x1, y1, h=1.8, gate=None, name="Fence"):
+    """機器人安全圍籬（一段直線，軸向）：黃色立柱＋深灰網片（半透明），gate=(t0,t1) 沿線位置留門（附門框）。"""
+    p = Piece(S, name, 0, 0)
+    post = mat("safety_yellow", SAFETY_YELLOW)
+    net = mat("fence_mesh", (0.15, 0.16, 0.18), rough=0.6, alpha=0.45)
+    horiz = abs(x1 - x0) >= abs(y1 - y0)
+    L = abs(x1 - x0) if horiz else abs(y1 - y0)
+    a = min(x0, x1) if horiz else min(y0, y1)
+    n = max(1, int(math.ceil(L / 1.2)))
+    seg = L / n
+
+    def pt(t):
+        return (a + t, y0) if horiz else (x0, a + t)
+    for i in range(n + 1):
+        px, py = pt(i * seg)
+        p.box(px, py, h / 2, 0.06, 0.06, h, post)
+    for i in range(n):
+        t0, t1 = i * seg + 0.04, (i + 1) * seg - 0.04
+        if gate and t0 < gate[1] and t1 > gate[0]:
+            continue
+        (ax, ay), (bx, by) = pt(t0), pt(t1)
+        cx, cy = (ax + bx) / 2, (ay + by) / 2
+        sx, sy = (t1 - t0, 0.012) if horiz else (0.012, t1 - t0)
+        p.box(cx, cy, 0.15 + (h - 0.25) / 2, sx, sy, h - 0.25, net)
+        p.box(cx, cy, h - 0.05, sx if horiz else 0.03, 0.03 if horiz else sy, 0.04, post)
+        p.box(cx, cy, 0.15, sx if horiz else 0.03, 0.03 if horiz else sy, 0.04, post)
+    p.finish()
+    # 導航障礙：每段（不含門）
+    for i in range(n):
+        t0, t1 = i * seg, (i + 1) * seg
+        if gate and t0 < gate[1] and t1 > gate[0]:
+            continue
+        (ax, ay), (bx, by) = pt(t0), pt(t1)
+        S.obstacles.append(((ax + bx) / 2, (ay + by) / 2, 0.0, (t1 - t0) if horiz else 0.06, 0.06 if horiz else (t1 - t0)))
+    return p
+
+
+def parts_table(S, x, y, yaw=0.0, w=1.0, d=0.7, h=0.8, nx=5, ny=3, done=7, name="PartsTable"):
+    """上下料料盤台：台架＋定位料盤，網格排列的毛胚（圓柱）與已加工件（亮面方塊）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.box(sx * (w / 2 - 0.04), sy * (d / 2 - 0.04), (h - 0.05) / 2, 0.05, 0.05, h - 0.05, "metal_dark")
+    p.box(0, 0, h - 0.025, w, d, 0.05, "metal")
+    p.box(0, 0, h + 0.01, w - 0.08, d - 0.08, 0.02, mat("tray_blue", (0.12, 0.30, 0.50), rough=0.5))
+    k = 0
+    for j in range(ny):
+        for i in range(nx):
+            px = -w / 2 + 0.08 + (i + 0.5) * (w - 0.16) / nx
+            py = -d / 2 + 0.08 + (j + 0.5) * (d - 0.16) / ny
+            if k < done:
+                p.box(px, py, h + 0.05, 0.09, 0.09, 0.06, mat("aluminum", (0.80, 0.81, 0.83), rough=0.25, metal=0.9))
+            else:
+                p.cyl(px, py, h + 0.055, 0.045, 0.07, mat("raw_stock", (0.52, 0.52, 0.54), rough=0.5, metal=0.6), seg=10)
+            k += 1
+    p.finish(footprint=(w, d))
+    return p
+
+
+def tool_chest(S, x, y, yaw=0.0, w=0.9, d=0.55, h=1.05, color=(0.70, 0.14, 0.12), drawers=7, name="ToolChest"):
+    """多抽屜工具櫃（正面朝本地 -Y），頂面放少量刀把。"""
+    c = mat("tool_chest_%d" % int(color[0] * 99), color, rough=0.35, metal=0.2)
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, 0.05, w - 0.04, d - 0.04, 0.1, "metal_dark")
+    p.box(0, 0, 0.1 + (h - 0.12) / 2, w, d, h - 0.12, c)
+    p.box(0, 0, h - 0.01, w + 0.02, d + 0.02, 0.02, "plastic_black")
+    dh = (h - 0.16) / drawers
+    for i in range(drawers):
+        zc = 0.13 + (i + 0.5) * dh
+        p.box(0, -d / 2 - 0.004, zc, w - 0.06, 0.008, dh - 0.02, c)
+        p.box(0, -d / 2 - 0.016, zc + dh * 0.25, w - 0.2, 0.016, 0.015, "metal")
+    for i in range(4):
+        p.cyl(-w / 2 + 0.15 + i * 0.2, 0.05, h + 0.06, 0.03, 0.1, "metal", seg=8)
+    p.finish(footprint=(w, d))
+    return p
+
+
+def tool_presetter(S, x, y, yaw=0.0, z=0.9, name="ToolPresetter"):
+    """對刀儀（光學量測頭＋立柱＋螢幕，桌上型）；量測位朝本地 -Y。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, 0, 0.05, 0.6, 0.4, 0.1, "cabinet")
+    p.cyl(-0.12, -0.05, 0.16, 0.05, 0.12, "metal", seg=12)
+    p.box(0.14, 0.1, 0.4, 0.08, 0.08, 0.6, "metal_dark")
+    p.box(0.02, 0.06, 0.55, 0.22, 0.1, 0.1, "metal_dark")
+    p.box(-0.2, 0.12, 0.42, 0.3, 0.04, 0.22, "plastic_black")
+    _screen(p, -0.2, 0.098, 0.42, 0.26, 0.18, (0.2, 0.7, 0.95))
+    p.finish(obstacle=False)
+    return p
+
+
+def granite_table(S, x, y, yaw=0.0, w=1.6, d=1.0, h=0.82, name="GraniteTable"):
+    """量測用花崗岩平台（黑色石材＋鋼架），上有高度規與量表。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.box(sx * (w / 2 - 0.1), sy * (d / 2 - 0.1), (h - 0.15) / 2, 0.06, 0.06, h - 0.15, "metal_dark")
+    p.box(0, 0, 0.15, w - 0.2, d - 0.2, 0.04, "metal_dark")
+    p.box(0, 0, h - 0.075, w, d, 0.15, mat("granite", (0.06, 0.06, 0.07), rough=0.15))
+    p.box(-0.4, 0.1, h + 0.015, 0.14, 0.1, 0.03, "metal")                                  # 高度規
+    p.box(-0.4, 0.12, h + 0.25, 0.03, 0.03, 0.45, "metal")
+    p.box(-0.35, 0.12, h + 0.3, 0.1, 0.02, 0.02, "metal_dark")
+    p.box(0.25, -0.05, h + 0.04, 0.2, 0.15, 0.08, mat("aluminum", (0.80, 0.81, 0.83), rough=0.25, metal=0.9))
+    p.cyl(0.55, 0.15, h + 0.12, 0.035, 0.03, "plastic_white", seg=12, axis="Y")             # 量表
+    p.cyl(0.55, 0.2, h + 0.06, 0.012, 0.14, "metal", seg=6)
+    p.finish(footprint=(w, d))
+    return p
+
+
+def vise_bench(S, x, y, yaw=0.0, w=1.8, d=0.75, h=0.88, name="ViseBench"):
+    """鉗工／去毛邊工作台：鋼木桌面、背板掛工具、桌角台虎鉗、底層抽屜；使用者在本地 -Y 側。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.box(sx * (w / 2 - 0.05), sy * (d / 2 - 0.05), (h - 0.05) / 2, 0.05, 0.05, h - 0.05, "metal_dark")
+    p.box(0, 0, h - 0.025, w, d, 0.05, "wood_light")
+    p.box(0, 0.05, 0.15, w - 0.1, d - 0.2, 0.03, "metal_dark")
+    p.box(0.45, -0.05, h - 0.17, 0.6, d - 0.15, 0.24, "cabinet")
+    p.box(0.45, -d / 2 + 0.07, h - 0.17, 0.5, 0.01, 0.18, "metal")
+    p.box(0, d / 2 - 0.02, h + 0.45, w, 0.03, 0.85, mat("pegboard", (0.30, 0.45, 0.55), rough=0.7))
+    for i in range(7):
+        p.box(-w / 2 + 0.25 + i * 0.22, d / 2 - 0.06, h + 0.45 + 0.15 * (i % 2), 0.03, 0.04, 0.22, "metal_dark")
+    p.box(-w / 2 + 0.25, -d / 2 + 0.14, h + 0.06, 0.18, 0.24, 0.12, mat("vise_blue", (0.12, 0.28, 0.50), rough=0.4))
+    p.box(-w / 2 + 0.25, -d / 2 + 0.02, h + 0.1, 0.03, 0.12, 0.03, "metal")
+    p.finish(footprint=(w, d))
+    return p
+
+
+def bar_rack(S, x, y, yaw=0.0, w=2.2, d=0.7, h=1.6, levels=4, name="BarRack"):
+    """懸臂式棒料架：背柱＋懸臂，沿本地 X 擺放各種直徑的圓棒料（前方朝本地 -Y）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    for sx in (-1, 0, 1):
+        px = sx * (w / 2 - 0.1)
+        p.box(px, d / 2 - 0.06, h / 2, 0.1, 0.1, h, mat("rack_blue", (0.12, 0.30, 0.55), rough=0.4))
+        p.box(px, 0, 0.04, 0.1, d, 0.08, mat("rack_blue", (0.12, 0.30, 0.55), rough=0.4))
+        for k in range(levels):
+            p.box(px, 0.0, 0.25 + k * (h - 0.35) / (levels - 1), 0.06, d - 0.1, 0.05, mat("safety_yellow", SAFETY_YELLOW))
+    steel = mat("raw_stock", (0.52, 0.52, 0.54), rough=0.5, metal=0.6)
+    alu = mat("aluminum", (0.80, 0.81, 0.83), rough=0.25, metal=0.9)
+    for k in range(levels):
+        zc = 0.25 + k * (h - 0.35) / (levels - 1) + 0.025
+        r = (0.04, 0.03, 0.022, 0.016)[k % 4]
+        for j in range(4 - (k % 2)):
+            p.cyl(0, -d / 2 + 0.12 + j * (2 * r + 0.03), zc + r, r, w + 0.2, alu if (j + k) % 2 else steel, seg=10, axis="X")
+    p.finish(footprint=(w + 0.2, d))
+    return p
+
+
+def pallet(S, x, y, yaw=0.0, w=1.2, d=1.0, load="blanks", name="Pallet"):
+    """木棧板（可載毛胚箱 blanks 或空）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    wood = mat("pallet_wood", (0.62, 0.48, 0.30), rough=0.85)
+    for sy in (-1, 0, 1):
+        p.box(0, sy * (d / 2 - 0.05), 0.05, w, 0.1, 0.1, wood)
+    for i in range(7):
+        p.box(-w / 2 + 0.07 + i * (w - 0.14) / 6, 0, 0.12, 0.12, d, 0.024, wood)
+    if load == "blanks":
+        p.box(0, 0, 0.135 + 0.2, w - 0.1, d - 0.1, 0.4, mat("crate_grey", (0.35, 0.38, 0.40), rough=0.6))
+        steel = mat("raw_stock", (0.52, 0.52, 0.54), rough=0.5, metal=0.6)
+        for i in range(6):
+            for j in range(5):
+                p.cyl(-w / 2 + 0.2 + i * (w - 0.4) / 5, -d / 2 + 0.2 + j * (d - 0.4) / 4, 0.55, 0.05, 0.05, steel, seg=8)
+    p.finish(footprint=(w, d))
+    return p
+
+
+def chip_cart(S, x, y, yaw=0.0, name="ChipCart"):
+    """可傾倒式集屑車（斗車）：斜面料斗＋框架＋腳輪；把手在本地 -Y。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    hop = mat("chip_bin", (0.20, 0.36, 0.55), rough=0.5)
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.cyl(sx * 0.3, sy * 0.3, 0.05, 0.05, 0.04, "plastic_black", seg=8, axis="X")
+    p.box(0, 0, 0.13, 0.75, 0.75, 0.06, "metal_dark")
+    p.box(0, 0.05, 0.45, 0.72, 0.62, 0.55, hop)
+    p.box(0, -0.31, 0.62, 0.72, 0.14, 0.2, hop, rz=0.0)
+    p.box(0, 0.05, 0.73, 0.66, 0.56, 0.02, mat("chips", (0.55, 0.55, 0.52), rough=0.3, metal=0.8))
+    p.box(0, -0.45, 0.9, 0.5, 0.03, 0.03, "metal_dark")
+    p.finish(footprint=(0.75, 0.8))
+    return p
+
+
+def teach_pendant_stand(S, x, y, yaw=0.0, name="PendantStand"):
+    """機器人控制櫃＋教導器掛架（正面朝本地 -Y）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, 0.55, 0.6, 0.5, 1.1, mat("cnc_grey", (0.28, 0.31, 0.34), rough=0.45))
+    p.box(0, -0.251, 0.75, 0.5, 0.004, 0.55, "cabinet")
+    p.cyl(0.18, -0.26, 0.98, 0.03, 0.03, mat("estop_red", (0.85, 0.08, 0.06), rough=0.4), seg=10, axis="Y")
+    p.box(-0.1, -0.29, 1.0, 0.28, 0.06, 0.2, mat("robot_body", ROBOT_ORANGE, rough=0.4))
+    _screen(p, -0.1, -0.322, 1.01, 0.17, 0.12, (0.2, 0.7, 0.95))
+    p.finish(footprint=(0.6, 0.5))
+    return p
