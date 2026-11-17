@@ -1,0 +1,215 @@
+{
+  "id": "003",
+  "name_zh": "小型討論室／電話亭",
+  "name_en": "Focus Rooms & Phone Booths",
+  "category": "meeting",
+  "size_m": [
+    6,
+    6
+  ],
+  "height_m": 3.0,
+  "doors": [
+    {
+      "id": "DOOR_S_01",
+      "wall": "S",
+      "offset_m": 3.0,
+      "width_m": 1.0,
+      "position": [
+        3.0,
+        0.1,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_E_01",
+      "wall": "E",
+      "offset_m": 1.0,
+      "width_m": 1.0,
+      "position": [
+        5.9,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_W_01",
+      "wall": "W",
+      "offset_m": 1.0,
+      "width_m": 1.0,
+      "position": [
+        0.1,
+        1.0,
+        0.0
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "id": "POI_booking_01",
+      "type": "POI",
+      "use": "booking",
+      "position": [
+        2.1,
+        1.35,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_meeting_01",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        0.75,
+        3.6,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "SEAT_meeting_02",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        0.75,
+        4.3,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "SEAT_meeting_03",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        2.45,
+        3.6,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "SEAT_meeting_04",
+      "type": "SEAT",
+      "use": "meeting",
+      "position": [
+        2.45,
+        4.3,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "STAND_screen_01",
+      "type": "STAND",
+      "use": "screen",
+      "position": [
+        2.75,
+        5.2,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        1.6,
+        3.95,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_booth_01",
+      "type": "SEAT",
+      "use": "booth",
+      "position": [
+        4.195,
+        5.1,
+        0.0
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        4.195,
+        5.18,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_booth_02",
+      "type": "SEAT",
+      "use": "booth",
+      "position": [
+        5.255,
+        5.1,
+        0.0
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_03",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        5.255,
+        5.18,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_lounge_01",
+      "type": "SEAT",
+      "use": "lounge",
+      "position": [
+        5.2,
+        2.67,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "SEAT_lounge_02",
+      "type": "SEAT",
+      "use": "lounge",
+      "position": [
+        5.2,
+        3.33,
+        0.0
+      ],
+      "yaw_deg": 90
+    }
+  ],
+  "tags": [
+    "meeting",
+    "phone-booth",
+    "small-room",
+    "focus",
+    "4-seats",
+    "pass-through"
+  ],
+  "nav": {
+    "file": "navmesh.glb",
+    "cell_m": 0.25,
+    "margin_m": 0.3,
+    "cells": 271
+  },
+  "files": {
+    "blend": "scene.blend",
+    "glb": "scene.glb",
+    "navmesh": "navmesh.glb",
+    "preview": "preview.png",
+    "plan": "plan.png",
+    "build": "build.py"
+  },
+  "coord": "Blender Z-up, +Y north, SW corner origin; glb is glTF Y-up (gx=x, gy=z, gz=-y)",
+  "created": "2026-11-17"
+}

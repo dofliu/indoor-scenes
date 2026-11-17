@@ -577,14 +577,18 @@ class Scene:
             if a["type"] == "SEAT":
                 lab = a["id"].split("_")[-1]
             dr.text((px + 8, py + 5), lab, fill=(20, 20, 20), font=f)
-        dr.rectangle([0, 0, px_w, 34], fill=(255, 255, 255, 230))
-        dr.text((10, 5), "%s %s  %s  %d×%d m  H=%.1f m" % (self.id, self.name_zh, self.name_en, W, D, self.H), fill=(0, 0, 0), font=fb)
+        narrow = px_w < 900  # 小房間：標題與圖例分兩行，避免重疊
+        title = "%s %s  %s  %d×%d m  H=%.1f m" % (self.id, self.name_zh, self.name_en, W, D, self.H)
+        dr.rectangle([0, 0, px_w, 56 if narrow else 34], fill=(255, 255, 255, 230))
+        dr.text((10, 5), title if not narrow else "%s %s  %d×%d m" % (self.id, self.name_zh, W, D), fill=(0, 0, 0), font=fb)
         lg = [("SEAT", "坐下點"), ("STAND", "站立點"), ("POI", "互動點")]
-        x0 = px_w - 330
+        x0, ly = px_w - 330, 0
+        if narrow:
+            x0, ly = 80, 26
         for k, (t, z) in enumerate(lg):
             xx = x0 + k * 105
-            dr.ellipse([xx, 10, xx + 12, 22], fill=colors[t] + (255,))
-            dr.text((xx + 16, 6), z, fill=(0, 0, 0), font=f)
-        dr.line([(x0 - 70, 16), (x0 - 52, 16)], fill=(0, 170, 80), width=6)
-        dr.text((x0 - 48, 6), "門", fill=(0, 0, 0), font=f)
+            dr.ellipse([xx, 10 + ly, xx + 12, 22 + ly], fill=colors[t] + (255,))
+            dr.text((xx + 16, 6 + ly), z, fill=(0, 0, 0), font=f)
+        dr.line([(x0 - 70, 16 + ly), (x0 - 52, 16 + ly)], fill=(0, 170, 80), width=6)
+        dr.text((x0 - 48, 6 + ly), "門", fill=(0, 0, 0), font=f)
         img.save(os.path.join(out_dir, "plan.png"))

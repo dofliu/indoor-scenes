@@ -234,6 +234,7 @@ function startDemo(){
       p.target=t; if(t.kind==='seat') used.add(t.a.id);
       const g=B2T(t.a.position);
       p.path=astar(mesh.position.x,mesh.position.z,g.x,g.z).slice(1);
+      p.path.push([g.x,g.z]); // 最後一步走到錨點本身（如電話亭內座位、沙發座位）
       p.state='walk';
     };
     p.arrive=()=>{

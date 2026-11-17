@@ -176,3 +176,141 @@ def status_lamp(S, x, y, z=2.0, name="StatusLamp", color=(0.2, 0.9, 0.3)):
     p.sphere(0, 0, -0.06, 0.05, mat("status_" + "_".join("%d" % (c * 10) for c in color), color, emit=color), seg=10)
     p.finish(obstacle=False)
     return p
+
+
+# ---------------------------------------------------------------- 003 起新增
+
+
+def _local(x, y, yaw, lx, ly):
+    """piece 區域座標 → 世界座標。"""
+    c, s = math.cos(yaw), math.sin(yaw)
+    return x + lx * c - ly * s, y + lx * s + ly * c
+
+
+def glass_partition(S, x0, y0, x1, y1, gap=None, h=2.6, name="GlassPartition"):
+    """軸向對齊的玻璃隔間（鋁框＋玻璃）。gap=(t0,t1)：沿隔間方向（自 x0/y0 起算的絕對座標）的門口開口。
+    每段各自成為導航障礙。"""
+    horiz = abs(y1 - y0) < 1e-6
+    a, b = (min(x0, x1), max(x0, x1)) if horiz else (min(y0, y1), max(y0, y1))
+    segs = [(a, b)] if not gap else [(a, gap[0]), (gap[1], b)]
+    glass = mat("glass", (0.6, 0.8, 0.9), rough=0.05, alpha=0.25)
+    frosted = mat("glass_frost", (0.85, 0.9, 0.92), rough=0.5, alpha=0.55)
+    p = Piece(S, name, coll="FURNITURE")
+    t = 0.05
+    for (s0, s1) in segs:
+        if s1 - s0 < 0.02:
+            continue
+        n = max(1, int(round((s1 - s0) / 1.0)))
+        if horiz:
+            yc = y0
+            p.boxc(s0, yc - t / 2, 0, s1, yc + t / 2, 0.06, "frame")
+            p.boxc(s0, yc - t / 2, h - 0.06, s1, yc + t / 2, h, "frame")
+            p.boxc(s0, yc - 0.008, 0.06, s1, yc + 0.008, h - 0.06, glass)
+            p.boxc(s0, yc - 0.01, 1.0, s1, yc + 0.01, 1.35, frosted)  # 防撞磨砂帶
+            for k in range(n + 1):
+                xx = s0 + (s1 - s0) * k / n
+                p.box(xx, yc, h / 2, 0.04, t, h, "frame")
+            S.obstacles.append(((s0 + s1) / 2, yc, 0.0, s1 - s0, t))
+        else:
+            xc = x0
+            p.boxc(xc - t / 2, s0, 0, xc + t / 2, s1, 0.06, "frame")
+            p.boxc(xc - t / 2, s0, h - 0.06, xc + t / 2, s1, h, "frame")
+            p.boxc(xc - 0.008, s0, 0.06, xc + 0.008, s1, h - 0.06, glass)
+            p.boxc(xc - 0.01, s0, 1.0, xc + 0.01, s1, 1.35, frosted)
+            for k in range(n + 1):
+                yy = s0 + (s1 - s0) * k / n
+                p.box(xc, yy, h / 2, t, 0.04, h, "frame")
+            S.obstacles.append((xc, (s0 + s1) / 2, 0.0, t, s1 - s0))
+    if gap:  # 門口上方楣板
+        if horiz:
+            p.boxc(gap[0], y0 - t / 2, 2.2, gap[1], y0 + t / 2, h, "frame")
+        else:
+            p.boxc(x0 - t / 2, gap[0], 2.2, x0 + t / 2, gap[1], h, "frame")
+    p.finish(obstacle=False)
+    return p
+
+
+def stool(S, x, y, h=0.46, color="fabric_teal", name="Stool"):
+    p = Piece(S, name, x, y, coll="FURNITURE")
+    p.cyl(0, 0, 0.015, 0.2, 0.03, "metal_dark", seg=16)
+    p.cyl(0, 0, h / 2, 0.025, h, "metal_dark", seg=8)
+    p.cyl(0, 0, h - 0.03, 0.19, 0.07, color, seg=18)
+    p.finish(obstacle=False)
+    return p
+
+
+def phone_booth(S, x, y, yaw=0.0, w=1.05, d=1.2, h=2.1, felt="fabric_teal", hinge="L", open_deg=88, name="PhoneBooth"):
+    """單人電話亭（獨立艙體）。門朝 -Y（yaw=0 時背靠北側），內有靠背面板桌、凳子、頂燈。
+    回傳 (piece, 座位世界座標, 座位 yaw_deg)。整個艙體為導航障礙，並自動在門口內側開一條導航通道
+    （S.extra_free）讓人物可走到座位附近。hinge：門扇鉸鏈側 "L"/"R"；open_deg：門扇開啟角度。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    wt = 0.07
+    shell = "booth_shell"
+    mat(shell, (0.74, 0.75, 0.74), rough=0.6)
+    mat("felt_in", (0.28, 0.33, 0.36), rough=0.95)
+    p.box(0, 0, 0.03, w, d, 0.06, "metal_dark")                          # 底座
+    p.box(0, d / 2 - wt / 2, h / 2, w, wt, h, shell)                      # 背板
+    p.box(0, d / 2 - wt - 0.01, 1.3, w - 2 * wt, 0.02, 1.6, felt)         # 內側吸音面
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - wt / 2), 0, h / 2, wt, d, h, shell)          # 側板
+        p.box(sx * (w / 2 - wt - 0.01), 0.05, 1.3, 0.02, d - 0.3, 1.6, "felt_in")
+    p.box(0, 0, h - 0.04, w, d, 0.08, shell)                              # 頂板
+    p.box(0, 0, h - 0.09, w - 0.3, d - 0.4, 0.02, mat("light_emit", (1, 0.97, 0.9), emit=(1, 0.95, 0.85)))
+    # 前框＋固定玻璃＋開啟的門扇
+    glass = mat("glass", (0.6, 0.8, 0.9), rough=0.05, alpha=0.25)
+    fy = -d / 2 + 0.02
+    p.box(0, fy, h - 0.12, w, 0.04, 0.08, "frame")
+    p.box(0, fy, 0.08, w, 0.04, 0.04, "frame")
+    leaf = w - 2 * wt - 0.04
+    hx = w / 2 - wt
+    sg = 1 if hinge == "R" else -1          # 鉸鏈側：R=+X 側、L=-X 側
+    a = math.radians(open_deg)              # 門扇向外（-Y）開啟角度
+    dx, dy = -sg * math.cos(a), -math.sin(a)
+    rz = math.atan2(dy, dx)
+    cx, cy = sg * hx + dx * leaf / 2, fy + dy * leaf / 2
+    p.box(cx, cy, h / 2 - 0.02, leaf, 0.02, h - 0.24, glass, rz=rz)
+    p.box(cx, cy, h - 0.16, leaf, 0.03, 0.04, "frame", rz=rz)
+    hx2, hy2 = sg * hx + dx * (leaf - 0.06), fy + dy * (leaf - 0.06)
+    p.box(hx2, hy2, 1.05, 0.03, 0.03, 0.3, "metal", rz=rz)
+    # 桌板與插座
+    p.box(0, d / 2 - wt - 0.18, 0.74, w - 2 * wt, 0.36, 0.03, "wood_light")
+    p.box(0.25, d / 2 - wt - 0.02, 0.85, 0.12, 0.01, 0.06, "plastic_black")
+    p.finish(footprint=(w, d))
+    stool(S, *_local(x, y, yaw, 0, -0.08), name=name + "_Stool")
+    sx, sy = _local(x, y, yaw, 0, -0.08)
+    # 門口導航通道（僅軸向 yaw 有效）：從艙門外 0.4 m 到座位前 0.15 m、寬 0.5 m
+    xa, ya = _local(x, y, yaw, -0.25, -d / 2 - 0.4)
+    xb, yb = _local(x, y, yaw, 0.25, -0.25)
+    S.extra_free.append((min(xa, xb), min(ya, yb), max(xa, xb), max(ya, yb)))
+    return p, (sx, sy), math.degrees(yaw)
+
+
+def floor_lamp(S, x, y, h=1.6, name="FloorLamp"):
+    p = Piece(S, name, x, y, coll="PROPS")
+    p.cyl(0, 0, 0.015, 0.16, 0.03, "metal_dark", seg=16)
+    p.cyl(0, 0, h / 2, 0.015, h, "metal_dark", seg=8)
+    p.cyl(0, 0, h, 0.2, 0.25, mat("lamp_shade", (0.95, 0.9, 0.8), emit=(1.0, 0.85, 0.6)), seg=18, r2=0.14)
+    p.finish(obstacle=False)
+    return p
+
+
+def acoustic_panels(S, x, y, yaw=0.0, n=3, w=0.6, hh=0.6, z=1.6, colors=("fabric_teal", "fabric_grey", "fabric_orange"),
+                    name="AcousticPanels"):
+    """壁掛吸音板組（背貼牆，正面朝 -Y；yaw 決定貼哪面牆）。(x,y) 為組中心背面。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    for i in range(n):
+        ox = (i - (n - 1) / 2) * (w + 0.08)
+        oz = 0.12 if i % 2 else -0.08
+        p.box(ox, -0.025, oz, w, 0.05, hh, mat(colors[i % len(colors)], rough=0.95))
+    p.finish(obstacle=False)
+    return p
+
+
+def wall_display(S, x, y, yaw=0.0, w=0.26, hh=0.18, z=1.35, name="BookingPanel", color=(0.2, 0.8, 0.4)):
+    """門邊小型預約顯示面板（正面朝 -Y）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, -0.01, 0, w, 0.02, hh, "plastic_white")
+    p.box(0, -0.021, 0.01, w - 0.04, 0.002, hh - 0.06, mat("screen_glow", (0.05, 0.15, 0.3), emit=(0.08, 0.3, 0.6)))
+    p.box(0, -0.021, -hh / 2 + 0.02, w - 0.04, 0.003, 0.015, mat("status_ok", color, emit=color))
+    p.finish(obstacle=False)
+    return p

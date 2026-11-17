@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-07",
+  "updated": "2026-11-17",
   "scenes": [
     {
       "id": "001",
@@ -46,6 +46,31 @@
       ],
       "created": "2026-11-07",
       "preview": "scenes/002_meeting_room/preview.png"
+    },
+    {
+      "id": "003",
+      "dir": "003_focus_rooms",
+      "name_zh": "小型討論室／電話亭",
+      "name_en": "Focus Rooms & Phone Booths",
+      "category": "meeting",
+      "size_m": [
+        6,
+        6
+      ],
+      "height_m": 3.0,
+      "doors": 3,
+      "anchors": 13,
+      "seats": 8,
+      "tags": [
+        "meeting",
+        "phone-booth",
+        "small-room",
+        "focus",
+        "4-seats",
+        "pass-through"
+      ],
+      "created": "2026-11-17",
+      "preview": "scenes/003_focus_rooms/preview.png"
     }
   ]
 }
