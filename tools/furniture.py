@@ -176,3 +176,62 @@ def status_lamp(S, x, y, z=2.0, name="StatusLamp", color=(0.2, 0.9, 0.3)):
     p.sphere(0, 0, -0.06, 0.05, mat("status_" + "_".join("%d" % (c * 10) for c in color), color, emit=color), seg=10)
     p.finish(obstacle=False)
     return p
+
+
+def phone_booth(S, x, y, yaw=0.0, w=1.2, d=1.2, h=2.15, color="fabric_teal", door_open_deg=75, name="PhoneBooth"):
+    """單人電話亭（隔音艙）。開口（玻璃門）朝 -Y，背板在 +Y。(x,y) 為艙體中心。
+    內含：小桌板（背板側 z=0.74）、內部燈條、門扇（打開 door_open_deg 度向外）。
+    導航障礙：只登錄側板、背板與固定玻璃，艙內可走。"""
+    t = 0.05
+    glass = mat("glass", (0.6, 0.8, 0.9), rough=0.05, alpha=0.25)
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, 0.02, w, d, 0.04, "wood_light")                       # 地台
+    p.box(0, d / 2 - t / 2, h / 2, w, t, h, color)                     # 背板
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - t / 2), 0, h / 2, t, d, h, color)          # 側板
+    p.box(0, 0, h - 0.03, w, d, 0.06, "plastic_white")                 # 頂板
+    p.box(0, -d / 2 + t / 2, h - 0.16, w, t, 0.2, color)               # 門楣
+    gw = 0.42                                                          # 固定玻璃
+    gx0 = -w / 2 + t
+    p.box(gx0 + gw / 2, -d / 2 + t / 2, (h - 0.26) / 2 + 0.04, gw, 0.012, h - 0.3, glass)
+    p.box(gx0 + gw + 0.015, -d / 2 + t / 2, h / 2, 0.03, t, h, "frame")
+    # 門扇：鉸鏈在 +X 側，向外打開
+    hx, hy = w / 2 - t, -d / 2
+    leaf = (w / 2 - t) - (gx0 + gw + 0.03)
+    a = math.radians(180 + door_open_deg)
+    cx, cy = hx + math.cos(a) * leaf / 2, hy + math.sin(a) * leaf / 2
+    p.box(cx, cy, (h - 0.26) / 2 + 0.04, leaf, 0.02, h - 0.3, glass, rz=a)
+    ex, ey = hx + math.cos(a) * (leaf - 0.05), hy + math.sin(a) * (leaf - 0.05)
+    p.box(ex, ey, 1.05, 0.03, 0.05, 0.4, "metal_dark", rz=a)           # 門把
+    p.box(0, d / 2 - t - 0.175, 0.74, w - 2 * t, 0.35, 0.03, "wood_light")   # 小桌板
+    p.box(0, d / 2 - t - 0.01, 1.35, w * 0.6, 0.015, 0.5, mat("felt_grey", (0.35, 0.37, 0.40), rough=0.95))
+    p.box(0, 0, h - 0.065, 0.6, 0.25, 0.012, mat("light_emit", (1, 0.97, 0.9), emit=(1, 0.95, 0.85)))
+    p.finish(obstacle=False)
+    c, s = math.cos(yaw), math.sin(yaw)
+
+    def obst(lx, ly, ow, od):
+        S.obstacles.append((x + lx * c - ly * s, y + lx * s + ly * c, yaw, ow, od))
+    obst(0, d / 2 - t / 2, w, t)
+    for sx in (-1, 1):
+        obst(sx * (w / 2 - t / 2), 0, t, d)
+    obst(gx0 + gw / 2, -d / 2 + t / 2, gw + 0.03, t)
+    return p
+
+
+def wall_tablet(S, x, y, yaw=0.0, z=1.3, name="WallTablet"):
+    """壁掛預約平板，螢幕朝 -Y（yaw=0 貼北牆）。(x,y) 為背面中心。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, -0.012, 0, 0.26, 0.024, 0.18, "plastic_black")
+    p.box(0, -0.025, 0, 0.23, 0.003, 0.15, mat("screen_glow", (0.05, 0.15, 0.3), emit=(0.08, 0.3, 0.6)))
+    p.box(0, -0.025, 0.1, 0.2, 0.01, 0.012, mat("status_green_strip", (0.2, 0.9, 0.3), emit=(0.2, 0.9, 0.3)))
+    p.finish(obstacle=False)
+    return p
+
+
+def side_table(S, x, y, r=0.25, h=0.55, top="wood_light", name="SideTable"):
+    p = Piece(S, name, x, y)
+    p.cyl(0, 0, h - 0.015, r, 0.03, top, seg=20)
+    p.cyl(0, 0, (h - 0.03) / 2, 0.025, h - 0.03, "metal_dark", seg=8)
+    p.cyl(0, 0, 0.01, r * 0.6, 0.02, "metal_dark", seg=16)
+    p.finish(footprint=(2 * r, 2 * r))
+    return p
