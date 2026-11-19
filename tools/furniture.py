@@ -176,3 +176,70 @@ def status_lamp(S, x, y, z=2.0, name="StatusLamp", color=(0.2, 0.9, 0.3)):
     p.sphere(0, 0, -0.06, 0.05, mat("status_" + "_".join("%d" % (c * 10) for c in color), color, emit=color), seg=10)
     p.finish(obstacle=False)
     return p
+
+
+def stool(S, x, y, h=0.48, color="fabric_teal", name="Stool"):
+    """圓凳（無靠背）。"""
+    p = Piece(S, name, x, y)
+    p.cyl(0, 0, 0.015, 0.20, 0.03, "metal_dark", seg=16)
+    p.cyl(0, 0, h / 2, 0.025, h - 0.06, "metal_dark", seg=8)
+    p.cyl(0, 0, h - 0.035, 0.19, 0.07, color, seg=18)
+    p.finish(obstacle=False)
+    return p
+
+
+def phone_booth(S, x, y, yaw=0.0, w=1.2, d=1.3, h=2.1, color="fabric_teal", name="PhoneBooth", nav=True):
+    """單人電話亭／專注艙。開口朝 -Y（yaw=0），背板在 +Y；兩側下半實板、上半玻璃。
+    內含層板桌、圓凳、頂燈與頂部狀態燈。回傳 dict：seat=(x,y)、status=(x,y)（世界座標）、face_yaw_deg（坐者面向）。
+    nav=True 時把三面板加入導航障礙，並開一條 0.5 m 寬的進出通道（開口外 0.7 m → 凳子）。"""
+    t = 0.06
+    c, s = math.cos(yaw), math.sin(yaw)
+
+    def wpt(lx, ly):
+        return x + lx * c - ly * s, y + lx * s + ly * c
+    glass = mat("glass", (0.6, 0.8, 0.9), rough=0.05, alpha=0.25)
+    felt = mat("booth_felt", (0.30, 0.33, 0.37), rough=0.95)
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.boxc(-w / 2, -d / 2, 0, w / 2, d / 2, 0.03, "fabric_grey")               # 地台
+    p.boxc(-w / 2, d / 2 - t, 0, w / 2, d / 2, h, color)                       # 背板
+    p.boxc(-w / 2 + t, d / 2 - t - 0.02, 0.9, w / 2 - t, d / 2 - t, h - 0.1, felt)  # 吸音內襯
+    for sx in (-1, 1):
+        x0, x1 = (sx * w / 2, sx * (w / 2 - t))
+        p.boxc(x0, -d / 2, 0, x1, d / 2 - t, 0.95, color)                      # 側板下半
+        p.boxc(x0, -d / 2, h - 0.12, x1, d / 2 - t, h, color)                  # 側板上緣
+        p.boxc(x0, -d / 2, 0.95, x1, -d / 2 + t, h - 0.12, color)              # 前柱
+        xm = sx * (w / 2 - t / 2)
+        p.boxc(xm - 0.008, -d / 2 + t, 0.95, xm + 0.008, d / 2 - t, h - 0.12, glass)
+    p.boxc(-w / 2, -d / 2, h - 0.06, w / 2, d / 2, h, color)                   # 頂板
+    p.boxc(-w / 2, -d / 2, h - 0.2, w / 2, -d / 2 + t, h - 0.06, color)        # 門楣
+    p.boxc(-w / 2 + t, d / 2 - t - 0.34, 0.72, w / 2 - t, d / 2 - t, 0.75, "wood_light")  # 層板桌
+    p.box(0, 0, h - 0.07, 0.5, 0.5, 0.02, mat("light_emit", (1, 0.97, 0.9), emit=(1, 0.95, 0.85)))  # 頂燈
+    p.cyl(0, -d / 2 + 0.08, h + 0.02, 0.05, 0.04, "metal_dark", seg=12)        # 狀態燈座
+    p.sphere(0, -d / 2 + 0.08, h + 0.07, 0.05, mat("status_2_9_3", (0.2, 0.9, 0.3), emit=(0.2, 0.9, 0.3)), seg=10)
+    p.finish(obstacle=False)
+    seat_l = (0.0, 0.0)
+    sx_, sy_ = wpt(*seat_l)
+    stool(S, sx_, sy_, color="fabric_orange", name=name + "_Stool")
+    # 桌上筆電
+    lx_, ly_ = wpt(0, d / 2 - t - 0.19)
+    laptop(S, lx_, ly_, yaw, z=0.75, name=name + "_Laptop")
+    if nav:
+        for (ox, oy, ow, od) in ((0, d / 2 - t / 2, w, t), (-(w / 2 - t / 2), 0, t, d), (w / 2 - t / 2, 0, t, d)):
+            ax, ay = wpt(ox, oy)
+            S.obstacles.append((ax, ay, yaw, ow, od))
+        (ax, ay), (bx, by) = wpt(-0.25, -d / 2 - 0.7), wpt(0.25, 0.25)
+        S.extra_free.append((min(ax, bx), min(ay, by), max(ax, bx), max(ay, by)))
+    stx, sty = wpt(0, -d / 2 + 0.08)
+    return {"seat": (sx_, sy_), "status": (stx, sty), "face_yaw_deg": math.degrees(yaw)}
+
+
+def console(S, x, y, yaw=0.0, w=0.9, d=0.36, h=0.85, name="Console"):
+    """窄邊桌（靠牆），正面朝 -Y。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, h - 0.02, w, d, 0.04, "wood_light")
+    p.box(0, 0, 0.25, w - 0.1, d - 0.06, 0.03, "wood_light")
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.box(sx * (w / 2 - 0.04), sy * (d / 2 - 0.04), (h - 0.04) / 2, 0.035, 0.035, h - 0.04, "metal_dark")
+    p.finish(footprint=(w, d))
+    return p
