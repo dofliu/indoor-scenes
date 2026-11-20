@@ -3,6 +3,7 @@
 「正面」定義：椅子面向 +Y 時人坐的方向；桌子的「使用者側」在 -Y 側（人坐在桌子南側，面向北）。
 """
 import math
+import bpy
 from scenelib import Piece, mat
 
 R = math.radians
@@ -176,3 +177,56 @@ def status_lamp(S, x, y, z=2.0, name="StatusLamp", color=(0.2, 0.9, 0.3)):
     p.sphere(0, 0, -0.06, 0.05, mat("status_" + "_".join("%d" % (c * 10) for c in color), color, emit=color), seg=10)
     p.finish(obstacle=False)
     return p
+
+
+def _world_rect(x, y, yaw, lx0, ly0, lx1, ly1):
+    """piece 區域矩形 → 世界座標軸對齊矩形（yaw 限 90° 倍數）。"""
+    c, s = round(math.cos(yaw)), round(math.sin(yaw))
+    pts = [(x + lx * c - ly * s, y + lx * s + ly * c) for lx in (lx0, lx1) for ly in (ly0, ly1)]
+    xs, ys = [p[0] for p in pts], [p[1] for p in pts]
+    return min(xs), min(ys), max(xs), max(ys)
+
+
+def phone_booth(S, x, y, yaw=0.0, w=1.3, d=1.4, h=2.1, color="fabric_teal", name="PhoneBooth"):
+    """單人電話亭（隔音艙）：背板＋兩側吸音板＋前方玻璃（右側留 0.7 m 入口）＋頂板（內嵌燈）＋窄桌＋椅。
+    yaw=0 時入口朝 -Y（南）、桌在 +Y 側；使用者坐在中心面向 +Y。
+    回傳 dict：seat=(x,y)、status=(x,y,z)。導航：面板各自為障礙，入口到座位強制可走。"""
+    t = 0.05
+    glass = mat("glass_booth", (0.65, 0.82, 0.9), rough=0.05, alpha=0.3)
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, d / 2 - t / 2, h / 2, w, t, h, color)                       # 背板
+    for sx in (-1, 1):                                                   # 側板
+        p.box(sx * (w / 2 - t / 2), 0, h / 2, t, d, h, color)
+    p.box(0, 0, h + 0.02, w, d, 0.04, "plastic_white")                   # 頂板
+    p.box(0, 0, h - 0.005, w * 0.5, d * 0.4, 0.01, mat("light_emit", (1, 0.97, 0.9), emit=(1, 0.95, 0.85)))
+    p.box(0, 0, 0.02, w - 2 * t, d - t, 0.04, "floor_wood")               # 艙內地台
+    gx0, gx1 = -w / 2 + t, w / 2 - t - 0.72                               # 前方玻璃段
+    p.box((gx0 + gx1) / 2, -d / 2 + 0.02, h / 2, gx1 - gx0, 0.02, h, glass)
+    p.box(gx1 + 0.02, -d / 2 + 0.02, h / 2, 0.04, 0.05, h, "frame")       # 入口門框
+    p.box((gx1 + w / 2 - t) / 2 + 0.01, -d / 2 + 0.02, h - 0.03, w / 2 - t - gx1, 0.05, 0.06, "frame")
+    # 內側吸音格板（背板）
+    for k in range(3):
+        p.box(-0.35 + 0.35 * k, d / 2 - t - 0.01, 1.55, 0.3, 0.02, 0.5, "fabric_grey")
+    # 窄桌（貼背板）
+    p.box(0, d / 2 - t - 0.2, 0.74, w - 2 * t, 0.4, 0.03, "wood_light")
+    p.box(0, d / 2 - t - 0.02, 0.37, w - 2 * t - 0.1, 0.02, 0.7, "desk_leg")
+    p.finish(obstacle=False)
+    # 障礙：背板+桌、兩側板、玻璃段
+    c, s = math.cos(yaw), math.sin(yaw)
+
+    def obs(lx, ly, ow, od):
+        S.obstacles.append((x + lx * c - ly * s, y + lx * s + ly * c, yaw, ow, od))
+    obs(0, d / 2 - 0.225, w, 0.45)
+    for sx in (-1, 1):
+        obs(sx * (w / 2 - t / 2), 0, t, d)
+    obs((gx0 + gx1) / 2, -d / 2 + 0.02, gx1 - gx0, 0.04)
+    # 入口 → 座位強制可走
+    S.extra_free.append(_world_rect(x, y, yaw, -0.25, -d / 2 - 0.45, 0.5, 0.05))
+    chair(S, x - (-0.05) * s, y + (-0.05) * c, yaw, color="chair_green", name=name + "_Chair")
+    # 艙內小燈（區域光）
+    ld = bpy.data.lights.new(name + "_Light", "AREA")
+    ld.energy, ld.size = 25, 0.5
+    lo = bpy.data.objects.new(name + "_Light", ld)
+    lo.location = (x, y, h - 0.05)
+    S.coll["LIGHTS"].objects.link(lo)
+    return {"seat": (x - (-0.05) * s, y + (-0.05) * c), "status": (x, y, h + 0.2)}
