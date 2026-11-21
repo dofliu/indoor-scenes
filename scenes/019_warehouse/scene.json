@@ -1,0 +1,455 @@
+{
+  "id": "019",
+  "name_zh": "倉儲物流區",
+  "name_en": "Warehouse & Logistics Area",
+  "category": "factory",
+  "size_m": [
+    16,
+    12
+  ],
+  "height_m": 3.0,
+  "doors": [
+    {
+      "id": "DOOR_W_01",
+      "wall": "W",
+      "offset_m": 3.0,
+      "width_m": 1.0,
+      "position": [
+        0.1,
+        3.0,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_E_01",
+      "wall": "E",
+      "offset_m": 3.0,
+      "width_m": 1.0,
+      "position": [
+        15.9,
+        3.0,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_S_01",
+      "wall": "S",
+      "offset_m": 5.0,
+      "width_m": 1.0,
+      "position": [
+        5.0,
+        0.1,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_N_01",
+      "wall": "N",
+      "offset_m": 7.0,
+      "width_m": 1.0,
+      "position": [
+        7.0,
+        11.9,
+        0.0
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "id": "STAND_pick_01",
+      "type": "STAND",
+      "use": "pick",
+      "position": [
+        1.85,
+        6.0,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        1.85,
+        6.0,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STAND_pick_02",
+      "type": "STAND",
+      "use": "pick",
+      "position": [
+        3.65,
+        9.5,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        3.65,
+        9.5,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STAND_pick_03",
+      "type": "STAND",
+      "use": "pick",
+      "position": [
+        6.95,
+        6.0,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "STATUS_03",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        6.95,
+        6.0,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STAND_pick_04",
+      "type": "STAND",
+      "use": "pick",
+      "position": [
+        8.75,
+        9.5,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "STATUS_04",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        8.75,
+        9.5,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STAND_pick_05",
+      "type": "STAND",
+      "use": "pick",
+      "position": [
+        12.05,
+        6.0,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "STATUS_05",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        12.05,
+        6.0,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STAND_pick_06",
+      "type": "STAND",
+      "use": "pick",
+      "position": [
+        14.15,
+        9.5,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "STATUS_06",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        14.15,
+        9.5,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STAND_dock_01",
+      "type": "STAND",
+      "use": "dock",
+      "position": [
+        9.15,
+        0.8,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STATUS_07",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        9.15,
+        0.8,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STAND_forklift_01",
+      "type": "STAND",
+      "use": "forklift",
+      "position": [
+        14.3,
+        2.25,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STATUS_08",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        14.3,
+        2.25,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "POI_charger_01",
+      "type": "POI",
+      "use": "charger",
+      "position": [
+        15.2,
+        2.25,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "SEAT_desk_01",
+      "type": "SEAT",
+      "use": "desk",
+      "position": [
+        1.6,
+        1.3,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STATUS_09",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        1.6,
+        1.3,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "POI_labelprinter_01",
+      "type": "POI",
+      "use": "labelprinter",
+      "position": [
+        2.05,
+        1.25,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_packing_01",
+      "type": "STAND",
+      "use": "packing",
+      "position": [
+        3.6,
+        1.3,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STATUS_10",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        3.6,
+        1.3,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STAND_wrapper_01",
+      "type": "STAND",
+      "use": "wrapper",
+      "position": [
+        6.35,
+        2.5,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "STATUS_11",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        6.35,
+        2.5,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STAND_whiteboard_01",
+      "type": "STAND",
+      "use": "whiteboard",
+      "position": [
+        0.95,
+        4.15,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "POI_route_01",
+      "type": "POI",
+      "use": "route",
+      "position": [
+        2.75,
+        3.9,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "POI_route_02",
+      "type": "POI",
+      "use": "route",
+      "position": [
+        2.75,
+        10.9,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "POI_route_03",
+      "type": "POI",
+      "use": "route",
+      "position": [
+        7.85,
+        10.9,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "POI_route_04",
+      "type": "POI",
+      "use": "route",
+      "position": [
+        7.85,
+        3.9,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "POI_route_05",
+      "type": "POI",
+      "use": "route",
+      "position": [
+        13.1,
+        3.9,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "POI_route_06",
+      "type": "POI",
+      "use": "route",
+      "position": [
+        13.1,
+        10.9,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "POI_route_07",
+      "type": "POI",
+      "use": "route",
+      "position": [
+        11.0,
+        1.6,
+        0.0
+      ],
+      "yaw_deg": 0
+    }
+  ],
+  "tags": [
+    "factory",
+    "warehouse",
+    "logistics",
+    "pallet-rack",
+    "forklift",
+    "loading-dock",
+    "picking",
+    "shipping"
+  ],
+  "nav": {
+    "file": "navmesh.glb",
+    "cell_m": 0.25,
+    "margin_m": 0.3,
+    "cells": 1555
+  },
+  "files": {
+    "blend": "scene.blend",
+    "glb": "scene.glb",
+    "navmesh": "navmesh.glb",
+    "preview": "preview.png",
+    "plan": "plan.png",
+    "build": "build.py"
+  },
+  "coord": "Blender Z-up, +Y north, SW corner origin; glb is glTF Y-up (gx=x, gy=z, gz=-y)",
+  "created": "2026-11-21",
+  "routes": {
+    "forklift": {
+      "desc": "堆高機巡迴：碼頭 → A 走道 → B 走道 → C 走道 → 碼頭（沿 POI_route_* 依序）",
+      "waypoints": [
+        "POI_route_07",
+        "POI_route_04",
+        "POI_route_01",
+        "POI_route_02",
+        "POI_route_03",
+        "POI_route_04",
+        "POI_route_05",
+        "POI_route_06",
+        "POI_route_05",
+        "POI_route_07"
+      ],
+      "vehicle_clearance_m": 1.3
+    }
+  }
+}

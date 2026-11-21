@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-16",
+  "updated": "2026-11-21",
   "scenes": [
     {
       "id": "001",
@@ -433,6 +433,33 @@
       ],
       "created": "2026-11-16",
       "preview": "scenes/018_cnc_workshop/preview.png"
+    },
+    {
+      "id": "019",
+      "dir": "019_warehouse",
+      "name_zh": "倉儲物流區",
+      "name_en": "Warehouse & Logistics Area",
+      "category": "factory",
+      "size_m": [
+        16,
+        12
+      ],
+      "height_m": 3.0,
+      "doors": 4,
+      "anchors": 32,
+      "seats": 1,
+      "tags": [
+        "factory",
+        "warehouse",
+        "logistics",
+        "pallet-rack",
+        "forklift",
+        "loading-dock",
+        "picking",
+        "shipping"
+      ],
+      "created": "2026-11-21",
+      "preview": "scenes/019_warehouse/preview.png"
     }
   ]
 }

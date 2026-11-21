@@ -164,6 +164,7 @@ class Scene:
         self.doors, self.anchors, self.obstacles, self.windows = [], [], [], []
         self.door_objs = []
         self.extra_free = []  # 額外強制可走矩形 (x0,y0,x1,y1)
+        self.extra_json = {}  # 併入 scene.json 的額外欄位（如 routes，019 起）
         self.wall_pieces = {}
         self._counters = {}
         _mat_cache.clear()
@@ -396,7 +397,7 @@ class Scene:
 
     # ---------- 輸出
     def _scene_json(self):
-        return {
+        d = {
             "id": self.id, "name_zh": self.name_zh, "name_en": self.name_en, "category": self.category,
             "size_m": [self.W, self.D], "height_m": self.H,
             "doors": [{"id": d["id"], "wall": d["wall"], "offset_m": d["offset_m"], "width_m": d["width_m"],
@@ -408,6 +409,9 @@ class Scene:
             "coord": "Blender Z-up, +Y north, SW corner origin; glb is glTF Y-up (gx=x, gy=z, gz=-y)",
             "created": datetime.date.today().isoformat(),
         }
+        for k, v in self.extra_json.items():
+            d.setdefault(k, v)
+        return d
 
     def add_camera_and_sun(self):
         cam = bpy.data.cameras.new("Camera")

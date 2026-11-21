@@ -51,6 +51,11 @@
 ```
 category：office / meeting / social / factory / lab / service / connector。
 
+#### 選用欄位 `routes`（019 起）
+車輛或巡檢等固定路線，依序列出錨點 id（通常為 `POI_route_*`），例如：
+`"routes": {"forklift": {"desc": "...", "waypoints": ["POI_route_07", "POI_route_04", ...], "vehicle_clearance_m": 1.3}}`。
+路線點皆位於導航網格上；程式可依序沿導航網格移動車輛模型。未提供此欄位的場景視為無固定路線。
+
 ## 座標轉換（glb）
 glTF 為 Y-up：`gx = x, gy = z, gz = −y`。`scene.json` 的所有座標為 Blender（Z-up）座標。
 

@@ -1685,3 +1685,227 @@ def teach_pendant_stand(S, x, y, yaw=0.0, name="PendantStand"):
     _screen(p, -0.1, -0.322, 1.01, 0.17, 0.12, (0.2, 0.7, 0.95))
     p.finish(footprint=(0.6, 0.5))
     return p
+
+
+# ---------------------------------------------------------------- 倉儲物流區（019 起）
+RACK_BLUE = (0.10, 0.25, 0.55)
+RACK_ORANGE = (0.92, 0.42, 0.08)
+
+
+def _pallet_load(p, cx, cy, z, w, d, kind, k=0):
+    """在 piece 座標 (cx,cy,z) 放一個棧板（簡化 2 塊）＋貨物：cartons / wrapped / bins / drum / empty。"""
+    wood = mat("pallet_wood", (0.62, 0.48, 0.30), rough=0.85)
+    p.box(cx, cy, z + 0.06, w, d, 0.12, wood)
+    p.box(cx, cy, z + 0.035, w * 0.9, d * 0.5, 0.07, mat("pallet_gap", (0.25, 0.20, 0.14), rough=0.9))
+    z0 = z + 0.12
+    if kind == "cartons":
+        cb = mat("cardboard", (0.62, 0.46, 0.28), rough=0.85)
+        hh = 0.55 + 0.1 * (k % 3)
+        p.box(cx, cy, z0 + hh / 2, w - 0.06, d - 0.06, hh, cb)
+        p.box(cx, cy - (d - 0.06) / 2 - 0.001, z0 + hh * 0.7, w * 0.35, 0.002, 0.12, "paper")
+        p.box(cx, cy, z0 + hh / 2, w - 0.04, d * 0.02, hh + 0.004, mat("carton_tape", (0.72, 0.60, 0.40), rough=0.6))
+    elif kind == "wrapped":
+        hh = 0.7
+        p.box(cx, cy, z0 + hh / 2, w - 0.06, d - 0.06, hh, mat("wrapped_goods", (0.30, 0.48, 0.62), rough=0.5))
+        p.box(cx, cy, z0 + hh / 2, w - 0.03, d - 0.03, hh * 0.85, mat("stretch_film", (0.86, 0.90, 0.93), rough=0.15, alpha=0.45))
+    elif kind == "bins":
+        bm = mat("tote_red" if k % 2 else "tote_grey", (0.72, 0.16, 0.12) if k % 2 else (0.40, 0.44, 0.48), rough=0.5)
+        for i in range(3):
+            for j in range(2):
+                for l in range(2):
+                    p.box(cx - w / 2 + (i + 0.5) * w / 3, cy - d / 2 + (j + 0.5) * d / 2, z0 + 0.15 + 0.3 * l,
+                          w / 3 - 0.03, d / 2 - 0.03, 0.28, bm)
+    elif kind == "drum":
+        dm = mat("drum_blue", (0.10, 0.30, 0.62), rough=0.4, metal=0.3)
+        for i in (-1, 1):
+            for j in (-1, 1):
+                p.cyl(cx + i * w / 4, cy + j * d / 4, z0 + 0.4, min(w, d) / 4 - 0.02, 0.8, dm, seg=14)
+
+
+def pallet_rack(S, x, y, yaw=0.0, bays=3, bay_w=2.1, d=1.0, h=2.7, beams=(0.95, 1.75), pattern=None,
+                frame=RACK_BLUE, beam=RACK_ORANGE, name="PalletRack"):
+    """選擇式棧板貨架：沿本地 X 排 bays 個儲位，取貨面在本地 -Y。地面層＋beams 兩層樑，每儲位每層 2 板。
+    pattern：每格貨物類型序列（循環），None 用預設；'empty' 表示空位。立柱端部含黃色防撞護欄。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    fm = mat("rack_frame_%d" % int(frame[2] * 99), frame, rough=0.4, metal=0.3)
+    bmz = mat("rack_beam_%d" % int(beam[0] * 99), beam, rough=0.4, metal=0.2)
+    yel = mat("safety_yellow", SAFETY_YELLOW)
+    deck = mat("wire_deck", (0.55, 0.57, 0.60), rough=0.4, metal=0.6)
+    W = bays * bay_w
+    pattern = pattern or ["cartons", "wrapped", "bins", "cartons", "empty", "wrapped", "drum", "cartons", "bins",
+                          "wrapped", "cartons", "empty", "cartons", "bins", "wrapped", "drum", "cartons"]
+    # 立柱框（前後各一柱＋斜撐）
+    for i in range(bays + 1):
+        ux = -W / 2 + i * bay_w
+        for sy in (-1, 1):
+            p.box(ux, sy * (d / 2 - 0.04), h / 2, 0.08, 0.07, h, fm)
+            p.box(ux, sy * (d / 2 - 0.04), 0.01, 0.16, 0.14, 0.02, "metal_dark")
+        for zz in (0.3, 1.2, 2.1):
+            p.box(ux, 0, zz, 0.04, d - 0.1, 0.04, fm)
+        for zz in (0.75, 1.65):
+            p.box(ux, 0, zz, 0.03, (d - 0.1) * 1.25, 0.03, fm, rz=0.0)
+    # 端部防撞護欄（黃色）
+    for ex in (-W / 2 - 0.12, W / 2 + 0.12):
+        p.box(ex, 0, 0.2, 0.08, d, 0.4, yel)
+    # 樑與層板
+    for zb in beams:
+        for sy in (-1, 1):
+            p.box(0, sy * (d / 2 - 0.04), zb - 0.06, W, 0.06, 0.12, bmz)
+        for i in range(bays):
+            p.box(-W / 2 + (i + 0.5) * bay_w, 0, zb + 0.003, bay_w - 0.1, d - 0.1, 0.006, deck)
+    # 貨物
+    k = 0
+    lw = (bay_w - 0.3) / 2
+    for li, zl in enumerate((0.0,) + tuple(beams)):
+        for i in range(bays):
+            for s in range(2):
+                kind = pattern[k % len(pattern)]
+                k += 1
+                if kind == "empty":
+                    continue
+                cx = -W / 2 + i * bay_w + 0.1 + (s + 0.5) * (lw + 0.05)
+                _pallet_load(p, cx, 0.0, zl + (0.006 if zl else 0), lw, d - 0.1, kind, k)
+    p.finish(footprint=(W + 0.3, d))
+    return p
+
+
+def forklift(S, x, y, yaw=0.0, fork_h=0.1, name="Forklift"):
+    """平衡重式電動堆高機：貨叉朝本地 +Y，配重在 -Y；含門架、頂棚護架、座椅、方向盤、警示燈。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    body = mat("forklift_body", (0.95, 0.68, 0.06), rough=0.4)
+    dark = "metal_dark"
+    tire = mat("tire", (0.03, 0.03, 0.03), rough=0.85)
+    # 車體與配重
+    p.boxc(-0.52, -0.95, 0.15, 0.52, 0.45, 0.62, body)
+    p.boxc(-0.55, -1.12, 0.12, 0.55, -0.72, 1.0, mat("counterweight", (0.18, 0.18, 0.19), rough=0.6))
+    p.boxc(-0.5, -0.1, 0.62, 0.5, 0.45, 0.95, body)               # 前方儀表罩
+    for sx in (-1, 1):
+        p.cyl(sx * 0.46, 0.25, 0.22, 0.22, 0.2, tire, seg=16, axis="X")
+        p.cyl(sx * 0.44, -0.72, 0.18, 0.18, 0.18, tire, seg=16, axis="X")
+    # 座椅
+    p.boxc(-0.25, -0.65, 0.62, 0.25, -0.2, 0.72, "plastic_black")
+    p.boxc(-0.25, -0.72, 0.7, 0.25, -0.62, 1.15, "plastic_black")
+    # 方向盤
+    p.cyl(0, 0.08, 1.05, 0.025, 0.25, dark, seg=8)
+    p.cyl(0, 0.02, 1.16, 0.16, 0.03, "plastic_black", seg=16)
+    # 頂棚護架
+    for sx in (-1, 1):
+        p.boxc(sx * 0.46 - 0.03, 0.3, 0.62, sx * 0.46 + 0.03, 0.36, 2.12, dark)
+        p.boxc(sx * 0.46 - 0.03, -0.9, 0.95, sx * 0.46 + 0.03, -0.84, 2.12, dark)
+    p.boxc(-0.5, -0.92, 2.1, 0.5, 0.38, 2.16, dark)
+    for i in range(6):
+        p.box(0, -0.85 + i * 0.22, 2.17, 0.96, 0.04, 0.02, dark)
+    p.cyl(0, -0.88, 2.24, 0.05, 0.08, mat("beacon_orange", (0.9, 0.45, 0.05), emit=(1.0, 0.5, 0.05)), seg=10)
+    # 門架與貨叉
+    for sx in (-1, 1):
+        p.boxc(sx * 0.33 - 0.04, 0.5, 0.08, sx * 0.33 + 0.04, 0.6, 2.05, mat("mast", (0.15, 0.15, 0.16), rough=0.4, metal=0.5))
+    p.boxc(-0.33, 0.5, 2.0, 0.33, 0.6, 2.06, dark)
+    p.boxc(-0.45, 0.6, fork_h + 0.05, 0.45, 0.66, fork_h + 0.55, dark)      # 貨叉架
+    for sx in (-1, 1):
+        p.boxc(sx * 0.25 - 0.05, 0.66, fork_h, sx * 0.25 + 0.05, 1.75, fork_h + 0.045, dark)
+        p.boxc(sx * 0.25 - 0.05, 0.62, fork_h, sx * 0.25 + 0.05, 0.68, fork_h + 0.5, dark)
+    p.finish(footprint=(1.1, 2.9, 0, 0.3))
+    return p
+
+
+def pallet_jack(S, x, y, yaw=0.0, name="PalletJack"):
+    """手動油壓拖板車：貨叉朝本地 +Y，把手在 -Y。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    red = mat("jack_red", (0.75, 0.12, 0.10), rough=0.4)
+    for sx in (-1, 1):
+        p.boxc(sx * 0.28 - 0.08, -0.1, 0.05, sx * 0.28 + 0.08, 1.05, 0.09, red)
+        p.cyl(sx * 0.28, 0.98, 0.04, 0.035, 0.1, "plastic_black", seg=8, axis="X")
+    p.boxc(-0.36, -0.35, 0.05, 0.36, -0.1, 0.2, red)
+    p.cyl(0, -0.3, 0.45, 0.05, 0.5, red, seg=10)
+    p.cyl(0, -0.25, 0.1, 0.09, 0.08, "plastic_black", seg=12, axis="X")
+    p.box(0, -0.42, 1.0, 0.04, 0.04, 0.75, "metal_dark", rz=0.0)
+    p.box(0, -0.48, 1.38, 0.3, 0.04, 0.04, "plastic_black")
+    p.finish(footprint=(0.72, 1.5, 0, 0.32))
+    return p
+
+
+def dock_door(S, x, y, yaw=0.0, w=3.0, h=2.7, name="DockDoor"):
+    """裝卸碼頭捲門（貼牆裝飾件，非門洞）：捲門片＋捲軸箱＋側導軌＋門封＋防撞墊＋地面升降平台＋紅綠號誌。
+    (x,y) 為牆內面中心，正面朝本地 +Y（室內）。"""
+    p = Piece(S, name, x, y, yaw=yaw, coll="PROPS")
+    slat = mat("shutter_slat", (0.70, 0.72, 0.74), rough=0.35, metal=0.5)
+    slat2 = mat("shutter_groove", (0.50, 0.52, 0.55), rough=0.4, metal=0.5)
+    p.boxc(-w / 2, 0.0, 0.0, w / 2, 0.05, h, slat)
+    for i in range(int(h / 0.25)):
+        p.box(0, 0.052, 0.12 + i * 0.25, w, 0.006, 0.02, slat2)
+    p.boxc(-w / 2 - 0.1, 0.0, h, w / 2 + 0.1, 0.35, h + 0.28, "metal_dark")
+    for sx in (-1, 1):
+        p.boxc(sx * w / 2 - 0.06, 0.0, 0.0, sx * w / 2 + 0.06, 0.12, h, "metal_dark")
+        p.boxc(sx * (w / 2 - 0.25) - 0.12, 0.0, 0.25, sx * (w / 2 - 0.25) + 0.12, 0.14, 0.75, "plastic_black")
+    # 升降平台（與地面齊平的鋼板，黃黑邊）
+    p.boxc(-1.0, 0.05, 0.0, 1.0, 2.0, 0.012, mat("leveler", (0.32, 0.33, 0.35), rough=0.5, metal=0.6))
+    yel = mat("safety_yellow", SAFETY_YELLOW)
+    for sx in (-1, 1):
+        p.boxc(sx * 1.0 - 0.06 * (sx > 0), 0.05, 0.0, sx * 1.0 + 0.06 * (sx < 0), 2.0, 0.014, yel)
+    # 號誌燈（門右側）
+    for k, (c, on) in enumerate((((0.9, 0.12, 0.1), False), ((0.15, 0.85, 0.3), True))):
+        m = mat("dock_light_%d" % k, c if on else tuple(v * 0.4 for v in c), emit=c if on else None)
+        p.cyl(w / 2 + 0.35, 0.05, 2.0 - 0.18 * k, 0.07, 0.06, m, seg=12, axis="Y")
+    p.boxc(w / 2 + 0.25, 0.0, 1.72, w / 2 + 0.45, 0.04, 2.1, "plastic_black")
+    p.finish(obstacle=False)
+    return p
+
+
+def dock_control(S, x, y, yaw=0.0, name="DockControl"):
+    """碼頭捲門／升降平台控制盒（壁掛），正面朝本地 +Y。"""
+    p = Piece(S, name, x, y, 1.1, yaw=yaw, coll="PROPS")
+    p.boxc(-0.2, 0.0, 0.0, 0.2, 0.15, 0.45, mat("panel_grey", (0.78, 0.79, 0.80), rough=0.4))
+    for k, c in enumerate(((0.15, 0.7, 0.25), (0.15, 0.7, 0.25), (0.85, 0.1, 0.08))):
+        p.cyl(-0.1 + 0.1 * k, 0.16, 0.25, 0.03, 0.03, mat("btn_%d" % k, c, rough=0.4), seg=10, axis="Y")
+    p.finish(obstacle=False)
+    return p
+
+
+def battery_charger(S, x, y, yaw=0.0, name="Charger"):
+    """堆高機電池充電機（落地式），正面朝本地 +Y；含電纜與指示燈。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.boxc(-0.35, -0.2, 0.0, 0.35, 0.2, 1.2, mat("charger_body", (0.25, 0.42, 0.30), rough=0.45))
+    _screen(p, 0.0, 0.202, 0.95, 0.3, 0.12, (0.2, 0.9, 0.4))
+    for k in range(3):
+        p.cyl(-0.15 + 0.15 * k, 0.205, 0.75, 0.025, 0.01, mat("chg_led_%d" % k, (0.1, 0.4, 0.1), emit=(0.2, 1.0, 0.3) if k < 2 else None), seg=8, axis="Y")
+    p.cyl(0.2, 0.3, 0.6, 0.025, 1.0, "plastic_black", seg=6)
+    p.box(0.2, 0.3, 0.1, 0.12, 0.1, 0.1, mat("plug_red", (0.8, 0.1, 0.08), rough=0.4))
+    p.finish(footprint=(0.7, 0.4))
+    return p
+
+
+def stretch_wrapper(S, x, y, yaw=0.0, load=True, name="StretchWrapper"):
+    """棧板纏繞機：圓形轉盤＋立柱（立柱在本地 -Y 側，操作面板朝 +X）＋膜架；可放一板已纏繞貨物。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.cyl(0, 0, 0.04, 0.8, 0.08, mat("turntable", (0.30, 0.32, 0.34), rough=0.4, metal=0.5), seg=32)
+    p.boxc(-0.25, -1.15, 0.0, 0.25, -0.85, 2.3, mat("wrapper_body", (0.12, 0.38, 0.62), rough=0.4))
+    p.boxc(-0.08, -0.85, 0.9, 0.08, -0.7, 1.15, "metal_dark")
+    p.cyl(0, -0.72, 1.3, 0.08, 0.45, mat("stretch_film", (0.86, 0.90, 0.93), rough=0.15, alpha=0.45), seg=14)
+    p.boxc(0.25, -1.1, 1.1, 0.27, -0.9, 1.35, "plastic_black")
+    _screen(p, 0.272, -1.0, 1.25, 0.004, 0.1, (0.2, 0.7, 0.95))
+    if load:
+        _pallet_load(p, 0, 0, 0.08, 1.0, 1.0, "wrapped")
+    p.finish(footprint=(1.6, 2.0, 0, -0.2))
+    return p
+
+
+def safety_mirror(S, x, y, yaw=0.0, z=2.3, name="SafetyMirror"):
+    """凸面安全反光鏡（路口），鏡面朝本地 +Y。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.cyl(0, 0, 0, 0.3, 0.04, mat("mirror_rim", (0.92, 0.45, 0.08), rough=0.4), seg=20, axis="Y")
+    p.sphere(0, 0.03, 0, 0.27, mat("mirror", (0.85, 0.88, 0.9), rough=0.02, metal=1.0), sy=0.25, seg=16)
+    p.box(0, -0.1, 0, 0.04, 0.2, 0.04, "metal_dark")
+    p.finish(obstacle=False)
+    return p
+
+
+def aisle_sign(S, x, y, yaw=0.0, color=(0.1, 0.45, 0.8), z=2.45, name="AisleSign"):
+    """吊掛走道標示牌（色塊代表走道編號，無文字）。"""
+    p = Piece(S, name, x, y, yaw=yaw, coll="PROPS")
+    m = mat("sign_%d%d%d" % tuple(int(c * 9) for c in color), color, rough=0.4)
+    for sx in (-1, 1):
+        p.cyl(sx * 0.35, 0, (z + 0.2 + S.H) / 2, 0.008, S.H - z - 0.2, "metal_dark", seg=6)
+    p.box(0, 0, z, 0.9, 0.04, 0.4, m)
+    p.box(0, 0, z, 0.5, 0.05, 0.14, "plastic_white")
+    p.finish(obstacle=False)
+    return p
