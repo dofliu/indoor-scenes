@@ -3,6 +3,7 @@
 「正面」定義：椅子面向 +Y 時人坐的方向；桌子的「使用者側」在 -Y 側（人坐在桌子南側，面向北）。
 """
 import math
+import bpy
 from scenelib import Piece, mat
 
 R = math.radians
@@ -175,4 +176,72 @@ def status_lamp(S, x, y, z=2.0, name="StatusLamp", color=(0.2, 0.9, 0.3)):
     p.cyl(0, 0, 0, 0.05, 0.04, "metal_dark", seg=12)
     p.sphere(0, 0, -0.06, 0.05, mat("status_" + "_".join("%d" % (c * 10) for c in color), color, emit=color), seg=10)
     p.finish(obstacle=False)
+    return p
+
+
+def phone_booth(S, x, y, yaw=0.0, w=1.2, d=1.1, h=2.25, color="booth_shell", door_w=0.7, name="PhoneBooth",
+                seat=True):
+    """獨立式電話亭／專注艙（1 人）。(x,y) 為艙體中心，開口（玻璃門洞）在 -Y 側，背板在 +Y 側。
+    艙內含：靠背板的窄桌、凳子、頂燈。導航：側板、背板、前玻璃各自成為細長障礙；
+    另把門洞到座位的通道加入 S.extra_free，使人物可走進艙內。回傳艙內座位的世界座標 (sx, sy)。"""
+    t = 0.05
+    shell, glass = mat(color, (0.30, 0.42, 0.40), rough=0.7), mat("booth_glass", (0.65, 0.85, 0.9), rough=0.05, alpha=0.3)
+    felt = mat("booth_felt", (0.55, 0.60, 0.55), rough=0.95)
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, d / 2 - t / 2, h / 2, w, t, h, shell)                       # 背板
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - t / 2), 0, h / 2, t, d, h, shell)            # 側板
+        p.box(sx * (w / 2 - t - 0.01), 0.05, h * 0.55, 0.02, d - 0.25, h * 0.6, felt)  # 吸音毯
+    p.box(0, 0, h - t / 2, w, d, t, shell)                               # 頂板
+    p.box(0, 0, 0.02, w - 2 * t, d - t, 0.04, mat("booth_floor", (0.35, 0.33, 0.30), rough=0.9))             # 底座
+    side = (w - 2 * t - door_w) / 2
+    for sx in (-1, 1):                                                   # 前玻璃（門洞兩側）
+        p.box(sx * (door_w / 2 + side / 2), -d / 2 + 0.02, h / 2, side, 0.02, h - 2 * t, glass)
+    p.box(0, -d / 2 + 0.02, h - t - 0.1, door_w, 0.03, 0.2, shell)       # 門楣
+    p.box(0, d / 2 - t - 0.15, 0.74, w - 2 * t - 0.04, 0.30, 0.03, "wood_light")  # 窄桌
+    p.box(0, -0.0, h - t - 0.012, 0.5, 0.25, 0.02, mat("light_emit", (1, 0.97, 0.9), emit=(1, 0.95, 0.85)))
+    p.finish(obstacle=False)
+    c, s = math.cos(yaw), math.sin(yaw)
+
+    def W_(lx, ly):
+        return x + lx * c - ly * s, y + lx * s + ly * c
+    # 障礙：背板、兩側板、前玻璃兩段（以極小深度表示，膨脹由導航邊距處理）
+    S.obstacles.append((*W_(0, d / 2 - t / 2), yaw, w, t))
+    for sx in (-1, 1):
+        S.obstacles.append((*W_(sx * (w / 2 - t / 2), 0), yaw, t, d))
+        S.obstacles.append((*W_(sx * (door_w / 2 + side / 2), -d / 2 + 0.02), yaw, side, 0.02))
+    S.obstacles.append((*W_(0, d / 2 - t - 0.15), yaw, w - 2 * t, 0.3))  # 窄桌
+    # 走入通道（艙外 0.6 m 至座位）
+    sxw, syw = W_(0, -0.05)
+    a, b = W_(-0.25, -d / 2 - 0.6), W_(0.25, -0.05)
+    S.extra_free.append((min(a[0], b[0]), min(a[1], b[1]), max(a[0], b[0]), max(a[1], b[1])))
+    # 艙內小燈
+    ld = bpy.data.lights.new(name + "_Light", "AREA")
+    ld.energy, ld.size = 25, 0.4
+    lo = bpy.data.objects.new(name + "_Light", ld)
+    lo.location = (x, y, h - t - 0.05)
+    S.coll["LIGHTS"].objects.link(lo)
+    if seat:
+        stool(S, *W_(0, -0.05), name=name + "_Stool")
+    return W_(0, -0.05)
+
+
+def stool(S, x, y, h=0.48, color="fabric_orange", name="Stool"):
+    """圓凳（不列為導航障礙）。"""
+    p = Piece(S, name, x, y)
+    p.cyl(0, 0, 0.015, 0.2, 0.03, "metal_dark", seg=16)
+    p.cyl(0, 0, h / 2, 0.025, h, "metal_dark", seg=8)
+    p.cyl(0, 0, h - 0.03, 0.19, 0.06, color, seg=18)
+    p.finish(obstacle=False)
+    return p
+
+
+def coat_rack(S, x, y, name="CoatRack"):
+    p = Piece(S, name, x, y, coll="PROPS")
+    p.cyl(0, 0, 0.015, 0.2, 0.03, "metal_dark", seg=16)
+    p.cyl(0, 0, 0.9, 0.018, 1.8, "metal_dark", seg=8)
+    for k in range(4):
+        a = k * math.pi / 2
+        p.box(0.1 * math.cos(a), 0.1 * math.sin(a), 1.72, 0.2, 0.02, 0.02, "metal_dark", rz=a)
+    p.finish(footprint=(0.4, 0.4))
     return p

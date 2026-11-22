@@ -110,7 +110,8 @@ async function loadScene(entry){
     buildAnchors(); buildNavGrid(navObj);
     const [W,D]=meta.size_m;
     controls.target.set(W/2,0.5,-D/2);
-    camera.position.set(W/2-W*0.55, Math.max(W,D)*0.85, -D/2+D*0.95);
+    const R=Math.max(W,D,8); /* 小房間以 8 m 為最小取景尺度 */
+    camera.position.set(W/2-R*0.55, R*0.85, -D/2+R*0.8);
     controls.update();
     $('info').textContent = `${meta.id} ${meta.name_zh}｜${W}×${D} m｜門 ${meta.doors.length}｜錨點 ${meta.anchors.length}`;
     applyOpts();
