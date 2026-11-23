@@ -56,6 +56,12 @@ category：office / meeting / social / factory / lab / service / connector。
 `"routes": {"forklift": {"desc": "...", "waypoints": ["POI_route_07", "POI_route_04", ...], "vehicle_clearance_m": 1.3}}`。
 路線點皆位於導航網格上；程式可依序沿導航網格移動車輛模型。未提供此欄位的場景視為無固定路線。
 
+#### 選用欄位 `zones`（020 起）
+同一模組內有不同管制等級的分區時（如無塵室與更衣緩衝區），列出各區矩形範圍（Blender 座標 `[x0,y0,x1,y1]`）、潔淨等級與相對壓差，例如：
+`"zones": [{"id": "gowning", "rect_m": [0,0,4,10], "clean_class": "ISO 8", "pressure_pa": 10, "entry_doors": ["DOOR_S_01"]}, ...]`。
+程式可據此判斷人物所在區域（例如未完成 `routes.gowning` 更衣流程者不可進入 `cleanroom`）。
+`routes` 也可用於人員流程（非車輛），例如 `routes.gowning` 依序列出更衣錨點，`dwell_s` 為建議停留秒數。
+
 ## 座標轉換（glb）
 glTF 為 Y-up：`gx = x, gy = z, gz = −y`。`scene.json` 的所有座標為 Blender（Z-up）座標。
 

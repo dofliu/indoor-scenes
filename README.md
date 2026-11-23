@@ -3,7 +3,7 @@
 以 Blender（bpy）程序化建模的**室內場景模組庫**：每個模組遵守統一規格（2 m 網格、3 m 樓高、奇數公尺門洞、命名錨點、導航網格），
 可任意拼接成一層樓，也可匯入 Three.js / Unity / Godot 讓人物在其中移動。詳見 [SPEC.md](SPEC.md)。
 
-**目前場景數：19**　｜　待做清單：[backlog.md](backlog.md)　｜　清單資料：[catalog.json](catalog.json)
+**目前場景數：20**　｜　待做清單：[backlog.md](backlog.md)　｜　清單資料：[catalog.json](catalog.json)
 
 ## 場景一覽
 
@@ -28,6 +28,7 @@
 | 017 | [電子組裝產線（SMT）](scenes/017_smt_line/) | 18×10 m | 4 | 39（8 機台操作站位＋6 防靜電作業座＋包裝／保養／品質看板站位；料捲架、鋼板櫃、供料器台車、錫膏冰箱、Andon 看板、防靜電測試、靜電衣、成品架互動點；14 狀態點） | <img src="scenes/017_smt_line/preview.png" width="360"> |
 | 018 | [CNC 加工車間](scenes/018_cnc_workshop/) | 16×12 m | 3 | 28（4 立式加工中心＋2 車床操作站位；2 機器手臂單元的控制櫃／上下料站位與手臂保養點；對刀、鉗工、量測、看板站位；刀具櫃、集屑車、棒料架、Andon 互動點；8 狀態點） | <img src="scenes/018_cnc_workshop/preview.png" width="360"> |
 | 019 | [倉儲物流區](scenes/019_warehouse/) | 16×12 m | 4 | 32（6 揀貨站位＋出貨座；包裝／纏繞機／碼頭／堆高機／看板站位；7 堆高機路線點、充電、標籤機互動點；11 狀態點） | <img src="scenes/019_warehouse/preview.png" width="360"> |
+| 020 | [無塵室（含更衣緩衝區）](scenes/020_cleanroom/) | 12×10 m | 2 | 31（更衣流程：黏塵墊→鞋櫃→洗手→跨越椅 2 座→潔淨衣櫃 ×2→防護用品→全身鏡→風淋室；傳遞箱兩側；濕式清洗台 ×2、製程機台 ×2 站位；檢驗座 ×2、潔淨工作台座 ×2；洗眼器、晶圓盒櫃、微粒計數器；7 狀態點） | <img src="scenes/020_cleanroom/preview.png" width="360"> |
 
 ## 組合範例：AI 代理人公司一層樓
 `compose/ai_company_layout.json` → `python3 tools/compose.py compose/ai_company_layout.json` 產生 `compose/ai_company_floor.{blend,glb,json}`
