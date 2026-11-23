@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-21",
+  "updated": "2026-11-23",
   "scenes": [
     {
       "id": "001",
@@ -460,6 +460,35 @@
       ],
       "created": "2026-11-21",
       "preview": "scenes/019_warehouse/preview.png"
+    },
+    {
+      "id": "020",
+      "dir": "020_cleanroom",
+      "name_zh": "無塵室（含更衣緩衝區）",
+      "name_en": "Cleanroom with Gowning Room",
+      "category": "factory",
+      "size_m": [
+        12,
+        10
+      ],
+      "height_m": 3.0,
+      "doors": 2,
+      "anchors": 31,
+      "seats": 6,
+      "tags": [
+        "factory",
+        "cleanroom",
+        "semiconductor",
+        "gowning",
+        "air-shower",
+        "pass-box",
+        "wet-bench",
+        "process-tool",
+        "laminar-flow",
+        "iso-class"
+      ],
+      "created": "2026-11-23",
+      "preview": "scenes/020_cleanroom/preview.png"
     }
   ]
 }
