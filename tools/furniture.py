@@ -176,3 +176,54 @@ def status_lamp(S, x, y, z=2.0, name="StatusLamp", color=(0.2, 0.9, 0.3)):
     p.sphere(0, 0, -0.06, 0.05, mat("status_" + "_".join("%d" % (c * 10) for c in color), color, emit=color), seg=10)
     p.finish(obstacle=False)
     return p
+
+
+def phone_booth(S, x, y, yaw=0.0, w=1.4, d=1.4, h=2.25, color="fabric_teal", name="PhoneBooth"):
+    """獨立式隔音電話亭（玻璃前牆＋滑門開啟）。正面（門）朝 -Y；背面貼牆時 yaw 使 +Y 朝牆。
+    內含靠背牆桌板與內部燈片；整體登記為導航障礙（人物於門口 POI 進出，SEAT 在亭內）。"""
+    glass = mat("glass_booth", (0.65, 0.82, 0.9), rough=0.05, alpha=0.3)
+    p = Piece(S, name, x, y, yaw=yaw)
+    t = 0.06
+    p.box(0, 0, 0.025, w, d, 0.05, "metal_dark")                       # 底座
+    p.box(0, d / 2 - t / 2, h / 2, w, t, h, color)                      # 背板
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - t / 2), 0, h / 2, t, d, h, color)            # 側板（吸音布）
+    p.box(0, 0, h - 0.04, w, d, 0.08, "frame")                          # 頂板
+    p.box(0, 0, h - 0.085, w - 2 * t, d - 2 * t, 0.01, mat("light_emit", (1, 0.97, 0.9), emit=(1, 0.95, 0.85)))
+    p.cyl(0, 0, h + 0.03, 0.12, 0.06, "metal_dark", seg=16)             # 通風扇
+    # 前牆：左側固定玻璃 + 右側門洞；滑門收在固定玻璃內側
+    fx0, fx1 = -w / 2 + t, -0.05
+    fy = -d / 2 + 0.03
+    p.box((fx0 + fx1) / 2, fy, h / 2, fx1 - fx0, 0.012, h - 0.16, glass)
+    p.box((fx0 + fx1) / 2 + 0.05, fy + 0.04, h / 2, fx1 - fx0, 0.012, h - 0.2, glass)
+    for xx in (fx1, w / 2 - t):
+        p.box(xx, fy, h / 2, 0.04, 0.05, h - 0.08, "frame")              # 門柱
+    p.box(0, fy, h - 0.12, w, 0.05, 0.04, "frame")                       # 門楣（滑軌）
+    p.box(fx1 - 0.08 + 0.05, fy + 0.07, 1.05, 0.02, 0.03, 0.35, "metal")  # 把手
+    # 內部：靠背牆桌板、小插座盒
+    p.box(0, d / 2 - t - 0.2, 0.74, w - 2 * t - 0.02, 0.4, 0.03, "wood_light")
+    p.box(0.35, d / 2 - t - 0.04, 0.82, 0.12, 0.03, 0.06, "plastic_white")
+    p.finish(footprint=(w, d))
+    return p
+
+
+def stool(S, x, y, h=0.62, color="fabric_orange", name="Stool"):
+    p = Piece(S, name, x, y, coll="FURNITURE")
+    p.cyl(0, 0, 0.015, 0.2, 0.03, "metal_dark", seg=16)
+    p.cyl(0, 0, h / 2, 0.025, h, "metal", seg=8)
+    p.cyl(0, 0, h - 0.04, 0.19, 0.08, color, seg=18)
+    p.finish(obstacle=False)
+    return p
+
+
+def acoustic_panels(S, x, y, yaw=0.0, n=4, pw=0.5, ph=1.0, z=1.1, colors=("fabric_teal", "fabric_grey", "fabric_orange"), name="AcousticPanels"):
+    """壁掛吸音板一排，(x,y) 為背面中心，正面朝 -Y（yaw=0 時貼北牆）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    gap = 0.06
+    tot = n * pw + (n - 1) * gap
+    for i in range(n):
+        cx = -tot / 2 + pw / 2 + i * (pw + gap)
+        dz = 0.15 if i % 2 else 0.0
+        p.box(cx, -0.025, ph / 2 + dz, pw, 0.05, ph, colors[i % len(colors)])
+    p.finish(obstacle=False)
+    return p

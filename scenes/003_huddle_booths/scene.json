@@ -1,0 +1,214 @@
+{
+  "id": "003",
+  "name_zh": "小型討論室／電話亭",
+  "name_en": "Huddle Room & Phone Booths",
+  "category": "meeting",
+  "size_m": [
+    6,
+    4
+  ],
+  "height_m": 3.0,
+  "doors": [
+    {
+      "id": "DOOR_S_01",
+      "wall": "S",
+      "offset_m": 3.0,
+      "width_m": 1.0,
+      "position": [
+        3.0,
+        0.1,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_W_01",
+      "wall": "W",
+      "offset_m": 1.0,
+      "width_m": 1.0,
+      "position": [
+        0.1,
+        1.0,
+        0.0
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "id": "SEAT_huddle_01",
+      "type": "SEAT",
+      "use": "huddle",
+      "position": [
+        1.8,
+        1.32,
+        0.0
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_huddle_02",
+      "type": "SEAT",
+      "use": "huddle",
+      "position": [
+        2.73,
+        2.25,
+        0.0
+      ],
+      "yaw_deg": 90.0
+    },
+    {
+      "id": "SEAT_huddle_03",
+      "type": "SEAT",
+      "use": "huddle",
+      "position": [
+        1.8,
+        3.18,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "SEAT_huddle_04",
+      "type": "SEAT",
+      "use": "huddle",
+      "position": [
+        0.87,
+        2.25,
+        0.0
+      ],
+      "yaw_deg": -90.0
+    },
+    {
+      "id": "STAND_display_01",
+      "type": "STAND",
+      "use": "display",
+      "position": [
+        0.95,
+        3.15,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_whiteboard_01",
+      "type": "STAND",
+      "use": "whiteboard",
+      "position": [
+        3.25,
+        3.2,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_booth_01",
+      "type": "SEAT",
+      "use": "booth",
+      "position": [
+        5.13,
+        0.8,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "POI_booth_door_01",
+      "type": "POI",
+      "use": "booth_door",
+      "position": [
+        4.03,
+        0.8,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        4.68,
+        1.1,
+        2.45
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_booth_02",
+      "type": "SEAT",
+      "use": "booth",
+      "position": [
+        5.13,
+        2.6,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "POI_booth_door_02",
+      "type": "POI",
+      "use": "booth_door",
+      "position": [
+        4.03,
+        2.6,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "STATUS_03",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        4.68,
+        2.9,
+        2.45
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        1.8,
+        2.25,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "POI_water_01",
+      "type": "POI",
+      "use": "water",
+      "position": [
+        3.8,
+        1.0,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    }
+  ],
+  "tags": [
+    "meeting",
+    "huddle",
+    "phone-booth",
+    "focus",
+    "4-seats"
+  ],
+  "nav": {
+    "file": "navmesh.glb",
+    "cell_m": 0.25,
+    "margin_m": 0.3,
+    "cells": 152
+  },
+  "files": {
+    "blend": "scene.blend",
+    "glb": "scene.glb",
+    "navmesh": "navmesh.glb",
+    "preview": "preview.png",
+    "plan": "plan.png",
+    "build": "build.py"
+  },
+  "coord": "Blender Z-up, +Y north, SW corner origin; glb is glTF Y-up (gx=x, gy=z, gz=-y)",
+  "created": "2026-11-24"
+}

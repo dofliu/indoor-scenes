@@ -344,6 +344,10 @@ class Scene:
             for y in ys:
                 self.ceiling_panel(x, y, w, d, power)
 
+    def add_nav_passage(self, x0, y0, x1, y1):
+        """強制標為可走的矩形（世界座標）：用於電話亭、工作艙等障礙內部的進出通道。"""
+        self.extra_free.append((min(x0, x1), min(y0, y1), max(x0, x1), max(y0, y1)))
+
     # ---------- 導航網格
     def _inflated_free(self, x, y):
         for (cx, cy, yaw, w, d) in self.obstacles:
@@ -513,8 +517,8 @@ class Scene:
         self._plan(out_dir, plan_px_per_m)
 
     def _plan(self, out_dir, ppm):
-        pad = 1.0
         W, D = self.W, self.D
+        pad = 1.0 if W >= 10 else 1.4
         px_w, px_h = int((W + 2 * pad) * ppm), int((D + 2 * pad) * ppm)
         for o in bpy.data.objects:
             if o.name.startswith(("Wall_", "Frames_")):
@@ -577,14 +581,15 @@ class Scene:
             if a["type"] == "SEAT":
                 lab = a["id"].split("_")[-1]
             dr.text((px + 8, py + 5), lab, fill=(20, 20, 20), font=f)
-        dr.rectangle([0, 0, px_w, 34], fill=(255, 255, 255, 230))
+        two_rows = px_w < 820  # 窄場景：圖例改放第二列，避免與標題重疊
+        dr.rectangle([0, 0, px_w, 58 if two_rows else 34], fill=(255, 255, 255, 230))
         dr.text((10, 5), "%s %s  %s  %d×%d m  H=%.1f m" % (self.id, self.name_zh, self.name_en, W, D, self.H), fill=(0, 0, 0), font=fb)
         lg = [("SEAT", "坐下點"), ("STAND", "站立點"), ("POI", "互動點")]
-        x0 = px_w - 330
+        x0, ly = (80, 30) if two_rows else (px_w - 330, 6)
         for k, (t, z) in enumerate(lg):
             xx = x0 + k * 105
-            dr.ellipse([xx, 10, xx + 12, 22], fill=colors[t] + (255,))
-            dr.text((xx + 16, 6), z, fill=(0, 0, 0), font=f)
-        dr.line([(x0 - 70, 16), (x0 - 52, 16)], fill=(0, 170, 80), width=6)
-        dr.text((x0 - 48, 6), "門", fill=(0, 0, 0), font=f)
+            dr.ellipse([xx, ly + 4, xx + 12, ly + 16], fill=colors[t] + (255,))
+            dr.text((xx + 16, ly), z, fill=(0, 0, 0), font=f)
+        dr.line([(x0 - 70, ly + 10), (x0 - 52, ly + 10)], fill=(0, 170, 80), width=6)
+        dr.text((x0 - 48, ly), "門", fill=(0, 0, 0), font=f)
         img.save(os.path.join(out_dir, "plan.png"))

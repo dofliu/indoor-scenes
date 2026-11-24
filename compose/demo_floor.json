@@ -24,6 +24,18 @@
         8,
         6
       ]
+    },
+    {
+      "scene": "003_huddle_booths",
+      "offset": [
+        16,
+        6
+      ],
+      "rot": 0,
+      "size_m": [
+        6,
+        4
+      ]
     }
   ],
   "doors": [
@@ -108,6 +120,30 @@
       "position": [
         23.9,
         3.0,
+        0.0
+      ]
+    },
+    {
+      "id": "T02_DOOR_S_01",
+      "tile": 2,
+      "scene": "003_huddle_booths",
+      "wall": "S",
+      "width_m": 1.0,
+      "position": [
+        19.0,
+        6.1,
+        0.0
+      ]
+    },
+    {
+      "id": "T02_DOOR_W_01",
+      "tile": 2,
+      "scene": "003_huddle_booths",
+      "wall": "W",
+      "width_m": 1.0,
+      "position": [
+        16.1,
+        7.0,
         0.0
       ]
     }
@@ -880,8 +916,176 @@
       ],
       "yaw_deg": 0.0,
       "tile": 1
+    },
+    {
+      "id": "T02_SEAT_huddle_01",
+      "type": "SEAT",
+      "use": "huddle",
+      "position": [
+        17.8,
+        7.32,
+        0.0
+      ],
+      "yaw_deg": 0.0,
+      "tile": 2
+    },
+    {
+      "id": "T02_SEAT_huddle_02",
+      "type": "SEAT",
+      "use": "huddle",
+      "position": [
+        18.73,
+        8.25,
+        0.0
+      ],
+      "yaw_deg": 90.0,
+      "tile": 2
+    },
+    {
+      "id": "T02_SEAT_huddle_03",
+      "type": "SEAT",
+      "use": "huddle",
+      "position": [
+        17.8,
+        9.18,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 2
+    },
+    {
+      "id": "T02_SEAT_huddle_04",
+      "type": "SEAT",
+      "use": "huddle",
+      "position": [
+        16.87,
+        8.25,
+        0.0
+      ],
+      "yaw_deg": -90.0,
+      "tile": 2
+    },
+    {
+      "id": "T02_STAND_display_01",
+      "type": "STAND",
+      "use": "display",
+      "position": [
+        16.95,
+        9.15,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 2
+    },
+    {
+      "id": "T02_STAND_whiteboard_01",
+      "type": "STAND",
+      "use": "whiteboard",
+      "position": [
+        19.25,
+        9.2,
+        0.0
+      ],
+      "yaw_deg": 0,
+      "tile": 2
+    },
+    {
+      "id": "T02_SEAT_booth_01",
+      "type": "SEAT",
+      "use": "booth",
+      "position": [
+        21.13,
+        6.8,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 2
+    },
+    {
+      "id": "T02_POI_booth_door_01",
+      "type": "POI",
+      "use": "booth_door",
+      "position": [
+        20.03,
+        6.8,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 2
+    },
+    {
+      "id": "T02_STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        20.68,
+        7.1,
+        2.45
+      ],
+      "yaw_deg": 0.0,
+      "tile": 2
+    },
+    {
+      "id": "T02_SEAT_booth_02",
+      "type": "SEAT",
+      "use": "booth",
+      "position": [
+        21.13,
+        8.6,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 2
+    },
+    {
+      "id": "T02_POI_booth_door_02",
+      "type": "POI",
+      "use": "booth_door",
+      "position": [
+        20.03,
+        8.6,
+        0.0
+      ],
+      "yaw_deg": -90,
+      "tile": 2
+    },
+    {
+      "id": "T02_STATUS_03",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        20.68,
+        8.9,
+        2.45
+      ],
+      "yaw_deg": 0.0,
+      "tile": 2
+    },
+    {
+      "id": "T02_STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        17.8,
+        8.25,
+        2.2
+      ],
+      "yaw_deg": 0.0,
+      "tile": 2
+    },
+    {
+      "id": "T02_POI_water_01",
+      "type": "POI",
+      "use": "water",
+      "position": [
+        19.8,
+        7.0,
+        0.0
+      ],
+      "yaw_deg": -180.0,
+      "tile": 2
     }
   ],
-  "connected_door_pairs": 0,
+  "connected_door_pairs": 1,
   "warnings": []
 }

@@ -24,6 +24,7 @@
 ## 導航網格
 - 物件 `NAVMESH`，collection `NAV`；僅含可走地面（z=0 平面），扣除家具與牆體，並內縮 0.3 m。
 - 目前實作為 0.25 m 格網四邊形（頂點共用，方便 A*／navmesh 函式庫使用）；門口通道延伸至房間外緣，與鄰接模組的通道銜接。
+- 障礙物內部需可進入者（如電話亭、工作艙），以 `Scene.add_nav_passage()` 標示門口→座位的可走通道，使 SEAT 錨點落在導航網格上。
 - 匯出為獨立 `navmesh.glb`，不含於 `scene.glb`。
 
 ## Collections
