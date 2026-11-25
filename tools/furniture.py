@@ -176,3 +176,87 @@ def status_lamp(S, x, y, z=2.0, name="StatusLamp", color=(0.2, 0.9, 0.3)):
     p.sphere(0, 0, -0.06, 0.05, mat("status_" + "_".join("%d" % (c * 10) for c in color), color, emit=color), seg=10)
     p.finish(obstacle=False)
     return p
+
+
+def stool(S, x, y, yaw=0.0, h=0.62, color="fabric_teal", name="Stool"):
+    """高腳凳／矮凳（圓座、單柱）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.cyl(0, 0, 0.015, 0.2, 0.03, "metal_dark", seg=16)
+    p.cyl(0, 0, h / 2, 0.025, h, "metal", seg=8)
+    p.cyl(0, 0, h + 0.03, 0.19, 0.06, color, seg=18)
+    p.finish(obstacle=False)
+    return p
+
+
+def lounge_chair(S, x, y, yaw=0.0, color="fabric_orange", name="LoungeChair"):
+    """低背軟墊單椅（木腳），人坐向 +Y。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.box(sx * 0.24, sy * 0.22, 0.12, 0.04, 0.04, 0.24, "wood_dark")
+    p.box(0, 0.02, 0.32, 0.58, 0.54, 0.16, color)
+    p.box(0, -0.25, 0.62, 0.58, 0.1, 0.46, color)
+    for sx in (-1, 1):
+        p.box(sx * 0.27, -0.02, 0.5, 0.06, 0.46, 0.22, color)
+    p.finish(obstacle=False)
+    return p
+
+
+def wall_shelf(S, x, y, yaw=0.0, w=0.9, z=1.4, n=2, name="WallShelf"):
+    """壁掛層板（背面中心 (x,y)，正面朝 -Y）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    for k in range(n):
+        p.box(0, -0.12, k * 0.35, w, 0.24, 0.025, "wood_light")
+    p.finish(obstacle=False)
+    return p
+
+
+def acoustic_panels(S, x, y, yaw=0.0, cols=3, rows=2, size=0.55, gap=0.06, z=1.0,
+                    colors=("fabric_teal", "fabric_grey", "fabric_orange"), name="AcousticPanels"):
+    """壁面吸音板陣列（背面中心 (x,y)，正面朝 -Y）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    W = cols * size + (cols - 1) * gap
+    for i in range(cols):
+        for j in range(rows):
+            c = colors[(i + j) % len(colors)]
+            p.box(-W / 2 + size / 2 + i * (size + gap), -0.02, j * (size + gap) + size / 2, size, 0.04, size, c)
+    p.finish(obstacle=False)
+    return p
+
+
+def phone_booth(S, x, y, yaw=0.0, w=1.3, d=1.2, h=2.2, color="fabric_teal", shell="desk_white", name="PhoneBooth"):
+    """單人電話亭（獨立隔音艙）。正面玻璃門朝 -Y，內部桌板在 +Y 背牆、人坐向 +Y。
+    回傳 Piece；導航障礙為三面板與頂，內部入口由呼叫端以 S.extra_free 打通。"""
+    t = 0.06
+    glass = mat("glass_booth", (0.65, 0.82, 0.9), rough=0.05, alpha=0.22)
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.box(0, 0, 0.03, w, d, 0.06, "metal_dark")                       # 底座
+    p.box(0, d / 2 - t / 2, h / 2, w, t, h, shell)                       # 背板
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - t / 2), 0, h / 2, t, d, h, shell)            # 側板
+    p.box(0, 0, h - 0.04, w, d, 0.08, shell)                             # 頂板
+    p.box(0, 0, h - 0.085, w - 0.3, d - 0.3, 0.01,
+          mat("booth_light", (1, 0.97, 0.9), emit=(1, 0.93, 0.8)))        # 頂燈
+    # 內襯吸音布
+    p.box(0, d / 2 - t - 0.015, 1.2, w - 2 * t - 0.02, 0.03, 1.6, color)
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - t - 0.015), 0.05, 1.2, 0.03, d - 0.3, 1.6, color)
+    # 正面：固定玻璃 + 玻璃門（門較寬，靠一側）＋框
+    fy = -d / 2 + 0.02
+    door_w = 0.72
+    fix_w = w - 2 * t - door_w
+    p.box(-w / 2 + t + fix_w / 2, fy, 1.07, fix_w, 0.02, 2.02, glass)
+    p.box(-w / 2 + t + fix_w, fy, 1.07, 0.04, 0.04, 2.02, "metal_dark")
+    p.box(w / 2 - t - door_w / 2, fy - 0.01, 1.07, door_w - 0.02, 0.015, 1.96, glass)
+    p.box(w / 2 - t - 0.1, fy - 0.04, 1.05, 0.025, 0.03, 0.35, "metal")    # 門把
+    p.box(0, fy, 2.1, w - 2 * t, 0.04, 0.04, "metal_dark")
+    # 內部桌板＋插座面板
+    p.box(0, d / 2 - t - 0.2, 0.74, w - 2 * t - 0.04, 0.36, 0.03, "wood_light")
+    p.box(0, d / 2 - t - 0.035, 0.85, 0.16, 0.01, 0.07, "metal_dark")
+    p.finish(obstacle=False)
+    # 三面板障礙（piece 座標 → 世界）
+    c, s = math.cos(yaw), math.sin(yaw)
+    for (ox, oy, ww, dd) in ((0, d / 2 - t / 2, w, t), (-(w / 2 - t / 2), 0, t, d), (w / 2 - t / 2, 0, t, d),
+                             (0, d / 2 - t - 0.2, w - 2 * t, 0.2)):
+        S.obstacles.append((x + ox * c - oy * s, y + ox * s + oy * c, yaw, ww, dd))
+    return p
