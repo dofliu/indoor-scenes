@@ -1730,7 +1730,7 @@ def pallet_rack(S, x, y, yaw=0.0, bays=3, bay_w=2.1, d=1.0, h=2.7, beams=(0.95, 
     fm = mat("rack_frame_%d" % int(frame[2] * 99), frame, rough=0.4, metal=0.3)
     bmz = mat("rack_beam_%d" % int(beam[0] * 99), beam, rough=0.4, metal=0.2)
     yel = mat("safety_yellow", SAFETY_YELLOW)
-    deck = mat("wire_deck", (0.55, 0.57, 0.60), rough=0.4, metal=0.6)
+    deck = mat("wire_deck", (0.55, 0.57, 0.60), rough=0.4, metal=0.3)
     W = bays * bay_w
     pattern = pattern or ["cartons", "wrapped", "bins", "cartons", "empty", "wrapped", "drum", "cartons", "bins",
                           "wrapped", "cartons", "empty", "cartons", "bins", "wrapped", "drum", "cartons"]
@@ -1838,7 +1838,7 @@ def dock_door(S, x, y, yaw=0.0, w=3.0, h=2.7, name="DockDoor"):
         p.boxc(sx * w / 2 - 0.06, 0.0, 0.0, sx * w / 2 + 0.06, 0.12, h, "metal_dark")
         p.boxc(sx * (w / 2 - 0.25) - 0.12, 0.0, 0.25, sx * (w / 2 - 0.25) + 0.12, 0.14, 0.75, "plastic_black")
     # 升降平台（與地面齊平的鋼板，黃黑邊）
-    p.boxc(-1.0, 0.05, 0.0, 1.0, 2.0, 0.012, mat("leveler", (0.32, 0.33, 0.35), rough=0.5, metal=0.6))
+    p.boxc(-1.0, 0.05, 0.0, 1.0, 2.0, 0.012, mat("leveler", (0.32, 0.33, 0.35), rough=0.5, metal=0.3))
     yel = mat("safety_yellow", SAFETY_YELLOW)
     for sx in (-1, 1):
         p.boxc(sx * 1.0 - 0.06 * (sx > 0), 0.05, 0.0, sx * 1.0 + 0.06 * (sx < 0), 2.0, 0.014, yel)
@@ -1908,4 +1908,388 @@ def aisle_sign(S, x, y, yaw=0.0, color=(0.1, 0.45, 0.8), z=2.45, name="AisleSign
     p.box(0, 0, z, 0.9, 0.04, 0.4, m)
     p.box(0, 0, z, 0.5, 0.05, 0.14, "plastic_white")
     p.finish(obstacle=False)
+    return p
+
+
+# ---------------------------------------------------------------- 無塵室（020 起）
+STAINLESS = (0.74, 0.76, 0.78)
+PANEL_WHITE = (0.90, 0.91, 0.92)
+
+
+def _ss():
+    return mat("stainless", STAINLESS, rough=0.3, metal=0.35)
+
+
+def _pw():
+    return mat("panel_white", PANEL_WHITE, rough=0.4)
+
+
+def _glass():
+    return mat("glass", (0.6, 0.8, 0.9), rough=0.05, alpha=0.25)
+
+
+def interior_wall(S, x0, y0, x1, y1, t=0.12, doors=(), glass=None, color=None, name="Partition"):
+    """室內隔間牆（軸向；(x0,y0)-(x1,y1) 為中心線）。doors=[(a,b)]：沿牆距起點 a~b 公尺為門洞（高 2.2，可走）；
+    doors 項目寫成 (a,b,top) 時為自訂高度的素開口。
+    glass=(z0,z1)：該高度帶改為玻璃觀景窗（每 1.2 m 一支豎框），其餘為實牆。實牆段列為導航障礙。"""
+    horiz = abs(x1 - x0) >= abs(y1 - y0)
+    L = abs(x1 - x0) if horiz else abs(y1 - y0)
+    H = S.H
+    p = Piece(S, name, min(x0, x1), min(y0, y1), coll="STRUCTURE")
+    m = color or _pw()
+
+    def B(a, b, z0, z1, mm, tt=t):
+        if b - a < 1e-4 or z1 - z0 < 1e-4:
+            return
+        if horiz:
+            p.boxc(a, -tt / 2, z0, b, tt / 2, z1, mm)
+        else:
+            p.boxc(-tt / 2, a, z0, tt / 2, b, z1, mm)
+    segs, cur = [], 0.0
+    for dd in sorted(doors):
+        a, b = dd[0], dd[1]
+        segs.append((cur, a))
+        if len(dd) > 2:                               # (a, b, top)：自訂高度的素開口（如風淋室穿牆），不加門框
+            B(a, b, dd[2], H, m)
+        else:
+            B(a, b, DOOR_TOP, H, m)                   # 門楣
+            for e in (a, b):                          # 門框
+                B(e - 0.03, e + 0.03, 0, DOOR_TOP, "frame", t + 0.04)
+            B(a, b, DOOR_TOP, DOOR_TOP + 0.05, "frame", t + 0.04)
+        cur = b
+    segs.append((cur, L))
+    for (a, b) in segs:
+        if b - a < 1e-4:
+            continue
+        if glass:
+            B(a, b, 0, glass[0], m)
+            B(a, b, glass[1], H, m)
+            B(a + 0.02, b - 0.02, glass[0], glass[1], _glass(), 0.012)
+            n = max(1, int(round((b - a) / 1.2)))
+            for k in range(n + 1):
+                c = a + (b - a) * k / n
+                B(max(a, c - 0.025), min(b, c + 0.025), glass[0], glass[1], "frame", t)
+            B(a, b, glass[0] - 0.02, glass[0] + 0.02, "frame", t + 0.01)
+            B(a, b, glass[1] - 0.02, glass[1] + 0.02, "frame", t + 0.01)
+        else:
+            B(a, b, 0, H, m)
+        c = (a + b) / 2
+        if horiz:
+            S.obstacles.append((min(x0, x1) + c, y0, 0.0, b - a, t))
+        else:
+            S.obstacles.append((x0, min(y0, y1) + c, 0.0, t, b - a))
+    return p.finish()
+
+
+DOOR_TOP = 2.2
+
+
+def air_shower(S, x, y, yaw=0.0, length=2.8, w=1.4, h=2.35, lamp=(0.2, 0.9, 0.3), name="AirShower"):
+    """風淋室（通道式）：人沿本地 X 方向穿過；兩側不鏽鋼壁板附噴嘴，兩端門框＋開啟的玻璃門，入口（本地 -X 端）門楣有狀態燈。
+    兩側壁板列為導航障礙，通道內可走。"""
+    t = 0.14
+    p = Piece(S, name, x, y, yaw=yaw)
+    ss = _ss()
+    for sy in (-1, 1):
+        p.box(0, sy * (w / 2 - t / 2), 2.1 / 2, length, t, 2.1, ss)
+        for k in range(4):                                             # 噴嘴 4 列 × 3 層
+            nx = -length / 2 + 0.5 + k * (length - 1.0) / 3
+            for nz in (0.6, 1.1, 1.6):
+                p.cyl(nx, sy * (w / 2 - t - 0.015), nz, 0.035, 0.03, "metal_dark", seg=10, axis="Y")
+    p.box(0, 0, 2.1 + (h - 2.1) / 2, length, w, h - 2.1, ss)           # 頂部風機箱
+    p.box(0, 0, 2.094, length - 0.6, 0.3, 0.012, mat("light_emit", (1, 0.97, 0.9), emit=(1, 0.95, 0.85)))
+    p.box(0, 0, 0.006, length, w - 2 * t, 0.012, mat("grating", (0.42, 0.44, 0.46), rough=0.5, metal=0.3))
+    for sx in (-1, 1):                                                 # 兩端門框＋開啟的玻璃門（貼側壁外開）
+        ex = sx * (length / 2 + 0.02)
+        for sy in (-1, 1):
+            p.box(ex, sy * (w / 2 - t / 2), 1.05, 0.04, t + 0.02, 2.1, "frame")
+        p.box(ex + sx * 0.42, -(w / 2 - t / 2), 1.05, 0.8, 0.03, 2.0, _glass())
+        p.box(ex + sx * 0.42, -(w / 2 - t / 2), 2.06, 0.8, 0.04, 0.04, "frame")
+        p.box(ex + sx * 0.42, -(w / 2 - t / 2), 0.03, 0.8, 0.04, 0.04, "frame")
+        p.box(ex + sx * 0.8, -(w / 2 - t / 2), 1.05, 0.04, 0.04, 2.04, "frame")
+    ex = -length / 2 - 0.012                                           # 入口門楣：狀態燈＋操作面板
+    p.box(ex, 0, 2.2, 0.02, 0.5, 0.14, "plastic_black")
+    p.sphere(ex - 0.03, 0, 2.2, 0.05, mat("status_" + "_".join("%d" % (c * 10) for c in lamp), lamp, emit=lamp), seg=10)
+    p.box(ex, w / 2 - t / 2, 1.3, 0.02, 0.1, 0.16, "plastic_black")
+    _screen_x(p, ex - 0.011, w / 2 - t / 2, 1.3, 0.07, 0.1, (0.2, 0.7, 0.95))
+    obj = p.finish()
+    c, s = math.cos(yaw), math.sin(yaw)
+    for sy in (-1, 1):
+        oy = sy * (w / 2 - t / 2)
+        S.obstacles.append((x - oy * s, y + oy * c, yaw, length, t))
+    for sx in (-1, 1):                                                 # 開啟的門扇
+        ox, oy = sx * (length / 2 + 0.44), -(w / 2 - t / 2)
+        S.obstacles.append((x + ox * c - oy * s, y + ox * s + oy * c, yaw, 0.8, 0.04))
+    return obj
+
+
+def _screen_x(p, cx, cy, cz, sy, sz, color=(0.1, 0.8, 0.5)):
+    """朝本地 -X 的小螢幕。"""
+    p.box(cx, cy, cz, 0.004, sy, sz, mat("inst_scr_%d%d%d" % tuple(int(c * 9) for c in color),
+                                         tuple(c * 0.3 for c in color), emit=color))
+
+
+def pass_box(S, x, y, yaw=0.0, w=0.7, d=0.6, h=0.7, z=0.95, name="PassBox"):
+    """傳遞箱（嵌在隔間牆上，兩側各一扇玻璃門；穿牆方向為本地 Y）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    ss = _ss()
+    p.box(0, 0, h / 2, w, d, h, ss)
+    for sy in (-1, 1):
+        p.box(0, sy * (d / 2 + 0.008), h / 2, w - 0.12, 0.016, h - 0.12, mat("glass_dark", (0.25, 0.35, 0.42), rough=0.08, alpha=0.55))
+        p.box(w / 2 - 0.09, sy * (d / 2 + 0.03), h / 2, 0.025, 0.03, 0.2, "metal_dark")
+        p.cyl(-w / 2 + 0.07, sy * (d / 2 + 0.012), h - 0.05, 0.018, 0.012,
+              mat("status_2_9_3", (0.2, 0.9, 0.3), emit=(0.2, 0.9, 0.3)), seg=8, axis="Y")
+    p.finish(obstacle=False)
+    return p
+
+
+def cleanroom_tool(S, x, y, yaw=0.0, w=2.0, d=1.1, h=1.9, kind="wet", lit="green", name="ProcessTool"):
+    """無塵室製程機台（通用）：白色機殼、正面（本地 -Y）玻璃視窗、操作螢幕、載入埠與三色燈。
+    kind：'wet' 濕製程檯（上半開放槽體＋排氣罩）、'tool' 封閉式機台（載入埠）、'oven' 烘箱／爐管（圓窗門）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    pw, ss = _pw(), _ss()
+    p.box(0, 0, 0.05, w - 0.06, d - 0.06, 0.1, "metal_dark")
+    p.box(0, 0, 0.1 + 0.4, w, d, 0.8, pw)                                     # 下機櫃
+    for k in range(3):
+        cx = -w / 2 + (k + 0.5) * w / 3
+        p.box(cx, -d / 2 - 0.004, 0.5, w / 3 - 0.04, 0.008, 0.7, mat("panel_grey", (0.80, 0.82, 0.84), rough=0.45))
+        p.box(cx + w / 6 - 0.07, -d / 2 - 0.014, 0.6, 0.02, 0.02, 0.14, "metal_dark")
+    if kind == "wet":
+        p.box(0, 0.02, 0.93, w, d - 0.04, 0.06, ss)                           # 檯面
+        for k, c in enumerate(((0.35, 0.65, 0.85), (0.4, 0.8, 0.7), (0.35, 0.65, 0.85))):
+            cx = -w / 2 + 0.38 + k * (w - 0.76) / 2
+            p.box(cx, -0.05, 0.965, 0.42, 0.5, 0.012, mat("bath_%d" % k, c, rough=0.08, alpha=0.75))
+            p.box(cx, -0.05, 0.975, 0.46, 0.54, 0.008, "metal_dark")
+            p.box(cx, -0.05, 0.99, 0.2, 0.3, 0.1, mat("cassette", (0.92, 0.88, 0.70), rough=0.4, alpha=0.85))
+        hz = h - 0.2 - 0.96                                                   # 檯面到排氣罩下緣
+        p.box(0, d / 2 - 0.05, 0.96 + hz / 2, w - 0.12, 0.1, hz, pw)           # 背板
+        for sx in (-1, 1):
+            p.box(sx * (w / 2 - 0.03), 0, 0.96 + hz / 2, 0.06, d, hz, pw)
+        p.box(0, 0, h - 0.1, w, d, 0.2, pw)                                    # 排氣罩
+        p.box(0, -d / 2 + 0.01, 1.45, w - 0.12, 0.012, 0.5, _glass())          # 上拉門（半開）
+        p.box(0, -d / 2 + 0.01, 1.2, w - 0.12, 0.03, 0.03, "frame")
+        p.cyl(w / 4, 0.1, h + 0.2, 0.13, 0.4, ss, seg=14)                      # 排氣管
+        _hmi(p, -w / 2 + 0.3, -d / 2 - 0.05, 1.55, w=0.3, h=0.22)
+    elif kind == "oven":
+        p.box(0, 0, 0.9 + (h - 0.9) / 2, w, d, h - 0.9, pw)
+        for sx in (-1, 1):
+            cx = sx * w / 4
+            p.box(cx, -d / 2 - 0.01, 1.35, w / 2 - 0.16, 0.02, 0.7, ss)
+            p.cyl(cx, -d / 2 - 0.022, 1.4, 0.16, 0.012, mat("glass_dark", (0.25, 0.35, 0.42), rough=0.08, alpha=0.55), seg=20, axis="Y")
+            p.box(cx + sx * (w / 4 - 0.14), -d / 2 - 0.04, 1.35, 0.03, 0.04, 0.3, "metal_dark")
+        _hmi(p, 0, -d / 2 - 0.05, 1.5, w=0.24, h=0.2, color=(0.95, 0.6, 0.15))
+    else:
+        p.box(0, 0.15, 0.9 + (h - 0.9) / 2, w, d - 0.3, h - 0.9, pw)           # 上機體
+        p.box(0, -d / 2 + 0.15, 0.93, w, 0.3, 0.06, ss)                        # 載入平台
+        p.box(0.2, -d / 2 + 0.31, 1.4, w - 0.7, 0.012, 0.7, _glass())
+        for sx in (-1, 1):
+            p.box(sx * 0.3 + 0.2, -d / 2 + 0.15, 1.06, 0.36, 0.26, 0.2, mat("cassette", (0.92, 0.88, 0.70), rough=0.4, alpha=0.85))
+        _hmi(p, -w / 2 + 0.26, -d / 2 + 0.2, 1.5, w=0.32, h=0.24)
+    _signal_tower(p, w / 2 - 0.14, d / 2 - 0.2, h, lit)
+    p.finish(footprint=(w, d))
+    return p
+
+
+def laminar_bench(S, x, y, yaw=0.0, w=1.6, d=0.8, h=2.0, name="CleanBench"):
+    """潔淨工作台（層流罩）：不鏽鋼檯面、兩側與背面玻璃、頂部風機濾網箱與燈。使用者在本地 -Y 側。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    ss, pw = _ss(), _pw()
+    p.box(0, 0, 0.86, w, d, 0.04, ss)
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.box(sx * (w / 2 - 0.03), sy * (d / 2 - 0.03), 0.42, 0.05, 0.05, 0.84, pw)
+        p.box(sx * (w / 2 - 0.03), 0, 0.15, 0.04, d - 0.06, 0.04, pw)
+        p.box(sx * (w / 2 - 0.012), 0, 1.28, 0.012, d - 0.04, 0.8, _glass())
+        p.box(sx * (w / 2 - 0.03), d / 2 - 0.03, 1.28, 0.05, 0.05, 0.8, pw)
+    p.box(0, d / 2 - 0.012, 1.28, w - 0.06, 0.012, 0.8, _glass())
+    p.box(0, 0, h - 0.16, w, d, 0.32, pw)                                      # 風機濾網箱
+    p.box(0, 0, h - 0.325, w - 0.16, d - 0.16, 0.012, mat("light_emit", (1, 0.97, 0.9), emit=(1, 0.95, 0.85)))
+    p.box(0, -d / 2 - 0.004, h - 0.14, 0.3, 0.008, 0.12, "plastic_black")
+    _screen(p, 0, -d / 2 - 0.009, h - 0.14, 0.24, 0.07, (0.2, 0.7, 0.95))
+    p.finish(footprint=(w, d))
+    return p
+
+
+def stainless_table(S, x, y, yaw=0.0, w=1.8, d=0.8, h=0.85, shelf=True, name="SSTable"):
+    """不鏽鋼工作桌（附下層板）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    ss = _ss()
+    p.box(0, 0, h - 0.02, w, d, 0.04, ss)
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.box(sx * (w / 2 - 0.04), sy * (d / 2 - 0.04), (h - 0.04) / 2, 0.04, 0.04, h - 0.04, ss)
+    if shelf:
+        p.box(0, 0, 0.2, w - 0.06, d - 0.06, 0.02, ss)
+    p.finish(footprint=(w, d))
+    return p
+
+
+def wafer_box(p, cx, cy, cz, color=(0.92, 0.88, 0.70), s=1.0):
+    """晶圓／零件傳送盒（半透明盒＋把手），加到既有 Piece 上；cz 為底面高度。"""
+    p.box(cx, cy, cz + 0.11 * s, 0.26 * s, 0.24 * s, 0.22 * s, mat("carrier_%d%d%d" % tuple(int(c * 9) for c in color), color, rough=0.35, alpha=0.85))
+    p.box(cx, cy, cz + 0.235 * s, 0.14 * s, 0.05 * s, 0.03 * s, "metal_dark")
+
+
+def wire_shelf(S, x, y, yaw=0.0, w=1.2, d=0.5, h=1.8, levels=4, seed=0, name="WireShelf"):
+    """不鏽鋼線架（無塵室儲物，正面朝本地 -Y）：各層放傳送盒與白色耗材盒。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    ss = _ss()
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.cyl(sx * (w / 2 - 0.02), sy * (d / 2 - 0.02), h / 2, 0.014, h, ss, seg=8)
+    cols = ((0.92, 0.88, 0.70), (0.55, 0.75, 0.90), (0.92, 0.88, 0.70), (0.95, 0.60, 0.45))
+    for k in range(levels):
+        z = 0.15 + k * (h - 0.25) / (levels - 1)
+        p.box(0, 0, z, w, d, 0.015, mat("wire_deck", (0.70, 0.72, 0.74), rough=0.35, metal=0.3))
+        if k == levels - 1:
+            continue
+        n = 3
+        for i in range(n):
+            cx = -w / 2 + (i + 0.5) * w / n
+            if (i + k + seed) % 3 == 2:
+                p.box(cx, 0, z + 0.0075 + 0.09, 0.3, 0.34, 0.18, "plastic_white")
+            else:
+                wafer_box(p, cx, 0, z + 0.0075, cols[(i + 2 * k + seed) % 4])
+    p.finish(footprint=(w, d))
+    return p
+
+
+def cleanroom_cart(S, x, y, yaw=0.0, w=0.9, d=0.5, h=0.9, name="CleanCart"):
+    """不鏽鋼推車（兩層，載傳送盒；把手在本地 -X 端）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    ss = _ss()
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.cyl(sx * (w / 2 - 0.03), sy * (d / 2 - 0.03), h / 2 + 0.04, 0.014, h - 0.08, ss, seg=8)
+            p.cyl(sx * (w / 2 - 0.03), sy * (d / 2 - 0.03), 0.04, 0.04, 0.03, "plastic_black", seg=10, axis="Y")
+    for z in (0.22, h - 0.1):
+        p.box(0, 0, z, w, d, 0.02, ss)
+    p.box(-w / 2 - 0.06, 0, h + 0.02, 0.02, d - 0.04, 0.02, ss)
+    for sy in (-1, 1):
+        p.box(-w / 2 - 0.03, sy * (d / 2 - 0.03), h - 0.02, 0.08, 0.02, 0.1, ss)
+    wafer_box(p, -0.2, 0, h - 0.09)
+    wafer_box(p, 0.18, 0, h - 0.09, (0.55, 0.75, 0.90))
+    wafer_box(p, 0.0, 0, 0.23, (0.95, 0.60, 0.45))
+    p.finish(footprint=(w, d))
+    return p
+
+
+def shoe_rack(S, x, y, yaw=0.0, w=1.2, d=0.35, h=1.0, name="ShoeRack"):
+    """無塵鞋櫃（開放格，正面朝本地 -Y）：白色無塵鞋成對擺放。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    pw = _pw()
+    p.box(0, d / 2 - 0.01, h / 2, w, 0.02, h, pw)
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - 0.01), 0, h / 2, 0.02, d, h, pw)
+    rows = 4
+    for k in range(rows + 1):
+        z = 0.03 + k * (h - 0.06) / rows
+        p.box(0, 0, z, w, d, 0.02, pw)
+        if k < rows:
+            for i in range(4):
+                if (i + k) % 5 == 4:
+                    continue
+                cx = -w / 2 + (i + 0.5) * w / 4
+                for s2 in (-1, 1):
+                    p.box(cx + s2 * 0.055, -0.02, z + 0.05, 0.09, 0.26, 0.08,
+                          mat("clean_shoe", (0.95, 0.95, 0.97), rough=0.5) if (i + k) % 3 else mat("clean_shoe_blue", (0.35, 0.55, 0.80), rough=0.5))
+    p.finish(footprint=(w, d))
+    return p
+
+
+def sticky_mat(S, x, y, w=0.9, d=1.2, yaw=0.0, name="StickyMat"):
+    """黏塵墊（藍色，貼地）。"""
+    p = Piece(S, name, x, y, yaw=yaw, coll="PROPS")
+    p.box(0, 0, 0.004, w + 0.08, d + 0.08, 0.006, "plastic_white")
+    p.box(0, 0, 0.008, w, d, 0.004, mat("sticky_mat", (0.15, 0.40, 0.80), rough=0.25))
+    p.finish(obstacle=False)
+    return p
+
+
+def return_grille(S, x, y, yaw=0.0, w=1.0, h=0.5, z=0.12, name="ReturnGrille"):
+    """牆面低位回風口（百葉），正面朝本地 -Y，(x,y) 為牆面。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, -0.012, h / 2, w, 0.024, h, mat("grille_frame", (0.70, 0.72, 0.74), rough=0.4, metal=0.3))
+    n = 7
+    for k in range(n):
+        p.box(0, -0.028, 0.05 + k * (h - 0.1) / (n - 1), w - 0.08, 0.012, 0.022, "metal_dark")
+    p.finish(obstacle=False)
+    return p
+
+
+def ffu(S, x, y, w=1.2, d=1.2, light=True, name=None):
+    """天花板風機濾網機組（FFU）：貼天花板下緣的濾網面＋邊框，light=True 時中央附燈條。
+    物件名以 LightPanel_ 開頭，預覽與 viewer「隱藏天花板」時一併隱藏。"""
+    p = Piece(S, name or "LightPanel_FFU_%02d" % S._next("ffu"), x, y, S.H, coll="LIGHTS")
+    p.box(0, 0, -0.03, w, d, 0.06, mat("grille_frame", (0.70, 0.72, 0.74), rough=0.4, metal=0.3))
+    p.box(0, 0, -0.062, w - 0.1, d - 0.1, 0.006, mat("ffu_filter", (0.86, 0.88, 0.90), rough=0.9))
+    if light:
+        p.box(0, 0, -0.068, w - 0.3, 0.1, 0.008, mat("light_emit", (1, 0.97, 0.9), emit=(1, 0.95, 0.85)))
+    p.finish(obstacle=False)
+    return p
+
+
+def particle_counter(S, x, y, yaw=0.0, name="ParticleCounter"):
+    """落地式微粒計數器（立柱＋採樣頭＋螢幕，螢幕朝本地 -Y）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    p.cyl(0, 0, 0.02, 0.2, 0.04, "metal_dark", seg=16)
+    p.cyl(0, 0, 0.55, 0.025, 1.05, _ss(), seg=8)
+    p.box(0, 0, 1.18, 0.3, 0.2, 0.24, _pw())
+    _screen(p, 0, -0.103, 1.2, 0.22, 0.13, (0.1, 0.8, 0.5))
+    p.cyl(0.08, 0, 1.38, 0.012, 0.16, _ss(), seg=6)
+    p.cyl(0.08, 0, 1.47, 0.03, 0.03, _ss(), seg=10, r2=0.012)
+    p.finish(footprint=(0.4, 0.4))
+    return p
+
+
+def ppe_dispenser(S, x, y, yaw=0.0, z=1.0, name="PPEDispenser"):
+    """壁掛耗材盒架（手套、口罩、髮網、鞋套），正面朝本地 -Y，(x,y) 為牆面。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, -0.01, 0.35, 0.9, 0.02, 0.8, _pw())
+    cols = ((0.55, 0.75, 0.90), (0.95, 0.95, 0.97), (0.60, 0.85, 0.75), (0.95, 0.95, 0.97))
+    for k in range(4):
+        cx, cz = (-0.22 if k % 2 == 0 else 0.22), (0.55 if k < 2 else 0.15)
+        p.box(cx, -0.08, cz, 0.36, 0.13, 0.26, mat("ppe_box_%d" % k, cols[k], rough=0.6))
+        p.box(cx, -0.146, cz, 0.18, 0.004, 0.08, "plastic_black")
+    p.finish(obstacle=False)
+    return p
+
+
+def wall_mirror(S, x, y, yaw=0.0, w=0.7, h=1.7, z=0.25, name="Mirror"):
+    """全身鏡（壁掛），正面朝本地 -Y，(x,y) 為牆面。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, -0.012, h / 2, w, 0.024, h, "metal")
+    p.box(0, -0.026, h / 2, w - 0.06, 0.004, h - 0.06, mat("mirror", (0.82, 0.86, 0.88), rough=0.03, metal=1.0))
+    p.finish(obstacle=False)
+    return p
+
+
+def waste_bin(S, x, y, color=(0.80, 0.82, 0.84), name="WasteBin"):
+    """腳踏式垃圾桶。"""
+    p = Piece(S, name, x, y)
+    p.cyl(0, 0, 0.3, 0.17, 0.6, mat("bin_%d%d%d" % tuple(int(c * 9) for c in color), color, rough=0.4), seg=16)
+    p.cyl(0, 0, 0.615, 0.18, 0.03, "metal_dark", seg=16)
+    p.box(0, -0.2, 0.03, 0.12, 0.08, 0.03, "metal_dark")
+    p.finish(footprint=(0.36, 0.36))
+    return p
+
+
+def hand_dryer(S, x, y, yaw=0.0, z=1.1, name="HandDryer"):
+    """壁掛烘手機，正面朝本地 -Y，(x,y) 為牆面。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, -0.09, 0.15, 0.28, 0.18, 0.3, _pw())
+    p.box(0, -0.12, -0.005, 0.2, 0.08, 0.01, "metal_dark")
+    p.finish(obstacle=False)
+    return p
+
+
+def stepover_bench(S, x, y, yaw=0.0, w=2.4, d=0.4, h=0.45, name="StepOverBench"):
+    """更衣跨越凳（不鏽鋼，分隔髒／淨區；坐著轉身跨到本地 +Y 側）。導航障礙取中央窄帶，讓坐下點貼近導航網格。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    ss = _ss()
+    p.box(0, 0, h - 0.02, w, d, 0.04, ss)
+    p.box(0, 0, (h - 0.04) / 2, w - 0.1, 0.05, h - 0.04, ss)
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - 0.03), 0, (h - 0.04) / 2, 0.05, d - 0.06, h - 0.04, ss)
+    p.finish(footprint=(w, 0.2))
     return p

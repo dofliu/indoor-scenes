@@ -1,0 +1,503 @@
+{
+  "id": "020",
+  "name_zh": "無塵室（含更衣緩衝區）",
+  "name_en": "Cleanroom with Gowning Buffer",
+  "category": "factory",
+  "size_m": [
+    14,
+    10
+  ],
+  "height_m": 3.0,
+  "doors": [
+    {
+      "id": "DOOR_W_01",
+      "wall": "W",
+      "offset_m": 1.0,
+      "width_m": 1.0,
+      "position": [
+        0.1,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_E_01",
+      "wall": "E",
+      "offset_m": 5.0,
+      "width_m": 1.0,
+      "position": [
+        13.9,
+        5.0,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_S_01",
+      "wall": "S",
+      "offset_m": 13.0,
+      "width_m": 1.0,
+      "position": [
+        13.0,
+        0.1,
+        0.0
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "id": "POI_locker_01",
+      "type": "POI",
+      "use": "locker",
+      "position": [
+        2.9,
+        1.25,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "POI_shoes_01",
+      "type": "POI",
+      "use": "shoes",
+      "position": [
+        3.05,
+        2.5,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "SEAT_bench_01",
+      "type": "SEAT",
+      "use": "bench",
+      "position": [
+        0.9,
+        3.7,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_bench_02",
+      "type": "SEAT",
+      "use": "bench",
+      "position": [
+        1.9,
+        3.7,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "POI_handwash_01",
+      "type": "POI",
+      "use": "handwash",
+      "position": [
+        2.75,
+        5.0,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "POI_garment_01",
+      "type": "POI",
+      "use": "garment",
+      "position": [
+        0.9,
+        5.75,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "POI_ppe_01",
+      "type": "POI",
+      "use": "ppe",
+      "position": [
+        0.9,
+        7.3,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "STAND_mirror_01",
+      "type": "STAND",
+      "use": "mirror",
+      "position": [
+        1.0,
+        9.0,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "POI_passbox_01",
+      "type": "POI",
+      "use": "passbox",
+      "position": [
+        3.3,
+        6.3,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "POI_passbox_02",
+      "type": "POI",
+      "use": "passbox",
+      "position": [
+        4.7,
+        6.3,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "STAND_airshower_01",
+      "type": "STAND",
+      "use": "airshower",
+      "position": [
+        4.0,
+        8.4,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "STAND_wetbench_01",
+      "type": "STAND",
+      "use": "wetbench",
+      "position": [
+        7.6,
+        8.35,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_machine_01",
+      "type": "STAND",
+      "use": "machine",
+      "position": [
+        10.0,
+        8.35,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_machine_02",
+      "type": "STAND",
+      "use": "machine",
+      "position": [
+        12.1,
+        8.35,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "POI_storage_01",
+      "type": "POI",
+      "use": "storage",
+      "position": [
+        5.75,
+        1.25,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_machine_03",
+      "type": "STAND",
+      "use": "machine",
+      "position": [
+        8.6,
+        1.65,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_wetbench_02",
+      "type": "STAND",
+      "use": "wetbench",
+      "position": [
+        10.9,
+        1.65,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "SEAT_cleanbench_01",
+      "type": "SEAT",
+      "use": "cleanbench",
+      "position": [
+        7.6,
+        4.15,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_cleanbench_02",
+      "type": "SEAT",
+      "use": "cleanbench",
+      "position": [
+        7.6,
+        6.65,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_table_01",
+      "type": "STAND",
+      "use": "table",
+      "position": [
+        10.1,
+        4.6,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_table_02",
+      "type": "STAND",
+      "use": "table",
+      "position": [
+        11.3,
+        4.6,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_table_03",
+      "type": "STAND",
+      "use": "table",
+      "position": [
+        10.1,
+        6.2,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_table_04",
+      "type": "STAND",
+      "use": "table",
+      "position": [
+        11.3,
+        6.2,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "SEAT_inspect_01",
+      "type": "SEAT",
+      "use": "inspect",
+      "position": [
+        12.7,
+        2.6,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "SEAT_inspect_02",
+      "type": "SEAT",
+      "use": "inspect",
+      "position": [
+        12.7,
+        7.3,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "POI_safety_01",
+      "type": "POI",
+      "use": "safety",
+      "position": [
+        13.1,
+        6.1,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "POI_cart_01",
+      "type": "POI",
+      "use": "cart",
+      "position": [
+        5.3,
+        3.95,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "POI_particle_01",
+      "type": "POI",
+      "use": "particle",
+      "position": [
+        5.2,
+        1.9,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "POI_monitor_01",
+      "type": "POI",
+      "use": "monitor",
+      "position": [
+        9.2,
+        6.9,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        2.55,
+        8.4,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        8.46,
+        9.6,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_03",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        10.86,
+        9.6,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_04",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        12.76,
+        9.6,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_05",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        7.74,
+        0.4,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_06",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        10.04,
+        0.4,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_07",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        7.6,
+        5.4,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_08",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        10.7,
+        5.4,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_09",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        13.3,
+        2.6,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_10",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        13.3,
+        7.3,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    }
+  ],
+  "tags": [
+    "factory",
+    "cleanroom",
+    "gowning",
+    "air-shower",
+    "pass-box",
+    "wet-bench",
+    "laminar-bench",
+    "ffu"
+  ],
+  "nav": {
+    "file": "navmesh.glb",
+    "cell_m": 0.25,
+    "margin_m": 0.3,
+    "cells": 1183
+  },
+  "files": {
+    "blend": "scene.blend",
+    "glb": "scene.glb",
+    "navmesh": "navmesh.glb",
+    "preview": "preview.png",
+    "plan": "plan.png",
+    "build": "build.py"
+  },
+  "coord": "Blender Z-up, +Y north, SW corner origin; glb is glTF Y-up (gx=x, gy=z, gz=-y)",
+  "created": "2026-11-26"
+}

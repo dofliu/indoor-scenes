@@ -32,6 +32,10 @@
 - 目前實作為 0.25 m 格網四邊形（頂點共用，方便 A*／navmesh 函式庫使用）；門口通道延伸至房間外緣，與鄰接模組的通道銜接。
 - 匯出為獨立 `navmesh.glb`，不含於 `scene.glb`。
 
+## 室內隔間（020 起）
+- 模組內部可用 `tools/furniture.py` 的 `interior_wall` 再分區（如無塵室的更衣緩衝區／潔淨區）。隔間牆屬 `STRUCTURE`，實牆段列為導航障礙；
+  內部開口不受「奇數公尺」限制（該規則只適用外牆門洞），也不建立 `DOOR_*` empty。各分區必須在導航網格上互相連通。
+
 ## Collections
 `STRUCTURE`（地板、牆、天花板）、`FURNITURE`、`PROPS`、`LIGHTS`、`ANCHORS`、`NAV`。
 
