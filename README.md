@@ -3,7 +3,7 @@
 以 Blender（bpy）程序化建模的**室內場景模組庫**：每個模組遵守統一規格（2 m 網格、3 m 樓高、奇數公尺門洞、命名錨點、導航網格），
 可任意拼接成一層樓，也可匯入 Three.js / Unity / Godot 讓人物在其中移動。詳見 [SPEC.md](SPEC.md)。
 
-**目前場景數：2**　｜　待做清單：[backlog.md](backlog.md)　｜　清單資料：[catalog.json](catalog.json)
+**目前場景數：3**　｜　待做清單：[backlog.md](backlog.md)　｜　清單資料：[catalog.json](catalog.json)
 
 ## 場景一覽
 
@@ -11,6 +11,7 @@
 |---|---|---|---|---|---|
 | 001 | [開放式工位辦公區](scenes/001_open_office/) | 16×12 m | 5 | 45（16 工位＋4 協作座） | <img src="scenes/001_open_office/preview.png" width="360"> |
 | 002 | [中型會議室](scenes/002_meeting_room/) | 8×6 m | 2 | 19（12 會議席＋白板／布幕／櫃／飲水站位） | <img src="scenes/002_meeting_room/preview.png" width="360"> |
+| 003 | [小型討論室／電話亭](scenes/003_huddle_booths/) | 8×4 m | 3 | 13（4 討論席＋2 電話亭＋螢幕／白板／櫃／預約面板站位） | <img src="scenes/003_huddle_booths/preview.png" width="360"> |
 
 ## 目錄
 ```
@@ -25,7 +26,7 @@ viewer/index.html      Three.js 瀏覽器（可用 GitHub Pages）
 
 ## 使用
 ```bash
-pip install bpy            # Blender Python 模組（Python 3.11/3.13 皆可）
+pip install bpy            # Blender Python 模組（請用 pip 對應的 Python 版本執行，例如 python3.13）
 python3 scenes/001_open_office/build.py          # 重建單一場景
 python3 tools/verify.py scenes/001_open_office   # 驗證
 python3 tools/compose.py compose/layout.json     # 組合一層樓

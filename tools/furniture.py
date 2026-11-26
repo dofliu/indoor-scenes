@@ -176,3 +176,55 @@ def status_lamp(S, x, y, z=2.0, name="StatusLamp", color=(0.2, 0.9, 0.3)):
     p.sphere(0, 0, -0.06, 0.05, mat("status_" + "_".join("%d" % (c * 10) for c in color), color, emit=color), seg=10)
     p.finish(obstacle=False)
     return p
+
+
+def glass_partition(S, x, y, yaw=0.0, w=2.0, h=2.6, name="GlassPartition"):
+    """落地玻璃隔間（沿區域 X 方向延伸，厚 0.06）。會成為導航障礙。"""
+    p = Piece(S, name, x, y, yaw=yaw, coll="STRUCTURE")
+    g = mat("glass_partition", (0.72, 0.86, 0.90), rough=0.05, alpha=0.28)
+    p.box(0, 0, h / 2, w - 0.08, 0.012, h - 0.1, g)
+    p.box(0, 0, 0.025, w, 0.06, 0.05, "frame")
+    p.box(0, 0, h - 0.025, w, 0.06, 0.05, "frame")
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - 0.02), 0, h / 2, 0.04, 0.06, h, "frame")
+    p.box(0, 0, 1.1, w - 0.08, 0.016, 0.12, mat("glass_frost", (0.92, 0.94, 0.95), rough=0.8, alpha=0.75))
+    p.finish(footprint=(w, 0.06))
+    return p
+
+
+def phone_booth(S, x, y, yaw=0.0, w=1.3, d=1.4, h=2.05, name="PhoneBooth"):
+    """單人電話亭（隔音艙）：背牆在 +Y 側、開口朝 -Y；內含靠背牆的桌板與高腳凳（人面向 +Y）。
+    三面艙壁各自成為導航障礙，艙內保留可走地面。"""
+    t = 0.06
+    hw = h - t  # 艙壁高度（頂板蓋在上方，避免共面）
+    p = Piece(S, name, x, y, yaw=yaw)
+    shell, felt = mat("booth_shell", (0.62, 0.50, 0.36), rough=0.6), mat("booth_felt", (0.20, 0.36, 0.42), rough=0.95)
+    trim = mat("booth_trim", (0.16, 0.17, 0.19), rough=0.5)
+    p.box(0, d / 2 - t / 2, hw / 2, w - 2 * t, t, hw, shell)               # 背牆
+    p.box(0, d / 2 - t - 0.01, hw / 2, w - 2 * t - 0.04, 0.02, hw - 0.1, felt)  # 吸音氈
+    for sx in (-1, 1):
+        p.box(sx * (w / 2 - t / 2), 0, hw / 2, t, d, hw, shell)            # 側牆
+        p.box(sx * (w / 2 - t - 0.01), -0.02, hw / 2, 0.02, d - 0.2, hw - 0.1, felt)
+    p.box(0, 0, h - t / 2, w + 0.04, d + 0.04, t, trim)                    # 頂板
+    p.box(0, -d / 2 + 0.03, hw - 0.1, w - 2 * t, 0.05, 0.2, trim)          # 開口上緣
+    p.box(0, 0, hw - 0.012, w * 0.5, 0.12, 0.02, mat("booth_light", (1, 0.95, 0.85), emit=(1.0, 0.9, 0.75)))
+    p.box(0, d / 2 - t - 0.22, 0.75, w - 2 * t - 0.05, 0.4, 0.035, "wood_light")  # 桌板
+    p.box(0, d / 2 - t - 0.16, 0.775, 0.26, 0.18, 0.012, "metal_dark")     # 桌上平板
+    # 高腳凳
+    p.cyl(0, -0.1, 0.015, 0.2, 0.03, "metal_dark", seg=16)
+    p.cyl(0, -0.1, 0.25, 0.025, 0.5, "metal_dark", seg=8)
+    p.cyl(0, -0.1, 0.53, 0.19, 0.07, "fabric_orange", seg=16)
+    obj = p.finish()
+    c, s = math.cos(yaw), math.sin(yaw)
+    for (ox, oy, fw, fd) in ((0, d / 2 - t / 2, w, t), (-(w / 2 - t / 2), 0, t, d), (w / 2 - t / 2, 0, t, d)):
+        S.obstacles.append((x + ox * c - oy * s, y + ox * s + oy * c, yaw, fw, fd))
+    return obj
+
+
+def wall_panel(S, x, y, yaw=0.0, w=0.3, h=0.22, z=1.3, name="WallPanel"):
+    """壁掛觸控面板（預約／門禁），正面朝 -Y（yaw=0 貼北牆）。(x,y) 為背面中心。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, -0.012, 0, w, 0.024, h, "plastic_black")
+    p.box(0, -0.025, 0, w - 0.03, 0.002, h - 0.03, mat("screen_glow", (0.05, 0.15, 0.3), emit=(0.08, 0.3, 0.6)))
+    p.finish(obstacle=False)
+    return p
