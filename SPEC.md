@@ -60,6 +60,13 @@ category：office / meeting / social / factory / lab / service / connector。
 `"routes": {"forklift": {"desc": "...", "waypoints": ["POI_route_07", "POI_route_04", ...], "vehicle_clearance_m": 1.3}}`。
 路線點皆位於導航網格上；程式可依序沿導航網格移動車輛模型。未提供此欄位的場景視為無固定路線。
 
+#### 選用欄位 `crane`、`stations`（021 起）
+- `crane`：天車的可動範圍，供程式做吊運動畫。`objects` 列出 glb 內的物件名（`CraneRunway` 固定、`CraneBridge` 沿 X 移動、
+  `CraneTrolley` 沿 Y 移動且需與 Bridge 同步 X）；`bridge_x_range_m`、`trolley_y_range_m`、`hook_z_range_m` 為行程；
+  `operator_anchor`、`status_anchor` 指向操作站位與狀態點。天車位於 z ≥ 1.3 m，不影響導航網格。
+- `stations`：組裝站清單 `[{id, name_zh, center:[x,y], object, status_anchor, anchors:[...]}]`，方便依站派工。
+- 樓高固定 3.0 m：需要大型設備的廠房以縮小比例（中小型機組）與低淨高設備呈現，不放寬樓高規格。
+
 ## 座標轉換（glb）
 glTF 為 Y-up：`gx = x, gy = z, gz = −y`。`scene.json` 的所有座標為 Blender（Z-up）座標。
 

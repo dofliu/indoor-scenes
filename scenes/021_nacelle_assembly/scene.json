@@ -1,0 +1,558 @@
+{
+  "id": "021",
+  "name_zh": "風機機艙組裝廠房",
+  "name_en": "Wind Turbine Nacelle Assembly Hall",
+  "category": "factory",
+  "size_m": [
+    18,
+    12
+  ],
+  "height_m": 3.0,
+  "doors": [
+    {
+      "id": "DOOR_W_01",
+      "wall": "W",
+      "offset_m": 3.0,
+      "width_m": 1.0,
+      "position": [
+        0.1,
+        3.0,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_S_01",
+      "wall": "S",
+      "offset_m": 9.0,
+      "width_m": 1.0,
+      "position": [
+        9.0,
+        0.1,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_N_01",
+      "wall": "N",
+      "offset_m": 15.0,
+      "width_m": 1.0,
+      "position": [
+        15.0,
+        11.9,
+        0.0
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "id": "STAND_crane_01",
+      "type": "STAND",
+      "use": "crane",
+      "position": [
+        7.3,
+        7.75,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_platform_01",
+      "type": "STAND",
+      "use": "platform",
+      "position": [
+        9.35,
+        7.45,
+        0.8
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_platform_02",
+      "type": "STAND",
+      "use": "platform",
+      "position": [
+        14.05,
+        4.55,
+        0.8
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_assembly_01",
+      "type": "STAND",
+      "use": "assembly",
+      "position": [
+        2.8,
+        4.6,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_assembly_02",
+      "type": "STAND",
+      "use": "assembly",
+      "position": [
+        4.8,
+        4.6,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_assembly_03",
+      "type": "STAND",
+      "use": "assembly",
+      "position": [
+        2.8,
+        7.4,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_assembly_04",
+      "type": "STAND",
+      "use": "assembly",
+      "position": [
+        4.8,
+        7.4,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_assembly_05",
+      "type": "STAND",
+      "use": "assembly",
+      "position": [
+        8.0,
+        4.6,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_assembly_06",
+      "type": "STAND",
+      "use": "assembly",
+      "position": [
+        10.0,
+        4.6,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_assembly_07",
+      "type": "STAND",
+      "use": "assembly",
+      "position": [
+        11.6,
+        6.0,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "STAND_assembly_08",
+      "type": "STAND",
+      "use": "assembly",
+      "position": [
+        13.2,
+        7.4,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_assembly_09",
+      "type": "STAND",
+      "use": "assembly",
+      "position": [
+        15.2,
+        7.4,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_assembly_10",
+      "type": "STAND",
+      "use": "assembly",
+      "position": [
+        15.5,
+        4.6,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_inspection_01",
+      "type": "STAND",
+      "use": "inspection",
+      "position": [
+        16.75,
+        6.0,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "POI_shippingdoor_01",
+      "type": "POI",
+      "use": "shippingdoor",
+      "position": [
+        17.2,
+        8.1,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "POI_tools_01",
+      "type": "POI",
+      "use": "tools",
+      "position": [
+        1.7,
+        1.35,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_bench_01",
+      "type": "STAND",
+      "use": "bench",
+      "position": [
+        4.2,
+        1.5,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_bench_02",
+      "type": "STAND",
+      "use": "bench",
+      "position": [
+        6.3,
+        1.5,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "STAND_wiring_01",
+      "type": "STAND",
+      "use": "wiring",
+      "position": [
+        11.05,
+        1.6,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "POI_cable_01",
+      "type": "POI",
+      "use": "cable",
+      "position": [
+        13.45,
+        1.8,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "POI_bolts_01",
+      "type": "POI",
+      "use": "bolts",
+      "position": [
+        15.5,
+        1.3,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "POI_torque_01",
+      "type": "POI",
+      "use": "torque",
+      "position": [
+        16.9,
+        1.7,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "SEAT_desk_01",
+      "type": "SEAT",
+      "use": "desk",
+      "position": [
+        1.5,
+        10.65,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_whiteboard_01",
+      "type": "STAND",
+      "use": "whiteboard",
+      "position": [
+        1.0,
+        8.6,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "POI_hub_01",
+      "type": "POI",
+      "use": "hub",
+      "position": [
+        4.0,
+        9.55,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "POI_kitting_01",
+      "type": "POI",
+      "use": "kitting",
+      "position": [
+        7.1,
+        9.95,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "POI_kitting_02",
+      "type": "POI",
+      "use": "kitting",
+      "position": [
+        10.4,
+        10.05,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_board_01",
+      "type": "STAND",
+      "use": "board",
+      "position": [
+        12.6,
+        10.05,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "POI_cover_01",
+      "type": "POI",
+      "use": "cover",
+      "position": [
+        15.8,
+        10.3,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        5.55,
+        7.25,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        10.75,
+        7.25,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_03",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        15.95,
+        7.25,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_04",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        0.55,
+        11.3,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_05",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        5.25,
+        0.45,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_06",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        12.2,
+        0.5,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_07",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        7.1,
+        11.3,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STATUS_08",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        7.5,
+        8.6,
+        2.3
+      ],
+      "yaw_deg": 0.0
+    }
+  ],
+  "tags": [
+    "factory",
+    "wind-turbine",
+    "nacelle",
+    "assembly",
+    "bridge-crane",
+    "heavy-assembly",
+    "drivetrain"
+  ],
+  "nav": {
+    "file": "navmesh.glb",
+    "cell_m": 0.25,
+    "margin_m": 0.3,
+    "cells": 1885
+  },
+  "files": {
+    "blend": "scene.blend",
+    "glb": "scene.glb",
+    "navmesh": "navmesh.glb",
+    "preview": "preview.png",
+    "plan": "plan.png",
+    "build": "build.py"
+  },
+  "coord": "Blender Z-up, +Y north, SW corner origin; glb is glTF Y-up (gx=x, gy=z, gz=-y)",
+  "created": "2026-11-27",
+  "crane": {
+    "desc": "懸掛式單樑天車：CraneBridge 沿 X 移動、CraneTrolley 沿 Y 移動（需與 Bridge 同步 X），吊鉤垂直升降",
+    "objects": {
+      "runway": "CraneRunway",
+      "bridge": "CraneBridge",
+      "trolley": "CraneTrolley"
+    },
+    "bridge_x_m": 7.5,
+    "trolley_y_m": 6.0,
+    "bridge_x_range_m": [
+      1.0,
+      17.0
+    ],
+    "trolley_y_range_m": [
+      1.2,
+      10.8
+    ],
+    "hook_z_m": 2.0,
+    "hook_z_range_m": [
+      0.6,
+      2.0
+    ],
+    "load": "generator",
+    "operator_anchor": "STAND_crane_01",
+    "status_anchor": "STATUS_08"
+  },
+  "stations": [
+    {
+      "id": "ST1",
+      "name_zh": "主機架／偏航系統",
+      "center": [
+        3.8,
+        6.0
+      ],
+      "object": "Nacelle_Stage1",
+      "status_anchor": "STATUS_01",
+      "anchors": [
+        "STAND_assembly_01",
+        "STAND_assembly_02",
+        "STAND_assembly_03",
+        "STAND_assembly_04"
+      ]
+    },
+    {
+      "id": "ST2",
+      "name_zh": "傳動鏈（主軸、齒輪箱、發電機）",
+      "center": [
+        9.0,
+        6.0
+      ],
+      "object": "Nacelle_Stage2",
+      "status_anchor": "STATUS_02",
+      "anchors": [
+        "STAND_assembly_05",
+        "STAND_assembly_06",
+        "STAND_assembly_07",
+        "STAND_platform_01",
+        "STAND_crane_01"
+      ]
+    },
+    {
+      "id": "ST3",
+      "name_zh": "機艙罩／出廠檢驗",
+      "center": [
+        14.2,
+        6.0
+      ],
+      "object": "Nacelle_Stage3",
+      "status_anchor": "STATUS_03",
+      "anchors": [
+        "STAND_assembly_08",
+        "STAND_assembly_09",
+        "STAND_assembly_10",
+        "STAND_platform_02",
+        "STAND_inspection_01"
+      ]
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-26",
+  "updated": "2026-11-27",
   "scenes": [
     {
       "id": "001",
@@ -487,6 +487,32 @@
       ],
       "created": "2026-11-26",
       "preview": "scenes/020_cleanroom/preview.png"
+    },
+    {
+      "id": "021",
+      "dir": "021_nacelle_assembly",
+      "name_zh": "風機機艙組裝廠房",
+      "name_en": "Wind Turbine Nacelle Assembly Hall",
+      "category": "factory",
+      "size_m": [
+        18,
+        12
+      ],
+      "height_m": 3.0,
+      "doors": 3,
+      "anchors": 37,
+      "seats": 1,
+      "tags": [
+        "factory",
+        "wind-turbine",
+        "nacelle",
+        "assembly",
+        "bridge-crane",
+        "heavy-assembly",
+        "drivetrain"
+      ],
+      "created": "2026-11-27",
+      "preview": "scenes/021_nacelle_assembly/preview.png"
     }
   ]
 }

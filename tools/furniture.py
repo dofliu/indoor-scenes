@@ -2293,3 +2293,316 @@ def stepover_bench(S, x, y, yaw=0.0, w=2.4, d=0.4, h=0.45, name="StepOverBench")
         p.box(sx * (w / 2 - 0.03), 0, (h - 0.04) / 2, 0.05, d - 0.06, h - 0.04, ss)
     p.finish(footprint=(w, 0.2))
     return p
+
+
+# ---------------------------------------------------------------- 風機機艙組裝廠房（021 起）
+NACELLE_BLUE = (0.16, 0.30, 0.46)
+
+
+def _cast():
+    return mat("cast_bluegrey", NACELLE_BLUE, rough=0.45, metal=0.3)
+
+
+def _steel():
+    return mat("machined_steel", (0.66, 0.67, 0.69), rough=0.28, metal=0.85)
+
+
+def _gearbox(p, cx, cy, cz, s=1.0):
+    """增速齒輪箱（軸向沿本地 X；cz 為軸心高度）：方形箱體＋前後圓筒段＋散熱鰭片＋油冷卻器。"""
+    c = mat("gearbox_green", (0.20, 0.42, 0.36), rough=0.45, metal=0.25)
+    p.box(cx, cy, cz, 0.70 * s, 0.78 * s, 0.74 * s, c)
+    p.cyl(cx + 0.42 * s, cy, cz, 0.36 * s, 0.16 * s, c, seg=20, axis="X")
+    p.cyl(cx - 0.40 * s, cy, cz + 0.12 * s, 0.22 * s, 0.12 * s, c, seg=16, axis="X")
+    for k in range(4):
+        p.box(cx - 0.24 * s + k * 0.16 * s, cy, cz + 0.39 * s, 0.03 * s, 0.6 * s, 0.05 * s, c)
+    p.box(cx, cy + 0.44 * s, cz + 0.1 * s, 0.4 * s, 0.1 * s, 0.3 * s, "metal_dark")
+    for sy in (-1, 1):    # 扭力臂
+        p.box(cx + 0.1 * s, cy + sy * 0.47 * s, cz - 0.05 * s, 0.22 * s, 0.18 * s, 0.14 * s, _cast())
+
+
+def _generator(p, cx, cy, cz, s=1.0, lugs=False):
+    """發電機（軸向沿本地 X；cz 為軸心高度）：圓筒機殼＋冷卻肋＋頂部冷卻箱＋接線盒＋底腳。"""
+    c = mat("generator_grey", (0.58, 0.61, 0.64), rough=0.4, metal=0.3)
+    r, L = 0.36 * s, 1.0 * s
+    p.cyl(cx, cy, cz, r, L, c, seg=24, axis="X")
+    for k in range(5):
+        p.cyl(cx - 0.36 * s + k * 0.18 * s, cy, cz, r + 0.02 * s, 0.03 * s, "metal_dark", seg=24, axis="X")
+    p.cyl(cx + L / 2 + 0.03 * s, cy, cz, r * 0.8, 0.06 * s, "metal_dark", seg=20, axis="X")
+    p.cyl(cx + L / 2 + 0.12 * s, cy, cz, 0.06 * s, 0.18 * s, _steel(), seg=12, axis="X")
+    p.box(cx, cy, cz + r + 0.09 * s, 0.7 * s, 0.5 * s, 0.2 * s, "cabinet")
+    p.box(cx - 0.1 * s, cy - r - 0.05 * s, cz + 0.05 * s, 0.3 * s, 0.12 * s, 0.24 * s, "metal_dark")
+    for sx in (-1, 1):
+        p.box(cx + sx * 0.32 * s, cy, cz - r - 0.02 * s, 0.14 * s, 0.74 * s, 0.08 * s, "metal_dark")
+    if lugs:
+        for sx in (-1, 1):
+            p.cyl(cx + sx * 0.3 * s, cy, cz + r + 0.2 * s, 0.035 * s, 0.03 * s, _steel(), seg=10, axis="Y")
+
+
+def nacelle_assembly(S, x, y, yaw=0.0, stage=1, generator=True, name="Nacelle"):
+    """風機機艙組裝站上的機艙（中小型機組比例；長軸沿本地 X，輪轂端在 +X）。
+    stage 1：組裝架＋主機架（底座）＋偏航軸承／偏航驅動；
+    stage 2：再加主軸承座、主軸、輪轂法蘭、齒輪箱、煞車盤／聯軸器、（generator=True 時）發電機、機艙控制櫃；
+    stage 3：再加玻纖機艙罩（側牆＋後段頂蓋，前段頂蓋未蓋以便檢查）與頂部氣象桅。
+    導航障礙 4.0 × 2.0 m。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    yel = mat("safety_yellow", SAFETY_YELLOW)
+    cast, steel = _cast(), _steel()
+    # 組裝架：四支腳座＋縱橫樑
+    for sx in (-1.35, 1.35):
+        for sy in (-0.6, 0.6):
+            p.box(sx, sy, 0.02, 0.36, 0.36, 0.04, "metal_dark")
+            p.box(sx, sy, 0.24, 0.16, 0.16, 0.42, yel)
+        p.box(sx, 0, 0.40, 0.14, 1.36, 0.10, yel)
+    for sy in (-0.6, 0.6):
+        p.box(0, sy, 0.18, 2.7, 0.08, 0.08, yel)
+    # 主機架（鑄造底座）＋後機架（銲接樑）
+    p.box(0.55, 0, 0.56, 2.0, 1.36, 0.22, cast)
+    p.box(0.55, 0, 0.70, 1.7, 1.0, 0.06, cast)
+    for sy in (-0.55, 0.55):
+        p.box(-1.1, sy, 0.58, 1.5, 0.14, 0.18, cast)
+    for sx in (-0.75, -1.3, -1.8):
+        p.box(sx, 0, 0.56, 0.1, 1.1, 0.12, cast)
+    # 偏航軸承＋偏航驅動
+    p.cyl(0.7, 0, 0.38, 0.56, 0.14, steel, seg=32)
+    p.cyl(0.7, 0, 0.30, 0.50, 0.04, "metal_dark", seg=32)
+    for (dx, dy) in ((0.25, 0.52), (1.15, 0.52), (0.25, -0.52), (1.15, -0.52)):
+        p.cyl(0.7 + (dx - 0.7), dy, 0.85, 0.075, 0.36, yel, seg=12)
+        p.cyl(0.7 + (dx - 0.7), dy, 1.06, 0.06, 0.08, "metal_dark", seg=12)
+    AX = 1.12   # 傳動軸心高度
+    if stage >= 2:
+        for bx in (1.25, 0.55):                       # 主軸承座
+            p.box(bx, 0, 0.86, 0.26, 0.74, 0.3, cast)
+            p.cyl(bx, 0, AX, 0.30, 0.26, cast, seg=20, axis="X")
+        p.cyl(0.95, 0, AX, 0.15, 1.5, steel, seg=20, axis="X")       # 主軸
+        p.cyl(1.76, 0, AX, 0.46, 0.10, steel, seg=28, axis="X")      # 輪轂法蘭
+        p.cyl(1.82, 0, AX, 0.30, 0.03, "metal_dark", seg=24, axis="X")
+        for k in range(12):
+            a = k * math.pi / 6
+            p.cyl(1.825, 0.39 * math.cos(a), AX + 0.39 * math.sin(a), 0.022, 0.03, "metal_dark", seg=6, axis="X")
+        _gearbox(p, -0.25, 0, AX)
+        p.box(-0.15, 0, 0.72, 0.5, 1.2, 0.06, cast)
+        p.cyl(-0.78, 0, AX + 0.12, 0.24, 0.03, steel, seg=24, axis="X")   # 煞車盤
+        p.box(-0.78, 0.2, AX + 0.2, 0.12, 0.14, 0.16, mat("brake_red", (0.75, 0.15, 0.12), rough=0.4))
+        p.cyl(-0.9, 0, AX + 0.12, 0.07, 0.24, yel, seg=12, axis="X")        # 聯軸器
+        # 發電機座
+        for sx in (-1.18, -1.82):
+            p.box(sx, 0, 0.70, 0.16, 0.9, 0.08, "metal_dark")
+        if generator:
+            _generator(p, -1.5, 0, AX + 0.12)
+        # 機艙控制櫃（後段右舷）
+        p.box(-0.55, -0.56, 1.12, 0.5, 0.2, 0.8, "cabinet")
+        p.box(-0.55, -0.665, 1.25, 0.16, 0.01, 0.1, mat("hmi_cyan", (0.1, 0.4, 0.5), emit=(0.2, 0.7, 0.95)))
+    if stage >= 3:
+        shell = mat("nacelle_shell", (0.93, 0.94, 0.95), rough=0.3)
+        z0, z1 = 0.62, 2.0
+        p.boxc(-2.0, -0.9, z0, 1.55, 0.9, z0 + 0.04, shell)                 # 底板
+        for sy in (-1, 1):
+            p.boxc(-2.0, sy * 0.9 - 0.02, z0, 1.55, sy * 0.9 + 0.02, z1, shell)  # 側牆
+        p.boxc(-2.02, -0.9, z0, -1.98, 0.9, z1, shell)                      # 後牆
+        p.boxc(-2.0, -0.9, z1 - 0.04, -0.4, 0.9, z1, shell)                 # 後段頂蓋
+        for sy in (-1, 1):                                                  # 前端圍框（留主軸開口）
+            p.boxc(1.51, sy * 0.9, z0, 1.55, sy * 0.52, z1, shell)
+        p.boxc(1.51, -0.52, 1.66, 1.55, 0.52, z1, shell)
+        p.box(-1.2, 0.905 + 0.006, 1.35, 0.9, 0.012, 0.5, mat("vent_louver", (0.55, 0.57, 0.60), rough=0.5))  # 側通風百葉
+        p.box(-1.2, -0.905 - 0.006, 1.35, 0.9, 0.012, 0.5, mat("vent_louver", (0.55, 0.57, 0.60), rough=0.5))
+        p.box(0.2, 0.923, 1.3, 2.2, 0.006, 0.12, mat("stripe_teal", (0.10, 0.50, 0.52), rough=0.4))  # 色帶（無文字）
+        p.box(0.2, -0.923, 1.3, 2.2, 0.006, 0.12, mat("stripe_teal", (0.10, 0.50, 0.52), rough=0.4))
+        p.cyl(-1.7, 0.5, z1 + 0.14, 0.02, 0.28, "metal", seg=8)             # 氣象桅（風速／風向計）
+        p.box(-1.7, 0.5, z1 + 0.27, 0.04, 0.3, 0.02, "metal")
+        p.cyl(-1.7, 0.63, z1 + 0.31, 0.035, 0.04, "plastic_black", seg=10)
+        p.box(-1.7, 0.37, z1 + 0.31, 0.12, 0.015, 0.05, "plastic_black")
+    p.finish(footprint=(4.0, 2.0))
+    return p
+
+
+def bridge_crane(S, x, y, y0, y1, x0=0.6, x1=None, hook_z=2.0, z_rail=2.84, load=None, pendant=(-0.2, 1.35), name="Crane"):
+    """懸掛式單樑天車（低淨高廠房用）。軌道沿 X 貼南北牆（y0、y1），大車（主樑）在 x、小車在 y，吊鉤底約在 hook_z。
+    產生三個物件方便程式做動畫：<name>Runway（軌道＋牆托架）、<name>Bridge（主樑＋端樑，原點在 (x,0)）、
+    <name>Trolley（小車＋吊鉤＋鋼索＋吊掛物，原點在 (x,y)）。load="generator" 時吊著一台發電機。
+    天車皆在 z ≥ 1.3 m，不列為導航障礙。"""
+    x1 = S.W - 0.6 if x1 is None else x1
+    yel = mat("safety_yellow", SAFETY_YELLOW)
+    rw = Piece(S, name + "Runway", 0, 0, coll="FURNITURE")
+    for ry, sgn in ((y0, -1), (y1, 1)):
+        rw.boxc(x0, ry - 0.06, z_rail, x1, ry + 0.06, z_rail + 0.14, "metal_dark")
+        rw.boxc(x0, ry - 0.09, z_rail - 0.012, x1, ry + 0.09, z_rail, "metal_dark")
+        n = int((x1 - x0) / 2.4)
+        for k in range(n + 1):
+            bx = x0 + 0.2 + k * (x1 - x0 - 0.4) / n
+            wy = ry + sgn * 0.26
+            rw.boxc(bx - 0.05, min(ry, wy), z_rail + 0.02, bx + 0.05, max(ry, wy), z_rail + 0.12, "metal_dark")
+        for ex in (x0, x1):      # 止擋
+            rw.box(ex, ry, z_rail - 0.07, 0.06, 0.12, 0.12, mat("brake_red", (0.75, 0.15, 0.12), rough=0.4))
+    rw.finish(obstacle=False)
+    br = Piece(S, name + "Bridge", x, 0, coll="FURNITURE")
+    zb0, zb1 = z_rail - 0.30, z_rail - 0.04
+    br.boxc(-0.11, y0 - 0.1, zb0, 0.11, y1 + 0.1, zb1, yel)
+    br.boxc(-0.14, y0 - 0.1, zb0 - 0.02, 0.14, y1 + 0.1, zb0, yel)
+    for ry in (y0, y1):
+        br.box(0, ry, z_rail - 0.07, 0.7, 0.2, 0.13, yel)
+        for sx in (-1, 1):
+            br.cyl(sx * 0.26, ry, z_rail + 0.07 + 0.05, 0.06, 0.05, "metal_dark", seg=12, axis="Y")
+        br.box(0.42, ry, z_rail - 0.07, 0.16, 0.14, 0.12, "metal_dark")     # 走行馬達
+    k = 0
+    yy = y0 + 0.5
+    while yy < y1 - 0.4:      # 主樑側面黑色警示段
+        if k % 2 == 0:
+            br.box(0, yy, (zb0 + zb1) / 2, 0.224, 0.25, 0.1, "plastic_black")
+        yy += 0.5
+        k += 1
+    br.finish(obstacle=False)
+    tr = Piece(S, name + "Trolley", x, y, coll="FURNITURE")
+    zt = zb0 - 0.02
+    tr.box(0, 0, zt - 0.08, 0.5, 0.42, 0.16, "metal_dark")
+    tr.cyl(0, 0, zt - 0.2, 0.09, 0.4, mat("hoist_orange", (0.90, 0.46, 0.10), rough=0.4), seg=14, axis="X")
+    tr.box(0.3, 0, zt - 0.2, 0.14, 0.16, 0.16, "metal_dark")
+    hb = hook_z + 0.2          # 吊鉤滑車中心
+    for sx in (-0.05, 0.05):
+        tr.cyl(sx, 0, (zt - 0.28 + hb) / 2, 0.008, max(0.02, zt - 0.28 - hb), "metal_dark", seg=6)
+    tr.box(0, 0, hb, 0.2, 0.08, 0.18, yel)
+    tr.cyl(0, 0, hb, 0.07, 0.085, "plastic_black", seg=12, axis="Y")
+    tr.cyl(0, 0, hook_z + 0.06, 0.02, 0.12, _steel(), seg=8)
+    tr.cyl(0, 0, hook_z, 0.05, 0.03, _steel(), seg=12, axis="Y")
+    # 控制吊盒（垂到 1.3 m）
+    px, py = pendant
+    tr.box(px / 2, py / 2, zt - 0.02, abs(px) + 0.04, abs(py) + 0.04, 0.02, "metal_dark")
+    tr.cyl(px, py, (zt + 1.42) / 2, 0.006, zt - 1.42, "plastic_black", seg=6)
+    tr.box(px, py, 1.36, 0.07, 0.05, 0.2, yel)
+    if load == "generator":
+        gz = hook_z - 0.74
+        _generator(tr, 0, 0, gz, lugs=True)
+        sling = mat("sling_blue", (0.15, 0.35, 0.75), rough=0.7)
+        for sx in (-1, 1):
+            _beam(tr, (0, 0, hook_z), (sx * 0.3, 0, gz + 0.56), 0.022, sling)
+    tr.finish(obstacle=False)
+    return rw, br, tr
+
+
+def rolling_platform(S, x, y, yaw=0.0, w=1.6, d=0.8, h=0.8, name="WorkPlatform"):
+    """附輪工作平台（組裝登高用）：平台板在高度 h，-X 端設階梯，外側（本地 -Y）與 +X 端有護欄，內側朝機台開放。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    yel = mat("safety_yellow", SAFETY_YELLOW)
+    deck = mat("checker_plate", (0.45, 0.47, 0.50), rough=0.5, metal=0.5)
+    dw = w - 0.5                      # 平台板長度（+X 側）
+    cxd = w / 2 - dw / 2
+    p.box(cxd, 0, h - 0.02, dw, d, 0.04, deck)
+    for sx in (cxd - dw / 2 + 0.04, cxd + dw / 2 - 0.04):
+        for sy in (-1, 1):
+            p.box(sx, sy * (d / 2 - 0.04), (h - 0.04) / 2 + 0.04, 0.05, 0.05, h - 0.12, yel)
+            p.cyl(sx, sy * (d / 2 - 0.04), 0.045, 0.045, 0.04, "plastic_black", seg=10, axis="Y")
+    p.box(cxd, 0, 0.14, dw - 0.08, d - 0.08, 0.04, yel)
+    n = max(2, int(round(h / 0.2)) - 1)
+    for k in range(n):                # 階梯
+        zz = h * (k + 1) / (n + 1)
+        xx = -w / 2 + 0.07 + (0.5 - 0.1) * k / max(1, n - 1)
+        p.box(xx, 0, zz, 0.2, d - 0.1, 0.03, deck)
+    for sy in (-1, 1):
+        _beam(p, (-w / 2, sy * (d / 2 - 0.03), 0.02), (cxd - dw / 2, sy * (d / 2 - 0.03), h - 0.04), 0.04, yel)
+    # 護欄：外側與 +X 端
+    for sx in (cxd - dw / 2 + 0.04, cxd + dw / 2 - 0.04):
+        p.box(sx, -d / 2 + 0.03, h + 0.5, 0.035, 0.035, 1.0, yel)
+    p.box(cxd + dw / 2 - 0.04, d / 2 - 0.03, h + 0.5, 0.035, 0.035, 1.0, yel)
+    for zz in (h + 0.5, h + 1.0):
+        p.box(cxd, -d / 2 + 0.03, zz, dw, 0.035, 0.035, yel)
+        p.box(cxd + dw / 2 - 0.04, 0, zz, 0.035, d - 0.06, 0.035, yel)
+    p.finish(footprint=(w, d))
+    return p
+
+
+def hub_on_stand(S, x, y, yaw=0.0, name="RotorHub"):
+    """待裝的輪轂（球形鑄件，三個葉片法蘭朝外，主軸法蘭面朝下）放在運輸架上。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    yel = mat("safety_yellow", SAFETY_YELLOW)
+    cast, steel = _cast(), _steel()
+    p.box(0, 0, 0.06, 1.3, 1.3, 0.12, yel)
+    p.cyl(0, 0, 0.17, 0.46, 0.1, steel, seg=28)
+    p.sphere(0, 0, 0.78, 0.6, cast, sz=0.95, seg=20)
+    for k in range(3):
+        a = k * 2 * math.pi / 3 + math.pi / 2
+        c, s = math.cos(a), math.sin(a)
+        from mathutils import Matrix as Mx
+        import bmesh as _bm
+        for (r, L, off, m) in ((0.40, 0.3, 0.52, cast), (0.43, 0.05, 0.69, steel)):
+            res = _bm.ops.create_cone(p.bm, cap_ends=True, cap_tris=False, segments=24, radius1=r, radius2=r, depth=L)
+            T = Mx.Translation((c * off, s * off, 0.78)) @ Mx.Rotation(a, 4, "Z") @ Mx.Rotation(R(90), 4, "Y")
+            _bm.ops.transform(p.bm, matrix=T, verts=res["verts"])
+            p._tag(res["verts"], m)
+    p.cyl(0, 0, 1.36, 0.2, 0.05, steel, seg=16)
+    p.finish(footprint=(1.5, 1.5))
+    return p
+
+
+def component_pallet(S, x, y, yaw=0.0, kind="gearbox", name="ComponentPallet"):
+    """棧板上的大型待裝件：kind = gearbox（齒輪箱）/ generator（發電機）/ shaft（主軸，置於 V 型托架）/ cover（玻纖罩板疊放）。"""
+    w, d = (2.0, 1.0) if kind in ("shaft", "cover") else (1.4, 1.1)
+    p = Piece(S, name, x, y, yaw=yaw)
+    wood = mat("pallet_wood", (0.62, 0.48, 0.30), rough=0.85)
+    for sy in (-1, 0, 1):
+        p.box(0, sy * (d / 2 - 0.05), 0.05, w, 0.1, 0.1, wood)
+    n = int(w / 0.2)
+    for i in range(n + 1):
+        p.box(-w / 2 + 0.06 + i * (w - 0.12) / n, 0, 0.112, 0.11, d, 0.024, wood)
+    z = 0.125
+    if kind == "gearbox":
+        p.box(0, 0, z + 0.05, 0.9, 0.9, 0.1, "metal_dark")
+        _gearbox(p, 0, 0, z + 0.1 + 0.38)
+    elif kind == "generator":
+        _generator(p, 0, 0, z + 0.44)
+    elif kind == "shaft":
+        for sx in (-0.55, 0.55):
+            p.box(sx, 0, z + 0.12, 0.12, 0.6, 0.24, wood)
+        p.cyl(0, 0, z + 0.34, 0.15, 1.6, _steel(), seg=20, axis="X")
+        p.cyl(0.84, 0, z + 0.34, 0.42, 0.1, _steel(), seg=28, axis="X")
+        p.cyl(-0.4, 0, z + 0.34, 0.2, 0.3, _cast(), seg=20, axis="X")
+    else:
+        shell = mat("nacelle_shell", (0.93, 0.94, 0.95), rough=0.3)
+        for k in range(4):
+            p.box(0.03 * (k % 2), 0, z + 0.05 + k * 0.11, w - 0.1, d - 0.08, 0.05, shell)
+            p.box(0.03 * (k % 2), 0, z + 0.1 + k * 0.11, 0.1, d - 0.2, 0.05, wood)
+    p.finish(footprint=(w, d))
+    return p
+
+
+def cable_reel(S, x, y, yaw=0.0, r=0.5, w=0.55, name="CableReel"):
+    """電纜盤（木製盤面＋黑色電纜，軸向沿本地 X），置於止滑楔上。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    wood = mat("pallet_wood", (0.62, 0.48, 0.30), rough=0.85)
+    for sx in (-1, 1):
+        p.cyl(sx * (w / 2 - 0.02), 0, r, r, 0.04, wood, seg=24, axis="X")
+    p.cyl(0, 0, r, r * 0.72, w - 0.08, "plastic_black", seg=20, axis="X")
+    p.cyl(0, 0, r, 0.05, w + 0.06, "metal_dark", seg=10, axis="X")
+    for sy in (-1, 1):
+        p.box(0, sy * 0.3, 0.04, w, 0.14, 0.08, wood)
+    p.finish(footprint=(w, 2 * r))
+    return p
+
+
+def torque_cart(S, x, y, yaw=0.0, name="TorqueCart"):
+    """液壓扭力扳手台車：油壓泵浦＋壓力錶＋油管＋扳手頭，正面朝本地 -Y。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    blue = mat("pump_blue", (0.12, 0.30, 0.62), rough=0.4, metal=0.2)
+    p.box(0, 0, 0.16, 0.6, 0.45, 0.03, "metal_dark")
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            p.cyl(sx * 0.24, sy * 0.17, 0.06, 0.06, 0.04, "plastic_black", seg=10, axis="X")
+    p.box(-0.08, 0.02, 0.36, 0.34, 0.3, 0.36, blue)
+    p.cyl(-0.08, 0.02, 0.6, 0.07, 0.12, "metal_dark", seg=12)
+    p.cyl(-0.08, -0.14, 0.62, 0.05, 0.02, "plastic_white", seg=14, axis="Y")
+    p.box(0.2, 0, 0.24, 0.16, 0.3, 0.12, _steel())
+    p.cyl(0.2, -0.1, 0.33, 0.045, 0.07, _steel(), seg=6)
+    _beam(p, (-0.02, 0.1, 0.5), (0.2, 0.1, 0.3), 0.02, "plastic_black")
+    for sx in (-1, 1):
+        p.box(sx * 0.29, 0.21, 0.55, 0.025, 0.025, 0.8, "metal")
+    p.box(0, 0.21, 0.94, 0.6, 0.03, 0.03, "metal")
+    p.finish(footprint=(0.6, 0.45))
+    return p
+
+
+def beacon_post(S, x, y, h=2.2, lit="green", name="BeaconPost"):
+    """落地式站別狀態燈柱：細柱＋三色警示燈，燈頂約在高度 h（配合 STATUS 錨點）。"""
+    p = Piece(S, name, x, y, coll="PROPS")
+    p.cyl(0, 0, 0.01, 0.14, 0.02, "metal_dark", seg=14)
+    p.cyl(0, 0, (h - 0.42) / 2, 0.02, h - 0.42, "metal", seg=8)
+    _signal_tower(p, 0, 0, h - 0.42 - 0.02, lit=lit)
+    p.finish(obstacle=False)
+    return p
