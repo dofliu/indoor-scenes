@@ -67,6 +67,11 @@ category：office / meeting / social / factory / lab / service / connector。
 - `stations`：組裝站清單 `[{id, name_zh, center:[x,y], object, status_anchor, anchors:[...]}]`，方便依站派工。
 - 樓高固定 3.0 m：需要大型設備的廠房以縮小比例（中小型機組）與低淨高設備呈現，不放寬樓高規格。
 
+#### 選用欄位 `consoles`、`displays`（022 起）
+- `consoles`：控制室席位清單 `[{id, role, role_zh, object, seat, status_anchor}]`，把每個席位的職責（如 `grid` 電網調度、`marine` 海事協調、
+  `shift_supervisor` 值班主任）對應到 glb 內的操作台物件、`SEAT_*` 與 `STATUS_*` 錨點，方便依職責指派人物與顯示狀態。
+- `displays`：場景內的大型顯示設備 `[{object, kind(video_wall/annunciator/screen), wall, size_m?, content?}]`，供程式替換貼圖或疊加即時資料。
+
 ## 座標轉換（glb）
 glTF 為 Y-up：`gx = x, gy = z, gz = −y`。`scene.json` 的所有座標為 Blender（Z-up）座標。
 

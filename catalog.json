@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-27",
+  "updated": "2026-11-28",
   "scenes": [
     {
       "id": "001",
@@ -513,6 +513,32 @@
       ],
       "created": "2026-11-27",
       "preview": "scenes/021_nacelle_assembly/preview.png"
+    },
+    {
+      "id": "022",
+      "dir": "022_scada_control_room",
+      "name_zh": "控制室／中控室（風場 SCADA 中控）",
+      "name_en": "SCADA Control Room (Wind Farm)",
+      "category": "office",
+      "size_m": [
+        14,
+        10
+      ],
+      "height_m": 3.0,
+      "doors": 3,
+      "anchors": 31,
+      "seats": 9,
+      "tags": [
+        "control-room",
+        "scada",
+        "wind-farm",
+        "video-wall",
+        "console",
+        "monitoring",
+        "24x7"
+      ],
+      "created": "2026-11-28",
+      "preview": "scenes/022_scada_control_room/preview.png"
     }
   ]
 }

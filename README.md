@@ -3,7 +3,7 @@
 以 Blender（bpy）程序化建模的**室內場景模組庫**：每個模組遵守統一規格（2 m 網格、3 m 樓高、奇數公尺門洞、命名錨點、導航網格），
 可任意拼接成一層樓，也可匯入 Three.js / Unity / Godot 讓人物在其中移動。詳見 [SPEC.md](SPEC.md)。
 
-**目前場景數：21**　｜　待做清單：[backlog.md](backlog.md)　｜　清單資料：[catalog.json](catalog.json)
+**目前場景數：22**　｜　待做清單：[backlog.md](backlog.md)　｜　清單資料：[catalog.json](catalog.json)
 
 ## 場景一覽
 
@@ -30,6 +30,7 @@
 | 019 | [倉儲物流區](scenes/019_warehouse/) | 16×12 m | 4 | 32（6 揀貨站位＋出貨座；包裝／纏繞機／碼頭／堆高機／看板站位；7 堆高機路線點、充電、標籤機互動點；11 狀態點） | <img src="scenes/019_warehouse/preview.png" width="360"> |
 | 020 | [無塵室（含更衣緩衝區）](scenes/020_cleanroom/) | 14×10 m | 3 | 39（更衣動線：置物櫃／鞋櫃／跨越凳 2 座／洗手／無塵衣／耗材／鏡前／風淋室；潔淨區：5 機台站位、潔淨工作台 2 座、工作桌 4 站位、檢驗 2 座；傳遞箱兩側、線架、推車、微粒計數器、看板、洗眼器互動點；10 狀態點） | <img src="scenes/020_cleanroom/preview.png" width="360"> |
 | 021 | [風機機艙組裝廠房](scenes/021_nacelle_assembly/) | 18×12 m | 3 | 37（三站 10 個組裝站位＋2 個工作平台高架站位＋天車操作／出廠檢驗站位；次組裝台 ×2、配線、白板、看板站位；領班座；輪轂、備料 ×2、罩板、工具、電纜、螺栓、扭力台車、出貨門互動點；8 狀態點） | <img src="scenes/021_nacelle_assembly/preview.png" width="360"> |
+| 022 | [控制室／中控室（風場 SCADA 中控）](scenes/022_scada_control_room/) | 14×10 m | 3 | 31（5 值班操作席＋值班主任席＋2 工程師席＋無線電通訊席；螢幕牆／警報窗／控制盤櫃／白板／交接班站位；值班日誌、事務機、飲水、UPS 互動點；9 狀態點） | <img src="scenes/022_scada_control_room/preview.png" width="360"> |
 
 ## 組合範例：AI 代理人公司一層樓
 `compose/ai_company_layout.json` → `python3 tools/compose.py compose/ai_company_layout.json` 產生 `compose/ai_company_floor.{blend,glb,json}`
@@ -41,7 +42,7 @@
 ```
 scenes/<NNN>_<slug>/   scene.blend / scene.glb / navmesh.glb / scene.json / preview.png / plan.png / build.py
 tools/scenelib.py      共用：牆、地板、門窗洞、燈、錨點、導航網格、輸出與渲染
-tools/furniture.py     共用：桌椅、螢幕、櫃、白板、沙發、影印機、機櫃、監控工位、拼接螢幕牆、代理人工作艙、階梯座位、可移動隔間、舞台、無塵室設備（風淋室、傳遞箱、製程機台、FFU、室內隔間牆）、風機機艙組裝設備（機艙三階段、懸掛式天車、工作平台、輪轂、大件棧板）等參數化家具
+tools/furniture.py     共用：桌椅、螢幕、櫃、白板、沙發、影印機、機櫃、監控工位、拼接螢幕牆、SCADA 螢幕牆、警報窗、控制盤櫃、無線電基地台、代理人工作艙、階梯座位、可移動隔間、舞台、無塵室設備（風淋室、傳遞箱、製程機台、FFU、室內隔間牆）、風機機艙組裝設備（機艙三階段、懸掛式天車、工作平台、輪轂、大件棧板）等參數化家具
 tools/verify.py        驗證某場景輸出（glb 重讀、錨點數、門洞、導航、高架錨點）
 tools/corridor.py      走廊／樞紐模組產生器（寬 2 m）
 tools/compose.py       依 compose/layout.json 組合多場景成一層樓

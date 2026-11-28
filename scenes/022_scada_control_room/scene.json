@@ -1,0 +1,528 @@
+{
+  "id": "022",
+  "name_zh": "控制室／中控室（風場 SCADA 中控）",
+  "name_en": "SCADA Control Room (Wind Farm)",
+  "category": "office",
+  "size_m": [
+    14,
+    10
+  ],
+  "height_m": 3.0,
+  "doors": [
+    {
+      "id": "DOOR_S_01",
+      "wall": "S",
+      "offset_m": 11.0,
+      "width_m": 1.0,
+      "position": [
+        11.0,
+        0.1,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_W_01",
+      "wall": "W",
+      "offset_m": 3.0,
+      "width_m": 1.0,
+      "position": [
+        0.1,
+        3.0,
+        0.0
+      ]
+    },
+    {
+      "id": "DOOR_E_01",
+      "wall": "E",
+      "offset_m": 5.0,
+      "width_m": 1.0,
+      "position": [
+        13.9,
+        5.0,
+        0.0
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "id": "STAND_wall_01",
+      "type": "STAND",
+      "use": "wall",
+      "position": [
+        4.6,
+        8.9,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_wall_02",
+      "type": "STAND",
+      "use": "wall",
+      "position": [
+        9.4,
+        8.9,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STAND_annunciator_01",
+      "type": "STAND",
+      "use": "annunciator",
+      "position": [
+        1.7,
+        8.95,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "SEAT_operator_01",
+      "type": "SEAT",
+      "use": "operator",
+      "position": [
+        3.37,
+        6.791,
+        0.0
+      ],
+      "yaw_deg": -32
+    },
+    {
+      "id": "STATUS_01",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        3.662,
+        7.257,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_operator_02",
+      "type": "SEAT",
+      "use": "operator",
+      "position": [
+        5.112,
+        6.015,
+        0.0
+      ],
+      "yaw_deg": -16
+    },
+    {
+      "id": "STATUS_02",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        5.263,
+        6.544,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_operator_03",
+      "type": "SEAT",
+      "use": "operator",
+      "position": [
+        7.0,
+        5.75,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_03",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        7.0,
+        6.3,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_operator_04",
+      "type": "SEAT",
+      "use": "operator",
+      "position": [
+        8.888,
+        6.015,
+        0.0
+      ],
+      "yaw_deg": 16
+    },
+    {
+      "id": "STATUS_04",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        8.737,
+        6.544,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_operator_05",
+      "type": "SEAT",
+      "use": "operator",
+      "position": [
+        10.63,
+        6.791,
+        0.0
+      ],
+      "yaw_deg": 32
+    },
+    {
+      "id": "STATUS_05",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        10.338,
+        7.257,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_supervisor_01",
+      "type": "SEAT",
+      "use": "supervisor",
+      "position": [
+        7.0,
+        3.1,
+        0.0
+      ],
+      "yaw_deg": 0
+    },
+    {
+      "id": "STATUS_06",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        7.0,
+        3.7,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_engineer_01",
+      "type": "SEAT",
+      "use": "engineer",
+      "position": [
+        3.523,
+        3.369,
+        0.0
+      ],
+      "yaw_deg": -12
+    },
+    {
+      "id": "STATUS_07",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        3.638,
+        3.907,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "SEAT_engineer_02",
+      "type": "SEAT",
+      "use": "engineer",
+      "position": [
+        10.477,
+        3.369,
+        0.0
+      ],
+      "yaw_deg": 12
+    },
+    {
+      "id": "STATUS_08",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        10.362,
+        3.907,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "STAND_cabinet_01",
+      "type": "STAND",
+      "use": "cabinet",
+      "position": [
+        12.55,
+        6.8,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "STAND_cabinet_02",
+      "type": "STAND",
+      "use": "cabinet",
+      "position": [
+        12.55,
+        8.4,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "SEAT_radio_01",
+      "type": "SEAT",
+      "use": "radio",
+      "position": [
+        12.6,
+        2.4,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "STATUS_09",
+      "type": "STATUS",
+      "use": "",
+      "position": [
+        13.1,
+        2.4,
+        2.2
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "id": "POI_ups_01",
+      "type": "POI",
+      "use": "ups",
+      "position": [
+        12.45,
+        0.75,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "STAND_whiteboard_01",
+      "type": "STAND",
+      "use": "whiteboard",
+      "position": [
+        0.95,
+        6.2,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "POI_water_01",
+      "type": "POI",
+      "use": "water",
+      "position": [
+        1.15,
+        1.2,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "STAND_handover_01",
+      "type": "STAND",
+      "use": "handover",
+      "position": [
+        2.05,
+        1.9,
+        0.0
+      ],
+      "yaw_deg": -90
+    },
+    {
+      "id": "STAND_handover_02",
+      "type": "STAND",
+      "use": "handover",
+      "position": [
+        3.95,
+        1.9,
+        0.0
+      ],
+      "yaw_deg": 90
+    },
+    {
+      "id": "STAND_handover_03",
+      "type": "STAND",
+      "use": "handover",
+      "position": [
+        3.0,
+        2.85,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "POI_logbook_01",
+      "type": "POI",
+      "use": "logbook",
+      "position": [
+        5.9,
+        1.3,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    },
+    {
+      "id": "POI_printer_01",
+      "type": "POI",
+      "use": "printer",
+      "position": [
+        8.3,
+        1.45,
+        0.0
+      ],
+      "yaw_deg": 180.0
+    }
+  ],
+  "tags": [
+    "control-room",
+    "scada",
+    "wind-farm",
+    "video-wall",
+    "console",
+    "monitoring",
+    "24x7"
+  ],
+  "nav": {
+    "file": "navmesh.glb",
+    "cell_m": 0.25,
+    "margin_m": 0.3,
+    "cells": 1325
+  },
+  "files": {
+    "blend": "scene.blend",
+    "glb": "scene.glb",
+    "navmesh": "navmesh.glb",
+    "preview": "preview.png",
+    "plan": "plan.png",
+    "build": "build.py"
+  },
+  "coord": "Blender Z-up, +Y north, SW corner origin; glb is glTF Y-up (gx=x, gy=z, gz=-y)",
+  "created": "2026-11-28",
+  "consoles": [
+    {
+      "id": "OP1",
+      "role": "turbine_west",
+      "role_zh": "風機監控（西區）",
+      "object": "OperatorConsole_01",
+      "seat": "SEAT_operator_01",
+      "status_anchor": "STATUS_01"
+    },
+    {
+      "id": "OP2",
+      "role": "turbine_east",
+      "role_zh": "風機監控（東區）",
+      "object": "OperatorConsole_02",
+      "seat": "SEAT_operator_02",
+      "status_anchor": "STATUS_02"
+    },
+    {
+      "id": "OP3",
+      "role": "grid",
+      "role_zh": "電網調度／併網點",
+      "object": "OperatorConsole_03",
+      "seat": "SEAT_operator_03",
+      "status_anchor": "STATUS_03"
+    },
+    {
+      "id": "OP4",
+      "role": "substation",
+      "role_zh": "海上變電站／海纜",
+      "object": "OperatorConsole_04",
+      "seat": "SEAT_operator_04",
+      "status_anchor": "STATUS_04"
+    },
+    {
+      "id": "OP5",
+      "role": "marine",
+      "role_zh": "海事協調／船舶人員",
+      "object": "OperatorConsole_05",
+      "seat": "SEAT_operator_05",
+      "status_anchor": "STATUS_05"
+    },
+    {
+      "id": "SUP",
+      "role": "shift_supervisor",
+      "role_zh": "值班主任",
+      "object": "SupervisorDesk",
+      "seat": "SEAT_supervisor_01",
+      "status_anchor": "STATUS_06"
+    },
+    {
+      "id": "ENG1",
+      "role": "forecast",
+      "role_zh": "發電預測／氣象",
+      "object": "EngineerDesk_01",
+      "seat": "SEAT_engineer_01",
+      "status_anchor": "STATUS_07"
+    },
+    {
+      "id": "ENG2",
+      "role": "maintenance",
+      "role_zh": "運維排程／工單",
+      "object": "EngineerDesk_02",
+      "seat": "SEAT_engineer_02",
+      "status_anchor": "STATUS_08"
+    },
+    {
+      "id": "RADIO",
+      "role": "radio_operator",
+      "role_zh": "無線電通訊",
+      "object": "RadioDesk",
+      "seat": "SEAT_radio_01",
+      "status_anchor": "STATUS_09"
+    }
+  ],
+  "displays": [
+    {
+      "object": "ScadaWall",
+      "kind": "video_wall",
+      "size_m": [
+        8.0,
+        1.8
+      ],
+      "wall": "N",
+      "content": [
+        "wind_rose",
+        "farm_overview(24 turbines, 3 strings, offshore substation)",
+        "alarm_list",
+        "power_trend",
+        "single_line_diagram",
+        "total_output",
+        "turbine_matrix",
+        "sea_state"
+      ]
+    },
+    {
+      "object": "Annunciator",
+      "kind": "annunciator",
+      "wall": "N",
+      "windows": [
+        6,
+        5
+      ]
+    },
+    {
+      "object": "CCTVDisplay",
+      "kind": "screen",
+      "wall": "N"
+    },
+    {
+      "object": "WeatherDisplay",
+      "kind": "screen",
+      "wall": "E"
+    }
+  ]
+}

@@ -99,9 +99,13 @@ class Piece:
         for f in faces:
             f.material_index = mi
 
-    def box(self, cx, cy, cz, sx, sy, sz, m, rz=0.0):
+    def box(self, cx, cy, cz, sx, sy, sz, m, rz=0.0, ry=0.0):
+        """ry：繞本地 Y 軸旋轉（022 起；用於牆面上的斜線／葉片圖示），先 ry 再 rz。"""
         r = bmesh.ops.create_cube(self.bm, size=1.0)
-        T = Matrix.Translation((cx, cy, cz)) @ Matrix.Rotation(rz, 4, "Z") @ Matrix.Diagonal((sx, sy, sz, 1))
+        T = Matrix.Translation((cx, cy, cz)) @ Matrix.Rotation(rz, 4, "Z")
+        if ry:
+            T = T @ Matrix.Rotation(ry, 4, "Y")
+        T = T @ Matrix.Diagonal((sx, sy, sz, 1))
         bmesh.ops.transform(self.bm, matrix=T, verts=r["verts"])
         self._tag(r["verts"], m)
         return self

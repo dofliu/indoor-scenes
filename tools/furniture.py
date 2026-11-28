@@ -2606,3 +2606,236 @@ def beacon_post(S, x, y, h=2.2, lit="green", name="BeaconPost"):
     _signal_tower(p, 0, 0, h - 0.42 - 0.02, lit=lit)
     p.finish(obstacle=False)
     return p
+
+
+# ---------------------------------------------------------------- 控制室／SCADA 中控（022 起）
+def scada_wall(S, x, y, yaw=0.0, cols=5, rows=2, tw=1.6, th=0.9, z=0.85, name="ScadaWall"):
+    """風場 SCADA 拼接螢幕牆，正面朝本地 -Y（(x,y) 為背面中心）。需 cols ≥ 5、rows = 2。
+    上排中央三格合併為「風場總覽圖」（風機圖示依狀態上色＋陣列電纜＋海上變電站＋輸出電纜），
+    其餘各格：風花圖、警報清單、出力趨勢／預測、單線圖、總出力儀表、機組狀態矩陣、海象。皆為發光色塊，無文字、無商標。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    W, H = cols * tw, rows * th
+    base = mat("vw_base", (0.02, 0.05, 0.10), emit=(0.01, 0.035, 0.08))
+    sea = mat("scada_sea", (0.02, 0.08, 0.13), emit=(0.01, 0.06, 0.11))
+    cs = {"g": mat("vw_green", (0.1, 0.8, 0.4), emit=(0.08, 0.75, 0.35)),
+          "a": mat("vw_amber", (0.9, 0.6, 0.1), emit=(0.9, 0.55, 0.08)),
+          "r": mat("vw_red", (0.9, 0.2, 0.15), emit=(0.9, 0.15, 0.1)),
+          "b": mat("vw_blue", (0.2, 0.6, 0.95), emit=(0.15, 0.55, 0.95)),
+          "w": mat("vw_white", (0.8, 0.9, 1.0), emit=(0.6, 0.75, 0.9)),
+          "d": mat("scada_dim", (0.10, 0.22, 0.32), emit=(0.05, 0.16, 0.26))}
+    p.box(0, -0.04, H / 2, W + 0.12, 0.08, H + 0.12, "plastic_black")
+    yf = -0.083
+
+    def E(u, v, su, sv, c, ry=0.0, lift=0.0):   # u,v 為牆面座標（左下為 -W/2, 0）
+        p.box(u, yf - 0.004 - lift, v, su, 0.004, sv, cs[c], ry=ry)
+
+    def line(u0, v0, u1, v1, c, t=0.012):
+        L = math.hypot(u1 - u0, v1 - v0)
+        E((u0 + u1) / 2, (v0 + v1) / 2, L, t, c, ry=-math.atan2(v1 - v0, u1 - u0))
+
+    def turbine(u, v, c, s=1.0, phase=0.0):
+        E(u, v + 0.055 * s, 0.012 * s, 0.11 * s, "w")                      # 塔架
+        for k in range(3):                                                # 三葉片
+            a = phase + k * 2.0944
+            E(u + 0.045 * s * math.cos(a), v + 0.11 * s + 0.045 * s * math.sin(a), 0.09 * s, 0.014 * s, c, ry=-a, lift=0.002)
+        E(u, v + 0.11 * s, 0.028 * s, 0.028 * s, c, lift=0.004)            # 輪轂（狀態色）
+
+    for i in range(cols):
+        for j in range(rows):
+            u0, v0 = -W / 2 + i * tw, j * th
+            overview = (j == rows - 1 and 1 <= i <= cols - 2)
+            p.box(u0 + tw / 2, yf, v0 + th / 2, tw - 0.03, 0.006, th - 0.03, sea if overview else base)
+            if overview:
+                continue
+            E(u0 + 0.33, v0 + th - 0.11, 0.42, 0.045, "w")                  # 標題列
+            if j == rows - 1 and i == 0:          # 風花圖：8 方位徑向長條
+                cu, cv = u0 + tw / 2, v0 + 0.36
+                for k, L in enumerate((0.10, 0.16, 0.27, 0.20, 0.09, 0.07, 0.12, 0.08)):
+                    a = k * math.pi / 4
+                    line(cu + 0.03 * math.cos(a), cv + 0.03 * math.sin(a), cu + (0.03 + L) * math.cos(a), cv + (0.03 + L) * math.sin(a),
+                         "b" if L < 0.2 else "g", t=0.045)
+                E(cu, cv, 0.04, 0.04, "w", lift=0.002)
+                for k in range(4):
+                    E(u0 + 0.18 + k * 0.1, v0 + 0.08, 0.07, 0.03, "d")
+            elif j == rows - 1:                   # 警報清單
+                pat = "raagggbg"
+                for k in range(6):
+                    vv = v0 + th - 0.24 - k * 0.095
+                    E(u0 + 0.16, vv, 0.07, 0.055, pat[k])
+                    E(u0 + 0.26 + (0.9 - 0.11 * (k % 3)) / 2, vv, 0.9 - 0.11 * (k % 3), 0.04, "d" if k > 1 else "w")
+                    E(u0 + tw - 0.2, vv, 0.14, 0.04, "d")
+            elif i == 0:                          # 出力趨勢（綠）與預測（琥珀）
+                ys = (0.22, 0.26, 0.33, 0.30, 0.41, 0.47, 0.44, 0.55, 0.58, 0.52)
+                fc = (0.25, 0.28, 0.30, 0.36, 0.40, 0.44, 0.49, 0.52, 0.55, 0.57)
+                for k in range(9):
+                    ua, ub = u0 + 0.20 + k * 0.135, u0 + 0.20 + (k + 1) * 0.135
+                    line(ua, v0 + ys[k], ub, v0 + ys[k + 1], "g", t=0.022)
+                    line(ua, v0 + fc[k], ub, v0 + fc[k + 1], "a", t=0.012)
+                E(u0 + tw / 2, v0 + 0.12, tw - 0.3, 0.008, "d")
+                E(u0 + 0.15, v0 + 0.38, 0.008, 0.52, "d")
+            elif i == 1:                          # 單線圖：匯流排＋饋線＋斷路器＋變壓器
+                E(u0 + tw / 2, v0 + 0.56, tw - 0.3, 0.02, "w")
+                for k in range(6):
+                    uu = u0 + 0.25 + k * 0.22
+                    E(uu, v0 + 0.37, 0.012, 0.38, "b")
+                    E(uu, v0 + 0.44, 0.055, 0.055, "r" if k == 4 else "g", lift=0.002)
+                    E(uu, v0 + 0.16, 0.08, 0.06, "d" if k == 4 else "b")
+                E(u0 + tw / 2, v0 + 0.64, 0.012, 0.14, "w")
+                E(u0 + tw / 2, v0 + 0.68, 0.09, 0.07, "a", lift=0.002)
+            elif i == cols - 2:                   # 機組狀態矩陣
+                pat = "ggggaggggggrgggggbgggggg"
+                for k in range(24):
+                    E(u0 + 0.20 + (k % 8) * 0.17, v0 + 0.16 + (k // 8) * 0.17, 0.12, 0.12, pat[k])
+            elif i == cols - 1:                   # 海象：浪高長條＋風速線
+                for k, hh in enumerate((0.18, 0.22, 0.30, 0.36, 0.33, 0.27, 0.21, 0.16, 0.14)):
+                    E(u0 + 0.20 + k * 0.15, v0 + 0.12 + hh / 2, 0.09, hh, "b")
+                    E(u0 + 0.20 + k * 0.15, v0 + 0.46 + hh * 0.5, 0.12, 0.025, "a" if hh > 0.3 else "g")
+            else:                                 # 總出力儀表：大橫條＋三個小指標
+                E(u0 + tw / 2, v0 + 0.50, tw - 0.34, 0.12, "d")
+                E(u0 + 0.17 + (tw - 0.34) * 0.36, v0 + 0.50, (tw - 0.34) * 0.72, 0.12, "g", lift=0.002)
+                for k, c in enumerate("gba"):
+                    E(u0 + 0.36 + k * 0.44, v0 + 0.24, 0.34, 0.18, "d")
+                    E(u0 + 0.36 + k * 0.44, v0 + 0.20, 0.26, 0.05, c, lift=0.002)
+    # ---- 風場總覽圖（上排中央合併區）
+    ua, ub, vb = -W / 2 + tw, W / 2 - tw, (rows - 1) * th
+    span = ub - ua
+    E(ua + 0.33, vb + th - 0.11, 0.42, 0.045, "w")
+    ssu, ssv = ub - 0.42, vb + 0.42                                       # 海上變電站
+    E(ssu, ssv, 0.16, 0.12, "a", lift=0.004)
+    line(ssu + 0.08, ssv, ub - 0.03, ssv - 0.12, "a", t=0.02)              # 輸出電纜
+    nx, ny = 8, 3
+    status = "ggggggggggagggggrgggbggg"
+    for r in range(ny):
+        vv = vb + 0.10 + r * 0.22
+        xs = [ua + 0.30 + c * (span - 1.25) / (nx - 1) + (0.07 if r % 2 else 0.0) for c in range(nx)]
+        line(xs[0], vv + 0.004, xs[-1], vv + 0.004, "b", t=0.008)          # 陣列電纜（串接）
+        line(xs[-1], vv + 0.004, ssu - 0.08, ssv, "b", t=0.008)
+        for c in range(nx):
+            turbine(xs[c], vv, status[r * nx + c], s=1.0, phase=0.5 + 0.7 * c + 1.3 * r)
+    p.finish(obstacle=False)
+    return p
+
+
+def annunciator_panel(S, x, y, yaw=0.0, cols=6, rows=5, cw=0.16, ch=0.11, z=1.15, lit=None, name="Annunciator"):
+    """壁掛式警報窗（annunciator）：cols×rows 個燈窗＋下方確認／復歸／測試按鈕，正面朝本地 -Y。
+    lit={(col,row): 'r'|'a'|'g'} 指定亮起的窗格，其餘為熄滅的乳白窗。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    w, h = cols * cw + 0.10, rows * ch + 0.26
+    p.box(0, -0.05, h / 2, w, 0.10, h, "metal_dark")
+    off = mat("annun_off", (0.72, 0.72, 0.66), rough=0.35)
+    cm = {"r": mat("annun_red", (0.9, 0.15, 0.1), emit=(0.9, 0.12, 0.08)),
+          "a": mat("annun_amber", (0.95, 0.65, 0.1), emit=(0.95, 0.6, 0.08)),
+          "g": mat("annun_green", (0.15, 0.8, 0.3), emit=(0.12, 0.75, 0.3))}
+    lit = lit if lit is not None else {(1, 4): "r", (4, 3): "a", (2, 2): "a", (0, 0): "g", (5, 0): "g"}
+    for i in range(cols):
+        for j in range(rows):
+            m = cm.get(lit.get((i, j)), off)
+            p.box(-w / 2 + 0.05 + (i + 0.5) * cw, -0.103, 0.20 + (j + 0.5) * ch, cw - 0.02, 0.006, ch - 0.02, m)
+    for k, c in enumerate(((0.9, 0.75, 0.1), (0.15, 0.4, 0.85), (0.85, 0.85, 0.85))):
+        p.cyl(-0.18 + k * 0.18, -0.11, 0.09, 0.032, 0.03, mat("annun_btn_%d" % k, c, rough=0.3), seg=12, axis="Y")
+    p.finish(obstacle=False)
+    return p
+
+
+def control_cabinet(S, x, y, yaw=0.0, w=0.8, d=0.6, h=2.1, kind="plc", name="ControlCabinet"):
+    """落地式控制盤櫃（RTU／PLC／通訊／保護電驛盤），正面朝本地 -Y。
+    kind: plc（操作螢幕＋指示燈＋選擇開關）、relay（多層保護電驛面板）、comm（玻璃門＋網通設備燈號）。"""
+    p = Piece(S, name, x, y, yaw=yaw)
+    body = mat("panel_grey", (0.74, 0.76, 0.75), rough=0.45, metal=0.2)
+    p.box(0, 0, 0.05, w, d, 0.10, "metal_dark")
+    p.box(0, 0, 0.10 + (h - 0.10) / 2, w, d, h - 0.10, body)
+    yf = -d / 2
+    p.box(0, yf - 0.008, 0.10 + (h - 0.10) / 2, w - 0.06, 0.016, h - 0.16, mat("panel_door", (0.80, 0.82, 0.81), rough=0.4, metal=0.2))
+    p.box(w / 2 - 0.08, yf - 0.03, 1.05, 0.03, 0.03, 0.16, "metal_dark")                    # 把手
+    for k in range(5):
+        p.box(0, yf - 0.018, 0.22 + k * 0.035, w - 0.3, 0.006, 0.012, "metal_dark")          # 通風百葉
+    lamp = {"g": mat("led_green", (0.1, 0.9, 0.3), emit=(0.1, 0.9, 0.3)),
+            "r": mat("annun_red", (0.9, 0.15, 0.1), emit=(0.9, 0.12, 0.08)),
+            "a": mat("annun_amber", (0.95, 0.65, 0.1), emit=(0.95, 0.6, 0.08)),
+            "b": mat("led_blue", (0.2, 0.5, 1.0), emit=(0.2, 0.5, 1.0))}
+    if kind == "plc":
+        p.box(0, yf - 0.02, 1.48, 0.36, 0.02, 0.26, "plastic_black")
+        _screen(p, 0, yf - 0.031, 1.48, 0.32, 0.22, (0.2, 0.7, 0.95))
+        for k, c in enumerate("ggarg"):
+            p.cyl(-0.24 + k * 0.12, yf - 0.02, 1.80, 0.022, 0.02, lamp[c], seg=10, axis="Y")
+        for k in range(4):
+            p.cyl(-0.18 + k * 0.12, yf - 0.025, 1.20, 0.025, 0.03, "plastic_black", seg=10, axis="Y")
+            p.box(-0.18 + k * 0.12, yf - 0.042, 1.20, 0.012, 0.01, 0.045, "plastic_white", ry=(k - 1.5) * 0.5)
+        p.cyl(0.26, yf - 0.03, 0.92, 0.035, 0.04, mat("estop_red", (0.85, 0.08, 0.06), rough=0.35), seg=12, axis="Y")
+    elif kind == "relay":
+        for r in range(4):
+            zc = 0.62 + r * 0.36
+            for k in range(3):
+                ux = -0.22 + k * 0.22
+                p.box(ux, yf - 0.02, zc, 0.18, 0.02, 0.28, "plastic_black")
+                _screen(p, ux, yf - 0.031, zc + 0.07, 0.13, 0.08, (0.3, 0.85, 0.5))
+                for q, c in enumerate("gga" if (r + k) % 4 else "grg"):
+                    p.box(ux - 0.045 + q * 0.045, yf - 0.032, zc - 0.05, 0.022, 0.004, 0.022, lamp[c])
+    else:
+        p.box(0, yf - 0.02, 1.15, w - 0.16, 0.012, 1.55, mat("glass_dark", (0.10, 0.14, 0.17), rough=0.08, alpha=0.55))
+        for r in range(7):
+            zc = 0.50 + r * 0.21
+            p.box(0, yf + 0.03, zc, w - 0.2, 0.05, 0.13, "metal_dark")
+            for q in range(8):
+                p.box(-0.22 + q * 0.055, yf + 0.002, zc + 0.02, 0.02, 0.004, 0.02, lamp["g" if (q + r) % 5 else "a"])
+            p.box(0.22, yf + 0.002, zc - 0.03, 0.06, 0.004, 0.02, lamp["b"])
+    p.finish(footprint=(w, d))
+    return p
+
+
+def radio_base(S, x, y, yaw=0.0, z=0.74, name="RadioBase"):
+    """桌上型無線電基地台（通用海事／對講機型式）：主機＋頻道顯示＋旋鈕＋手持麥克風＋喇叭＋短天線。面板朝本地 -Y。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, 0, 0.055, 0.30, 0.22, 0.11, "metal_dark")
+    _screen(p, -0.05, -0.112, 0.07, 0.14, 0.045, (0.95, 0.6, 0.1))
+    for k in range(2):
+        p.cyl(0.07 + k * 0.05, -0.12, 0.07, 0.016, 0.02, "plastic_black", seg=10, axis="Y")
+    p.box(0.20, -0.02, 0.02, 0.06, 0.09, 0.04, "plastic_black")                 # 手持麥克風
+    p.box(0.20, -0.02, 0.045, 0.045, 0.06, 0.012, "metal")
+    p.box(-0.26, 0.0, 0.07, 0.14, 0.12, 0.14, "plastic_black")                  # 外接喇叭
+    p.box(-0.26, -0.061, 0.07, 0.11, 0.004, 0.11, "metal")
+    p.cyl(0.11, 0.08, 0.26, 0.006, 0.30, "metal", seg=6)                       # 天線
+    p.finish(obstacle=False)
+    return p
+
+
+def hotline_phone(S, x, y, yaw=0.0, z=0.74, color=(0.78, 0.10, 0.08), name="HotlinePhone"):
+    """調度熱線電話（紅色話機＋話筒），鍵盤面朝本地 -Y。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    m = mat("phone_%d%d%d" % tuple(int(c * 9) for c in color), color, rough=0.35)
+    p.box(0, 0, 0.025, 0.17, 0.21, 0.05, m)
+    p.box(-0.05, 0.0, 0.065, 0.05, 0.20, 0.035, m)                              # 話筒
+    p.box(0.03, -0.03, 0.052, 0.08, 0.10, 0.006, "plastic_white")               # 按鍵區
+    p.finish(obstacle=False)
+    return p
+
+
+def digital_clock(S, x, y, yaw=0.0, z=2.3, n=3, name="ClockBar"):
+    """壁掛數位時鐘列（n 個時區顯示窗），以發光七段式色塊示意，正面朝本地 -Y。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    cw = 0.46
+    w = n * cw + 0.06
+    p.box(0, -0.025, 0.09, w, 0.05, 0.18, "plastic_black")
+    seg = mat("clock_seg", (0.95, 0.25, 0.1), emit=(0.95, 0.22, 0.08))
+    for k in range(n):
+        u0 = -w / 2 + 0.03 + k * cw
+        for q, uu in enumerate((0.07, 0.15, 0.27, 0.35)):
+            p.box(u0 + uu, -0.052, 0.10, 0.05, 0.004, 0.09, seg)
+        for vv in (0.08, 0.12):
+            p.box(u0 + 0.21, -0.052, vv, 0.014, 0.004, 0.014, seg)
+        p.box(u0 + cw / 2 - 0.02, -0.052, 0.025, 0.2, 0.004, 0.012, "plastic_white")
+    p.finish(obstacle=False)
+    return p
+
+
+def logbook(S, x, y, yaw=0.0, z=0.9, name="Logbook"):
+    """攤開的值班日誌＋筆＋一疊檔案夾（放在矮櫃或桌面）。"""
+    p = Piece(S, name, x, y, z, yaw=yaw, coll="PROPS")
+    p.box(0, 0, 0.012, 0.44, 0.30, 0.024, mat("book_cover", (0.12, 0.22, 0.40), rough=0.6))
+    for sx in (-1, 1):
+        p.box(sx * 0.108, 0, 0.027, 0.20, 0.27, 0.006, "paper")
+    p.box(0.16, -0.05, 0.034, 0.012, 0.14, 0.01, "plastic_black", rz=0.5)
+    for k, c in enumerate(((0.75, 0.2, 0.15), (0.15, 0.45, 0.25), (0.85, 0.65, 0.15))):
+        p.box(0.42 + k * 0.075, 0.02, 0.16, 0.06, 0.26, 0.32, mat("binder_%d" % k, c, rough=0.6))
+    p.finish(obstacle=False)
+    return p
